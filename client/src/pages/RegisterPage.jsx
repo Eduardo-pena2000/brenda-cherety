@@ -59,14 +59,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div style={{
+    <div className="auth-page-container auth-page-container-reverse" style={{
       minHeight: '100vh', display: 'flex',
       fontFamily: "'Outfit', system-ui, sans-serif",
       overflow: 'hidden', position: 'relative'
     }}>
 
       {/* ====== LEFT PANEL — Form ====== */}
-      <div style={{
+      <div className="auth-panel" style={{
         width: '100%', flex: 1,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '40px 24px',
@@ -97,8 +97,8 @@ export default function RegisterPage() {
             <X size={20} />
           </Link>
 
-          {/* Mobile brand */}
-          <div className="lg:hidden" style={{ textAlign: 'center', marginBottom: '32px' }}>
+          {/* Mobile brand (hidden because decorative panel is now shown) */}
+          <div className="lg:hidden auth-mobile-brand" style={{ textAlign: 'center', marginBottom: '32px' }}>
             <span style={{ fontSize: '10px', letterSpacing: '0.35em', color: '#9ca3af', fontWeight: 300, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
               Nutrióloga
             </span>
@@ -275,12 +275,12 @@ export default function RegisterPage() {
       </div>
 
       {/* ====== RIGHT PANEL — Decorative (desktop only) ====== */}
-      <div style={{
+      <div className="auth-panel auth-panel-decor hidden lg:flex" style={{
         width: '50%',
         background: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 25%, #c084fc 50%, #a855f7 75%, #9333ea 100%)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         position: 'relative', overflow: 'hidden'
-      }} className="hidden lg:flex">
+      }}>
 
         {/* Blobs */}
         <div className="animate-blob" style={{

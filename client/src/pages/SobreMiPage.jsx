@@ -91,10 +91,10 @@ export default function SobreMiPage() {
               </div>
             </div>
             <div style={{
-              position: 'absolute', top: 20, right: -10,
+              position: 'absolute', top: -10, right: -10,
               background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)',
               padding: '14px 20px', borderRadius: 16, boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
-              display: 'flex', alignItems: 'center', gap: 12
+              display: 'flex', alignItems: 'center', gap: 12, zIndex: 10
             }}>
               <div style={{ width: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,#fce7f3,#ede9fe)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Heart size={20} color="#ec4899" fill="#ec4899" />

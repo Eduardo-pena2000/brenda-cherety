@@ -28,7 +28,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{
+    <div className="auth-page-container" style={{
       minHeight: '100vh',
       display: 'flex',
       fontFamily: "'Outfit', system-ui, sans-serif",
@@ -45,7 +45,7 @@ export default function LoginPage() {
         justifyContent: 'center',
         position: 'relative',
         overflow: 'hidden'
-      }} className="hidden lg:flex">
+      }} className="auth-panel auth-panel-decor hidden lg:flex">
 
         {/* Animated blobs */}
         <div className="animate-blob" style={{
@@ -138,7 +138,7 @@ export default function LoginPage() {
       </div>
 
       {/* ====== RIGHT PANEL — Login Form ====== */}
-      <div style={{
+      <div className="auth-panel" style={{
         width: '100%',
         flex: 1,
         display: 'flex',
@@ -174,7 +174,7 @@ export default function LoginPage() {
           </Link>
 
           {/* Mobile brand */}
-          <div className="lg:hidden" style={{ textAlign: 'center', marginBottom: '36px' }}>
+          <div className="lg:hidden auth-mobile-brand" style={{ textAlign: 'center', marginBottom: '36px' }}>
             <span style={{ fontSize: '10px', letterSpacing: '0.35em', color: '#9ca3af', fontWeight: 300, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
               Nutrióloga
             </span>

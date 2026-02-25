@@ -1928,6 +1928,38 @@ button {
   }
 }
 
+/* ===== AUTH RESPONSIVE OVERRIDES ===== */
+.auth-page-container {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 1023px) {
+  .auth-page-container {
+    flex-direction: column !important;
+  }
+
+  .auth-page-container-reverse {
+    flex-direction: column-reverse !important;
+  }
+
+  .auth-panel {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .auth-panel-decor {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    display: flex !important;
+  }
+
+  .auth-mobile-brand {
+    display: none !important;
+  }
+}
+
+
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
