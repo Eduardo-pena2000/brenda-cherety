@@ -559,7 +559,9 @@ button {
 }
 
 .section-white {
-  background: var(--white);
+  background-color: var(--white);
+  background-image: radial-gradient(circle, rgba(236, 72, 153, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 .section-gradient {
@@ -774,6 +776,19 @@ button {
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-top: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.course-card::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ec4899, #d946ef, #8b5cf6);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .course-card:hover {
@@ -1092,6 +1107,18 @@ button {
   border-radius: 2rem;
   box-shadow: var(--shadow);
   transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ec4899, #d946ef, #8b5cf6);
 }
 
 .testimonial-card:hover {
@@ -1344,7 +1371,9 @@ button {
 /* ===== CONSULTA BANNER ===== */
 .consulta-banner-section {
   padding: clamp(3rem, 6vw, 5rem) 1.5rem;
-  background: #fff;
+  background-color: #fff;
+  background-image: radial-gradient(circle, rgba(236, 72, 153, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 .consulta-banner-container {

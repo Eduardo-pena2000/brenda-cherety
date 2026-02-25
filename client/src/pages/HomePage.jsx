@@ -221,6 +221,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Wave divider: hero → valores */}
+      <div style={{ lineHeight: 0, background: 'linear-gradient(135deg, var(--primary-50, #fdf2f8), var(--white, #fff), var(--accent-50, #faf5ff))' }}>
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: 60 }} xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#f9e8f7" />
+        </svg>
+      </div>
+
       {/* ===== MIS VALORES / POR QUÉ SOY DIFERENTE ===== */}
       <section className="valores-section">
         <div className="valores-container">
@@ -335,6 +342,13 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Wave divider: video → cursos */}
+      <div style={{ lineHeight: 0, background: 'linear-gradient(135deg, #fdf2f8, #faf5ff)' }}>
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: 60 }} xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,0 C480,60 960,0 1440,40 L1440,60 L0,60 Z" fill="#ffffff" />
+        </svg>
+      </div>
 
       {/* Featured Courses Section */}
       <section className="section section-white">
@@ -454,6 +468,13 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Wave divider: dark transformaciones → contador */}
+      <div style={{ lineHeight: 0, background: 'linear-gradient(135deg, #1f2937, #111827)' }}>
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: 60 }} xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,40 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="#fdf2f8" />
+        </svg>
+      </div>
 
       {/* ===== CONTADOR ANIMADO ===== */}
       <section className="contador-section" ref={counterRef}>

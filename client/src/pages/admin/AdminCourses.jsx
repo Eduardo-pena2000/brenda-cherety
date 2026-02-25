@@ -59,7 +59,12 @@ export default function AdminCourses() {
   );
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f9fafb' }}>
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#f9fafb',
+      backgroundImage: 'radial-gradient(circle, rgba(236, 72, 153, 0.07) 1px, transparent 1px)',
+      backgroundSize: '28px 28px'
+    }}>
       {/* Header */}
       <div style={{
         background: 'linear-gradient(135deg, #1f2937, #111827)',
@@ -92,7 +97,7 @@ export default function AdminCourses() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', marginTop: -16 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', marginTop: 40 }}>
         {courses.length === 0 ? (
           <div style={{
             background: '#fff', borderRadius: 20, padding: '4rem 2rem',
