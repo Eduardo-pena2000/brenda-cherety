@@ -93,7 +93,7 @@ export default function AdminDashboard() {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: 20, marginTop: -28
+          gap: 20, marginTop: 32
         }}>
           {statCards.map((s, i) => (
             <div key={i} style={{

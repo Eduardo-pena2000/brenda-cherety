@@ -165,18 +165,18 @@ export default function HomePage() {
               </div>
 
               {/* Stats */}
-              <div className="flex gap-12 pt-12">
-                <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="flex justify-center sm:justify-start gap-12 mt-28 border-t border-gray-200" style={{ paddingTop: '120px' }}>
+                <div className="animate-fade-in text-center" style={{ animationDelay: '0.3s' }}>
                   <p className="text-4xl font-light text-gray-800">5K+</p>
-                  <p className="text-sm text-gray-500">Pacientes felices</p>
+                  <p className="text-sm text-gray-500 mt-2">Pacientes felices</p>
                 </div>
-                <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                <div className="animate-fade-in text-center" style={{ animationDelay: '0.5s' }}>
                   <p className="text-4xl font-light text-gray-800">12</p>
-                  <p className="text-sm text-gray-500">Cursos disponibles</p>
+                  <p className="text-sm text-gray-500 mt-2">Cursos disponibles</p>
                 </div>
-                <div className="animate-fade-in" style={{ animationDelay: '0.7s' }}>
+                <div className="animate-fade-in text-center" style={{ animationDelay: '0.7s' }}>
                   <p className="text-4xl font-light text-gray-800">4.9</p>
-                  <p className="text-sm text-gray-500">Calificación</p>
+                  <p className="text-sm text-gray-500 mt-2">Calificación</p>
                 </div>
               </div>
             </div>
