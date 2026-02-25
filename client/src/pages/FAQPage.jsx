@@ -32,9 +32,9 @@ const categories = [
   {
     icon: Headphones, title: 'Soporte', color: '#f59e0b', bg: '#fef3c7',
     faqs: [
-      { q: '¿Cómo contacto al equipo de soporte?', a: 'Puedes escribirnos a hola@brendacherety.com o por WhatsApp. Respondemos todos los mensajes en menos de 24 horas hábiles.' },
+      { q: '¿Cómo contacto al equipo de soporte?', a: 'Puedes escribirnos a brendacheretynutricion@gmail.com o por WhatsApp. Respondemos todos los mensajes en menos de 24 horas hábiles.' },
       { q: '¿Puedo hacer preguntas sobre el contenido del curso?', a: 'Sí, puedes enviar tus preguntas directamente a través del formulario de contacto. Brenda o su equipo te responderán personalmente.' },
-      { q: '¿Qué hago si tengo problemas técnicos?', a: 'Escríbenos al correo soporte@brendacherety.com con una descripción del problema y te ayudamos a resolverlo lo antes posible.' },
+      { q: '¿Qué hago si tengo problemas técnicos?', a: 'Escríbenos al correo brendacheretynutricion@gmail.com con una descripción del problema y te ayudamos a resolverlo lo antes posible.' },
     ]
   },
 ];

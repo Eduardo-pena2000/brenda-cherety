@@ -32,7 +32,7 @@ export default function ContactoPage() {
   const labelStyle = { display: 'block', marginBottom: 8, fontWeight: 500, color: '#374151', fontSize: '0.9rem' };
 
   const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'hola@brendacherety.com', link: 'mailto:hola@brendacherety.com' },
+    { icon: Mail, label: 'Email', value: 'brendacheretynutricion@gmail.com', link: 'mailto:brendacheretynutricion@gmail.com' },
     { icon: Phone, label: 'WhatsApp', value: '+52 828 118 7891', link: 'https://wa.me/5218281187891' },
     { icon: Instagram, label: 'Instagram', value: '@nutriologacherety', link: 'https://www.instagram.com/nutriologacherety/' },
     { icon: Facebook, label: 'Facebook', value: 'Nutrióloga Cherety', link: 'https://www.facebook.com/Nutriologacherety?locale=es_LA' },

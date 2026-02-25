@@ -34,7 +34,7 @@ export default function Footer() {
               {[
                 { icon: Facebook, href: 'https://www.facebook.com/Nutriologacherety?locale=es_LA', label: 'Facebook' },
                 { icon: Instagram, href: 'https://www.instagram.com/nutriologacherety/', label: 'Instagram' },
-                { icon: Mail, href: 'mailto:hola@brendacherety.com', label: 'Email' },
+                { icon: Mail, href: 'mailto:brendacheretynutricion@gmail.com', label: 'Email' },
               ].map((s, i) => (
                 <a key={i} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} style={{
                   width: 38, height: 38, borderRadius: 10,
@@ -116,11 +116,11 @@ export default function Footer() {
                 </li>
               ))}
               <li>
-                <a href="mailto:hola@brendacherety.com" style={{ color: '#6b7280', fontSize: '0.88rem', fontWeight: 300, textDecoration: 'none', transition: 'color 0.3s' }}
+                <a href="mailto:brendacheretynutricion@gmail.com" style={{ color: '#6b7280', fontSize: '0.88rem', fontWeight: 300, textDecoration: 'none', transition: 'color 0.3s' }}
                   onMouseEnter={e => e.currentTarget.style.color = '#f9a8d4'}
                   onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}
                 >
-                  hola@brendacherety.com
+                  brendacheretynutricion@gmail.com
                 </a>
               </li>
             </ul>
