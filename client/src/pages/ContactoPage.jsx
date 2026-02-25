@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Instagram, Send, CheckCircle, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Send, CheckCircle, MessageCircle } from 'lucide-react';
 
 export default function ContactoPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -34,7 +34,7 @@ export default function ContactoPage() {
   const contactInfo = [
     { icon: Mail, label: 'Email', value: 'hola@brendacherety.com', link: 'mailto:hola@brendacherety.com' },
     { icon: Phone, label: 'WhatsApp', value: '+52 55 1234 5678', link: 'https://wa.me/5215512345678' },
-    { icon: Instagram, label: 'Instagram', value: '@brendacherety', link: 'https://instagram.com' },
+    { icon: Facebook, label: 'Facebook', value: 'Nutrióloga Cherety', link: 'https://www.facebook.com/Nutriologacherety?locale=es_LA' },
     { icon: MapPin, label: 'Ubicación', value: 'Ciudad de México, México', link: null },
   ];
 
@@ -120,7 +120,7 @@ export default function ContactoPage() {
                 <p style={{ color: '#6b7280', fontWeight: 300, lineHeight: 1.7 }}>
                   Gracias por escribirme. Te responderé a la brevedad posible. 💕
                 </p>
-                <button onClick={() => { setSent(false); setForm({ name:'', email:'', subject:'', message:'' }); }} style={{
+                <button onClick={() => { setSent(false); setForm({ name: '', email: '', subject: '', message: '' }); }} style={{
                   marginTop: 24, padding: '12px 28px', background: 'linear-gradient(135deg,#ec4899,#d946ef)',
                   color: '#fff', borderRadius: 12, border: 'none', cursor: 'pointer',
                   fontSize: '0.9rem', fontWeight: 500, fontFamily: "'Outfit',sans-serif"

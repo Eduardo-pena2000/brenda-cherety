@@ -32,7 +32,7 @@ export default function Footer() {
             {/* Social */}
             <div style={{ display: 'flex', gap: 10 }}>
               {[
-                { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
+                { icon: Facebook, href: 'https://www.facebook.com/Nutriologacherety?locale=es_LA', label: 'Facebook' },
                 { icon: Mail, href: 'mailto:hola@brendacherety.com', label: 'Email' },
               ].map((s, i) => (
                 <a key={i} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} style={{
