@@ -22,6 +22,7 @@ export default function Navbar() {
     { name: 'Cursos', path: '/cursos' },
     { name: 'Herramientas', path: '/herramientas' },
     { name: 'Recetas', path: '/recetas' },
+    { name: 'Sobre Mi', path: '/sobre-mi' },
     { name: 'Consulta', path: '/consulta' },
     ...(isLoggedIn ? [{ name: 'Mis Cursos', path: '/mis-cursos' }] : []),
     ...(isAdmin ? [{ name: 'Admin', path: '/admin' }] : []),
