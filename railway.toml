@@ -1,0 +1,7 @@
+[build]
+buildCommand = "npm run install:server && npm run build"
+
+[deploy]
+startCommand = "npm start"
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 3
