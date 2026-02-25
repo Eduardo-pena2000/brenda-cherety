@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Facebook, Send, CheckCircle, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Instagram, Send, CheckCircle, MessageCircle } from 'lucide-react';
 
 export default function ContactoPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -33,9 +33,10 @@ export default function ContactoPage() {
 
   const contactInfo = [
     { icon: Mail, label: 'Email', value: 'hola@brendacherety.com', link: 'mailto:hola@brendacherety.com' },
-    { icon: Phone, label: 'WhatsApp', value: '+52 55 1234 5678', link: 'https://wa.me/5215512345678' },
+    { icon: Phone, label: 'WhatsApp', value: '+52 828 118 7891', link: 'https://wa.me/5218281187891' },
+    { icon: Instagram, label: 'Instagram', value: '@nutriologacherety', link: 'https://www.instagram.com/nutriologacherety/' },
     { icon: Facebook, label: 'Facebook', value: 'Nutrióloga Cherety', link: 'https://www.facebook.com/Nutriologacherety?locale=es_LA' },
-    { icon: MapPin, label: 'Ubicación', value: 'Ciudad de México, México', link: null },
+    { icon: MapPin, label: 'Ubicación', value: 'Cadereyta Jiménez, Nuevo León', link: null },
   ];
 
   return (
@@ -93,7 +94,7 @@ export default function ContactoPage() {
             </div>
 
             {/* WhatsApp CTA */}
-            <a href="https://wa.me/5215512345678" target="_blank" rel="noreferrer" style={{
+            <a href="https://wa.me/5218281187891" target="_blank" rel="noreferrer" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
               padding: '16px 24px', background: 'linear-gradient(135deg,#25d366,#128c7e)',
               color: '#fff', borderRadius: 14, fontSize: '0.95rem', fontWeight: 500,
