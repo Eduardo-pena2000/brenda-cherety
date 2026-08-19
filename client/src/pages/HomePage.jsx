@@ -19,7 +19,7 @@ export default function HomePage() {
   // Floating Particles Component
   const FloatingParticles = () => (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {[...Array(30)].map((_, i) => (
+      {[...Array(15)].map((_, i) => (
         <div
           key={i}
           className="absolute rounded-full animate-float-particle"
@@ -89,8 +89,8 @@ export default function HomePage() {
             </div>
 
             {/* Right Content - Hero Image */}
-            <div className="hero-image-wrapper" style={{ position: 'relative' }}>
-              <div className="hero-main-img-container" style={{ width: '100%', height: '100%', minHeight: '500px' }}>
+            <div className="hero-image-wrapper">
+              <div className="hero-main-img-container">
                 <img
                   src="/hero-doc.jpg"
                   alt="Brenda Cherety - Nutrióloga"
@@ -101,7 +101,7 @@ export default function HomePage() {
               </div>
 
               {/* Floating Cards */}
-              <div className="hero-floating-card" style={{ position: 'absolute', bottom: '2rem', left: '-2rem', flexDirection: 'column', alignItems: 'flex-start', padding: '1rem', gap: '0.5rem', width: '260px', zIndex: 20 }}>
+              <div className="hero-floating-card">
                 <div style={{ width: '100%', height: '120px', borderRadius: '0.5rem', overflow: 'hidden', marginBottom: '0.5rem', background: '#f3f4f6' }}>
                   <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80" alt="Etiquetas nutricionales" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>

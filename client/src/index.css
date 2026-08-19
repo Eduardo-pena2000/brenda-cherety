@@ -605,8 +605,8 @@ button {
 .hero-blobs .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
   opacity: 0.6;
+  will-change: transform;
 }
 
 .hero-blob-1 {
@@ -614,7 +614,7 @@ button {
   left: 5%;
   width: 300px;
   height: 300px;
-  background: var(--primary-light);
+  background: radial-gradient(circle at center, var(--primary-light), transparent 70%);
   animation: move-blob 10s infinite alternate;
 }
 
@@ -623,7 +623,7 @@ button {
   right: 5%;
   width: 400px;
   height: 400px;
-  background: var(--accent-light);
+  background: radial-gradient(circle at center, var(--accent-light), transparent 70%);
   animation: move-blob 12s infinite alternate-reverse;
 }
 
@@ -633,7 +633,7 @@ button {
   transform: translate(-50%, -50%);
   width: 600px;
   height: 600px;
-  background: rgba(255, 255, 255, 0.5);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.5), transparent 70%);
 }
 
 @keyframes move-blob {
@@ -724,13 +724,18 @@ button {
 }
 
 .hero-main-img-container {
-  /* removed fixed aspect-ratio so it spans height */
   width: 100%;
-  height: 100%;
+  height: 450px; /* Mobile height */
   border-radius: 2.5rem;
   overflow: hidden;
   position: relative;
   box-shadow: 0 25px 50px -12px rgba(116, 150, 149, 0.25);
+}
+
+@media (min-width: 1024px) {
+  .hero-main-img-container {
+    height: 100%; /* Desktop height */
+  }
 }
 
 .hero-main-img {
@@ -753,9 +758,27 @@ button {
   border-radius: 1rem;
   box-shadow: var(--shadow-lg);
   display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   animation: float 4s ease-in-out infinite;
+  z-index: 20;
+
+  /* Mobile positioning */
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  max-width: 300px;
+}
+
+@media (min-width: 1024px) {
+  .hero-floating-card {
+    left: -2rem;
+    bottom: 2rem;
+    transform: none;
+    width: 260px;
+  }
 }
 
 .card-bottom {
