@@ -182,7 +182,7 @@ export default function AdminCourseForm() {
             </div>
 
             {/* Price + Currency Row */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 140px', gap: 16, marginBottom: 24 }}>
+            <div className="admin-form-price-row">
               <div>
                 <label style={labelStyle}>Precio (centavos, ej: 2999 = $29.99)</label>
                 <div style={{ position: 'relative' }}>
@@ -269,7 +269,7 @@ export default function AdminCourseForm() {
             </div>
 
             {/* Actions */}
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <div className="admin-form-actions">
               <button type="submit" disabled={saving || uploading} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 32px',
@@ -305,7 +305,31 @@ export default function AdminCourseForm() {
         </div>
       </div>
 
-      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg) } }
+        .admin-form-price-row {
+          display: grid;
+          grid-template-columns: 1fr 140px;
+          gap: 16px;
+          margin-bottom: 24px;
+        }
+        .admin-form-actions {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+        @media (max-width: 480px) {
+          .admin-form-price-row {
+            grid-template-columns: 1fr;
+          }
+          .admin-form-actions {
+            flex-direction: column;
+          }
+          .admin-form-actions button {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 }

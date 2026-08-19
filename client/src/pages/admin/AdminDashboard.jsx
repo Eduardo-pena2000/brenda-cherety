@@ -52,20 +52,20 @@ export default function AdminDashboard() {
       {/* Header */}
       <div style={{
         background: 'linear-gradient(135deg, #1f2937, #111827)',
-        padding: '2.5rem 1.5rem 3.5rem', position: 'relative', overflow: 'hidden'
+        padding: '2.5rem 1rem 3.5rem', position: 'relative', overflow: 'hidden'
       }}>
         <div style={{
           position: 'absolute', top: '-60px', right: '-60px',
           width: 200, height: 200, borderRadius: '50%',
-          background: 'rgba(236,72,153,0.1)'
+          background: 'rgba(116,150,149,0.1)'
         }} />
         <div style={{
           position: 'absolute', bottom: '-40px', left: '20%',
           width: 150, height: 150, borderRadius: '50%',
-          background: 'rgba(139,92,246,0.08)'
+          background: 'rgba(116,150,149,0.08)'
         }} />
 
-        <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 2 }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 0.5rem', position: 'relative', zIndex: 2 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
             <BarChart3 size={24} color="var(--primary)" />
             <span style={{
@@ -74,7 +74,7 @@ export default function AdminDashboard() {
             }}>Administración</span>
           </div>
           <h1 style={{
-            fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 300, color: '#fff',
+            fontSize: 'clamp(1.6rem, 4vw, 2.5rem)', fontWeight: 300, color: '#fff',
             marginBottom: 4
           }}>
             Panel de{' '}
@@ -88,18 +88,11 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1rem' }}>
         {/* Stats Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: 20, marginTop: 32
-        }}>
+        <div className="admin-stats-grid">
           {statCards.map((s, i) => (
-            <div key={i} style={{
-              background: '#fff', borderRadius: 16, padding: '24px 20px',
-              boxShadow: '0 4px 20px -4px rgba(0,0,0,0.08)',
-              display: 'flex', alignItems: 'center', gap: 16,
+            <div key={i} className="admin-stat-card" style={{
               animation: `fadeInUp 0.4s ease-out ${i * 0.08}s backwards`
             }}>
               <div style={{
@@ -126,25 +119,15 @@ export default function AdminDashboard() {
           <h2 style={{ fontSize: '1.2rem', fontWeight: 500, color: '#1f2937', marginBottom: 20 }}>
             Acciones Rápidas
           </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 16
-          }}>
-            <Link to="/admin/cursos" style={{
-              display: 'flex', alignItems: 'center', gap: 16,
-              padding: '20px 24px', background: '#fff', borderRadius: 16,
-              boxShadow: '0 2px 12px -2px rgba(0,0,0,0.06)',
-              textDecoration: 'none', transition: 'all 0.3s',
-              border: '1px solid transparent'
-            }}
+          <div className="admin-actions-grid">
+            <Link to="/admin/cursos" className="admin-action-card"
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.transform = 'translateY(0)'; }}
             >
               <div style={{
                 width: 44, height: 44, borderRadius: 12,
                 background: 'linear-gradient(135deg, var(--primary-light), var(--primary-50))',
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
+                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
               }}>
                 <Settings size={20} color="var(--primary-deep)" />
               </div>
@@ -154,20 +137,14 @@ export default function AdminDashboard() {
               </div>
             </Link>
 
-            <Link to="/admin/cursos/nuevo" style={{
-              display: 'flex', alignItems: 'center', gap: 16,
-              padding: '20px 24px', background: '#fff', borderRadius: 16,
-              boxShadow: '0 2px 12px -2px rgba(0,0,0,0.06)',
-              textDecoration: 'none', transition: 'all 0.3s',
-              border: '1px solid transparent'
-            }}
+            <Link to="/admin/cursos/nuevo" className="admin-action-card"
               onMouseEnter={e => { e.currentTarget.style.borderColor = '#a78bfa'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.transform = 'translateY(0)'; }}
             >
               <div style={{
                 width: 44, height: 44, borderRadius: 12,
                 background: 'linear-gradient(135deg, #ede9fe, var(--accent-50))',
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
+                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
               }}>
                 <PlusCircle size={20} color="var(--accent)" />
               </div>
@@ -190,12 +167,10 @@ export default function AdminDashboard() {
               boxShadow: '0 2px 12px -2px rgba(0,0,0,0.06)'
             }}>
               {courses.slice(0, 5).map((course, i) => (
-                <Link key={course.id} to={`/admin/cursos/${course.id}/editar`} style={{
-                  display: 'flex', alignItems: 'center', gap: 16,
-                  padding: '16px 24px', textDecoration: 'none',
-                  borderBottom: i < Math.min(courses.length, 5) - 1 ? '1px solid #f3f4f6' : 'none',
-                  transition: 'background 0.2s'
-                }}
+                <Link key={course.id} to={`/admin/cursos/${course.id}/editar`} className="admin-recent-row"
+                  style={{
+                    borderBottom: i < Math.min(courses.length, 5) - 1 ? '1px solid #f3f4f6' : 'none',
+                  }}
                   onMouseEnter={e => e.currentTarget.style.background = 'var(--primary-50)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
@@ -220,7 +195,8 @@ export default function AdminDashboard() {
                   <span style={{
                     padding: '4px 12px', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 500,
                     background: course.is_published ? '#d1fae5' : '#fef3c7',
-                    color: course.is_published ? '#059669' : '#d97706'
+                    color: course.is_published ? '#059669' : '#d97706',
+                    flexShrink: 0
                   }}>
                     {course.is_published ? 'Publicado' : 'Borrador'}
                   </span>
@@ -236,6 +212,75 @@ export default function AdminDashboard() {
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+
+        .admin-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          margin-top: 32px;
+        }
+
+        .admin-stat-card {
+          background: #fff;
+          border-radius: 16px;
+          padding: 20px 16px;
+          box-shadow: 0 4px 20px -4px rgba(0,0,0,0.08);
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+
+        .admin-actions-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+        }
+
+        .admin-action-card {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 20px 24px;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 2px 12px -2px rgba(0,0,0,0.06);
+          text-decoration: none;
+          transition: all 0.3s;
+          border: 1px solid transparent;
+        }
+
+        .admin-recent-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 14px 20px;
+          text-decoration: none;
+          transition: background 0.2s;
+        }
+
+        @media (max-width: 768px) {
+          .admin-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+          }
+          .admin-stat-card {
+            padding: 16px 12px;
+            gap: 10px;
+          }
+          .admin-stat-card p:first-child {
+            font-size: 1.3rem !important;
+          }
+          .admin-actions-grid {
+            grid-template-columns: 1fr;
+          }
+          .admin-action-card {
+            padding: 16px;
+          }
+          .admin-recent-row {
+            padding: 12px 16px;
+            gap: 12px;
+          }
         }
       `}</style>
     </div>

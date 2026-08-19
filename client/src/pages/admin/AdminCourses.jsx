@@ -40,7 +40,7 @@ export default function AdminCourses() {
     finally { setActionLoading(null); }
   }
 
-  const btnStyle = (bg, color, hoverBg) => ({
+  const btnStyle = (bg, color) => ({
     display: 'inline-flex', alignItems: 'center', gap: 6,
     padding: '8px 14px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 500,
     background: bg, color: color, border: 'none', cursor: 'pointer',
@@ -59,18 +59,13 @@ export default function AdminCourses() {
   );
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#f9fafb',
-      backgroundImage: 'radial-gradient(circle, rgba(236, 72, 153, 0.07) 1px, transparent 1px)',
-      backgroundSize: '28px 28px'
-    }}>
+    <div className="admin-courses-page">
       {/* Header */}
       <div style={{
         background: 'linear-gradient(135deg, #1f2937, #111827)',
         padding: '2rem 1.5rem 3rem', position: 'relative', overflow: 'hidden'
       }}>
-        <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: 180, height: 180, borderRadius: '50%', background: 'rgba(236,72,153,0.08)' }} />
+        <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: 180, height: 180, borderRadius: '50%', background: 'rgba(116,150,149,0.08)' }} />
         <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 2 }}>
           <Link to="/admin" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -79,25 +74,19 @@ export default function AdminCourses() {
           }}>
             <ArrowLeft size={16} /> Panel de Control
           </Link>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+          <div className="admin-header-row">
             <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 300, color: '#fff' }}>
               Gestionar{' '}
               <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', color: 'var(--primary)' }}>Cursos</span>
             </h1>
-            <Link to="/admin/cursos/nuevo" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '12px 24px', background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
-              color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
-              textDecoration: 'none', boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)',
-              transition: 'all 0.3s'
-            }}>
+            <Link to="/admin/cursos/nuevo" className="admin-new-btn">
               <PlusCircle size={18} /> Nuevo Curso
             </Link>
           </div>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', marginTop: 40 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1rem', marginTop: 32 }}>
         {courses.length === 0 ? (
           <div style={{
             background: '#fff', borderRadius: 20, padding: '4rem 2rem',
@@ -120,104 +109,169 @@ export default function AdminCourses() {
             </Link>
           </div>
         ) : (
-          <div style={{
-            background: '#fff', borderRadius: 20, overflow: 'hidden',
-            boxShadow: '0 4px 20px -4px rgba(0,0,0,0.06)'
-          }}>
-            {/* Table Header */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 120px 100px 1fr',
-              gap: 16, padding: '14px 24px',
-              background: '#f9fafb', borderBottom: '1px solid #f3f4f6',
-              fontSize: '0.78rem', fontWeight: 600, color: '#9ca3af',
-              textTransform: 'uppercase', letterSpacing: '0.05em'
-            }}>
-              <span>Curso</span>
-              <span>Precio</span>
-              <span>Estado</span>
-              <span style={{ textAlign: 'right' }}>Acciones</span>
+          <>
+            {/* Desktop Table — hidden on mobile */}
+            <div className="admin-table-desktop">
+              <div style={{
+                background: '#fff', borderRadius: 20, overflow: 'hidden',
+                boxShadow: '0 4px 20px -4px rgba(0,0,0,0.06)'
+              }}>
+                {/* Table Header */}
+                <div className="admin-table-header">
+                  <span>Curso</span>
+                  <span>Precio</span>
+                  <span>Estado</span>
+                  <span style={{ textAlign: 'right' }}>Acciones</span>
+                </div>
+
+                {/* Rows */}
+                {courses.map((course, i) => (
+                  <div
+                    key={course.id}
+                    className="admin-table-row"
+                    onMouseEnter={() => setHoveredRow(course.id)}
+                    onMouseLeave={() => setHoveredRow(null)}
+                    style={{
+                      borderBottom: i < courses.length - 1 ? '1px solid #f3f4f6' : 'none',
+                      background: hoveredRow === course.id ? 'var(--primary-50)' : 'transparent',
+                      animation: `fadeInUp 0.3s ease-out ${i * 0.05}s backwards`
+                    }}
+                  >
+                    {/* Title with thumbnail */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+                      <div style={{
+                        width: 40, height: 40, borderRadius: 10, overflow: 'hidden', flexShrink: 0,
+                        background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                      }}>
+                        {course.thumbnail ? (
+                          <img src={`/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`}
+                            alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <BookOpen size={18} color="var(--primary-deep)" />
+                        )}
+                      </div>
+                      <span style={{
+                        fontWeight: 450, color: '#1f2937', fontSize: '0.92rem',
+                        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                      }}>{course.title}</span>
+                    </div>
+
+                    {/* Price */}
+                    <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 400 }}>
+                      {formatPrice(course.price_cents, course.currency)}
+                    </span>
+
+                    {/* Status */}
+                    <span style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 4,
+                      padding: '4px 10px', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 500,
+                      background: course.is_published ? '#d1fae5' : '#fef3c7',
+                      color: course.is_published ? '#059669' : '#d97706',
+                      width: 'fit-content'
+                    }}>
+                      {course.is_published ? 'Publicado' : 'Borrador'}
+                    </span>
+
+                    {/* Actions */}
+                    <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                      <Link to={`/admin/cursos/${course.id}/editar`} style={btnStyle('#f3f4f6', '#4b5563')}>
+                        <Edit3 size={14} /> Editar
+                      </Link>
+                      <Link to={`/admin/cursos/${course.id}/lecciones`} style={btnStyle('#ede9fe', '#7c3aed')}>
+                        <Layers size={14} /> Lecciones
+                      </Link>
+                      <button
+                        onClick={() => togglePublish(course)}
+                        disabled={actionLoading === course.id}
+                        style={btnStyle(
+                          course.is_published ? '#fef3c7' : '#d1fae5',
+                          course.is_published ? '#d97706' : '#059669'
+                        )}
+                      >
+                        {course.is_published ? <><EyeOff size={14} /> Ocultar</> : <><Eye size={14} /> Publicar</>}
+                      </button>
+                      <button
+                        onClick={() => handleDelete(course.id)}
+                        disabled={actionLoading === course.id}
+                        style={btnStyle('#fef2f2', '#dc2626')}
+                      >
+                        <Trash2 size={14} /> Eliminar
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Rows */}
-            {courses.map((course, i) => (
-              <div
-                key={course.id}
-                onMouseEnter={() => setHoveredRow(course.id)}
-                onMouseLeave={() => setHoveredRow(null)}
-                style={{
-                  display: 'grid', gridTemplateColumns: '1fr 120px 100px 1fr',
-                  gap: 16, padding: '16px 24px', alignItems: 'center',
-                  borderBottom: i < courses.length - 1 ? '1px solid #f3f4f6' : 'none',
-                  background: hoveredRow === course.id ? 'var(--primary-50)' : 'transparent',
-                  transition: 'background 0.2s',
+            {/* Mobile Cards — hidden on desktop */}
+            <div className="admin-cards-mobile">
+              {courses.map((course, i) => (
+                <div key={course.id} className="admin-course-card" style={{
                   animation: `fadeInUp 0.3s ease-out ${i * 0.05}s backwards`
-                }}
-              >
-                {/* Title with thumbnail */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-                  <div style={{
-                    width: 40, height: 40, borderRadius: 10, overflow: 'hidden', flexShrink: 0,
-                    background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                  }}>
-                    {course.thumbnail ? (
-                      <img src={`/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`}
-                        alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <BookOpen size={18} color="var(--primary-deep)" />
-                    )}
-                  </div>
-                  <span style={{
-                    fontWeight: 450, color: '#1f2937', fontSize: '0.92rem',
-                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-                  }}>{course.title}</span>
-                </div>
-
-                {/* Price */}
-                <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 400 }}>
-                  {formatPrice(course.price_cents, course.currency)}
-                </span>
-
-                {/* Status */}
-                <span style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 4,
-                  padding: '4px 10px', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 500,
-                  background: course.is_published ? '#d1fae5' : '#fef3c7',
-                  color: course.is_published ? '#059669' : '#d97706',
-                  width: 'fit-content'
                 }}>
-                  {course.is_published ? 'Publicado' : 'Borrador'}
-                </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: 12, overflow: 'hidden', flexShrink: 0,
+                      background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      {course.thumbnail ? (
+                        <img src={`/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`}
+                          alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <BookOpen size={20} color="var(--primary-deep)" />
+                      )}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{
+                        fontWeight: 500, color: '#1f2937', fontSize: '0.95rem',
+                        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+                      }}>{course.title}</p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 4 }}>
+                        <span style={{ color: '#6b7280', fontSize: '0.85rem' }}>
+                          {formatPrice(course.price_cents, course.currency)}
+                        </span>
+                        <span style={{
+                          padding: '2px 8px', borderRadius: 9999, fontSize: '0.7rem', fontWeight: 500,
+                          background: course.is_published ? '#d1fae5' : '#fef3c7',
+                          color: course.is_published ? '#059669' : '#d97706'
+                        }}>
+                          {course.is_published ? 'Publicado' : 'Borrador'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
-                {/* Actions */}
-                <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-                  <Link to={`/admin/cursos/${course.id}/editar`} style={btnStyle('#f3f4f6', '#4b5563')}>
-                    <Edit3 size={14} /> Editar
-                  </Link>
-                  <Link to={`/admin/cursos/${course.id}/lecciones`} style={btnStyle('#ede9fe', '#7c3aed')}>
-                    <Layers size={14} /> Lecciones
-                  </Link>
-                  <button
-                    onClick={() => togglePublish(course)}
-                    disabled={actionLoading === course.id}
-                    style={btnStyle(
-                      course.is_published ? '#fef3c7' : '#d1fae5',
-                      course.is_published ? '#d97706' : '#059669'
-                    )}
-                  >
-                    {course.is_published ? <><EyeOff size={14} /> Ocultar</> : <><Eye size={14} /> Publicar</>}
-                  </button>
-                  <button
-                    onClick={() => handleDelete(course.id)}
-                    disabled={actionLoading === course.id}
-                    style={btnStyle('#fef2f2', '#dc2626')}
-                  >
-                    <Trash2 size={14} /> Eliminar
-                  </button>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    <Link to={`/admin/cursos/${course.id}/editar`} style={btnStyle('#f3f4f6', '#4b5563')}>
+                      <Edit3 size={14} /> Editar
+                    </Link>
+                    <Link to={`/admin/cursos/${course.id}/lecciones`} style={btnStyle('#ede9fe', '#7c3aed')}>
+                      <Layers size={14} /> Lecciones
+                    </Link>
+                    <button
+                      onClick={() => togglePublish(course)}
+                      disabled={actionLoading === course.id}
+                      style={btnStyle(
+                        course.is_published ? '#fef3c7' : '#d1fae5',
+                        course.is_published ? '#d97706' : '#059669'
+                      )}
+                    >
+                      {course.is_published ? <><EyeOff size={14} /> Ocultar</> : <><Eye size={14} /> Publicar</>}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(course.id)}
+                      disabled={actionLoading === course.id}
+                      style={btnStyle('#fef2f2', '#dc2626')}
+                    >
+                      <Trash2 size={14} /> Eliminar
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
@@ -227,9 +281,73 @@ export default function AdminCourses() {
           from { opacity: 0; transform: translateY(15px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @media (max-width: 900px) {
-          .admin-courses div[style*="grid-template-columns: 1fr 120px"] {
-            grid-template-columns: 1fr !important;
+
+        .admin-header-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+
+        .admin-new-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 24px;
+          background: linear-gradient(135deg, var(--primary-deep), var(--primary-deep));
+          color: #fff;
+          border-radius: 12px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-decoration: none;
+          box-shadow: 0 8px 25px -6px rgba(116,150,149,0.4);
+          transition: all 0.3s;
+        }
+
+        .admin-table-header {
+          display: grid;
+          grid-template-columns: 1fr 120px 100px 1fr;
+          gap: 16px;
+          padding: 14px 24px;
+          background: #f9fafb;
+          border-bottom: 1px solid #f3f4f6;
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #9ca3af;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .admin-table-row {
+          display: grid;
+          grid-template-columns: 1fr 120px 100px 1fr;
+          gap: 16px;
+          padding: 16px 24px;
+          align-items: center;
+          transition: background 0.2s;
+        }
+
+        .admin-cards-mobile {
+          display: none;
+        }
+
+        .admin-course-card {
+          background: #fff;
+          border-radius: 16px;
+          padding: 16px;
+          margin-bottom: 12px;
+          box-shadow: 0 2px 12px -2px rgba(0,0,0,0.06);
+        }
+
+        @media (max-width: 768px) {
+          .admin-table-desktop { display: none !important; }
+          .admin-cards-mobile { display: block !important; }
+          .admin-new-btn {
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>

@@ -177,7 +177,7 @@ export default function AdminLessons() {
             </h3>
 
             <form onSubmit={handleCreateLesson}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px', gap: 16, marginBottom: 16 }}>
+              <div className="admin-lesson-title-row">
                 <div>
                   <label style={labelStyle}>Título</label>
                   <input
@@ -214,7 +214,7 @@ export default function AdminLessons() {
               </div>
 
               {/* File uploads */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+              <div className="admin-lesson-files-row">
                 <div>
                   <label style={labelStyle}>Video (MP4, WebM)</label>
                   <label style={{
@@ -314,8 +314,9 @@ export default function AdminLessons() {
                 onMouseEnter={() => setHoveredLesson(lesson.id)}
                 onMouseLeave={() => setHoveredLesson(null)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 16,
-                  padding: '16px 24px',
+                  display: 'flex', alignItems: 'flex-start', gap: 12,
+                  padding: '16px',
+                  flexWrap: 'wrap',
                   borderBottom: i < lessons.length - 1 ? '1px solid #f3f4f6' : 'none',
                   background: hoveredLesson === lesson.id ? 'var(--accent-50)' : 'transparent',
                   transition: 'background 0.2s',
@@ -390,6 +391,26 @@ export default function AdminLessons() {
         @keyframes slideDown {
           from { opacity: 0; transform: translateY(-10px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        .admin-lesson-title-row {
+          display: grid;
+          grid-template-columns: 1fr 80px;
+          gap: 16px;
+          margin-bottom: 16px;
+        }
+        .admin-lesson-files-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+          .admin-lesson-title-row {
+            grid-template-columns: 1fr;
+          }
+          .admin-lesson-files-row {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
     </div>
