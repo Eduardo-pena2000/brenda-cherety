@@ -19,7 +19,7 @@ export default function PagoExitosoPage() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(135deg,#fdf2f8,#ffffff,#faf5ff)',
+      background: 'linear-gradient(135deg,var(--primary-50),#ffffff,var(--accent-50))',
       padding: '2rem 1.5rem', position: 'relative', overflow: 'hidden'
     }}>
       {/* BG blobs */}
@@ -44,7 +44,7 @@ export default function PagoExitosoPage() {
             position: 'absolute',
             left: `${10 + i * 12}%`, top: `${5 + (i % 3) * 8}%`,
             width: 8, height: 8, borderRadius: 2,
-            background: ['#f9a8d4','#c4b5fd','#6ee7b7','#fde68a'][i % 4],
+            background: ['var(--primary)','var(--accent-light)','#6ee7b7','#fde68a'][i % 4],
             animation: `confetti ${1 + i * 0.2}s ease-out ${i * 0.15}s both`,
             opacity: 0
           }} />
@@ -61,7 +61,7 @@ export default function PagoExitosoPage() {
 
         <h1 style={{ fontSize: 'clamp(1.8rem,5vw,2.8rem)', fontWeight: 300, color: '#1f2937', lineHeight: 1.2, margin: '16px 0 16px' }}>
           ¡Tu curso está listo!
-          <span style={{ display: 'block', fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#ec4899', fontSize: '0.9em' }}>
+          <span style={{ display: 'block', fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)', fontSize: '0.9em' }}>
             Bienvenida al programa 🎉
           </span>
         </h1>
@@ -73,8 +73,8 @@ export default function PagoExitosoPage() {
         {/* Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
           {[
-            { icon: Play, title: 'Acceso inmediato', desc: 'Comienza a aprender ahora mismo', color: '#ec4899' },
-            { icon: BookOpen, title: 'Acceso de por vida', desc: 'Sin fechas límite ni restricciones', color: '#8b5cf6' },
+            { icon: Play, title: 'Acceso inmediato', desc: 'Comienza a aprender ahora mismo', color: 'var(--primary-deep)' },
+            { icon: BookOpen, title: 'Acceso de por vida', desc: 'Sin fechas límite ni restricciones', color: 'var(--accent)' },
           ].map((item, i) => (
             <div key={i} style={{
               background: '#fff', borderRadius: 16, padding: '18px 16px',
@@ -98,7 +98,7 @@ export default function PagoExitosoPage() {
 
         <Link to="/mis-cursos" style={{
           display: 'inline-flex', alignItems: 'center', gap: 10,
-          padding: '16px 36px', background: 'linear-gradient(135deg,#ec4899,#d946ef)',
+          padding: '16px 36px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
           color: '#fff', borderRadius: 14, fontSize: '1rem', fontWeight: 500,
           textDecoration: 'none', boxShadow: '0 10px 30px -8px rgba(236,72,153,0.45)',
           transition: 'all 0.3s'
@@ -107,7 +107,7 @@ export default function PagoExitosoPage() {
         </Link>
 
         <p style={{ color: '#9ca3af', fontSize: '0.85rem', fontWeight: 300, marginTop: 20 }}>
-          Redirigiendo en <strong style={{ color: '#ec4899' }}>{count}</strong> segundos...
+          Redirigiendo en <strong style={{ color: 'var(--primary-deep)' }}>{count}</strong> segundos...
         </p>
       </div>
 

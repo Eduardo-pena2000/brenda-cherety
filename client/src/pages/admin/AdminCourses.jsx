@@ -51,7 +51,7 @@ export default function AdminCourses() {
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ width: 48, height: 48, border: '3px solid #e5e7eb', borderTopColor: '#ec4899', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+        <div style={{ width: 48, height: 48, border: '3px solid #e5e7eb', borderTopColor: 'var(--primary-deep)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
         <p style={{ color: '#6b7280', fontWeight: 300 }}>Cargando cursos...</p>
       </div>
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
@@ -82,11 +82,11 @@ export default function AdminCourses() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
             <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 300, color: '#fff' }}>
               Gestionar{' '}
-              <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', color: '#f9a8d4' }}>Cursos</span>
+              <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', color: 'var(--primary)' }}>Cursos</span>
             </h1>
             <Link to="/admin/cursos/nuevo" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '12px 24px', background: 'linear-gradient(135deg, #ec4899, #d946ef)',
+              padding: '12px 24px', background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
               color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
               textDecoration: 'none', boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)',
               transition: 'all 0.3s'
@@ -112,7 +112,7 @@ export default function AdminCourses() {
             </p>
             <Link to="/admin/cursos/nuevo" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '12px 24px', background: 'linear-gradient(135deg, #ec4899, #d946ef)',
+              padding: '12px 24px', background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
               color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
               textDecoration: 'none'
             }}>
@@ -148,7 +148,7 @@ export default function AdminCourses() {
                   display: 'grid', gridTemplateColumns: '1fr 120px 100px 1fr',
                   gap: 16, padding: '16px 24px', alignItems: 'center',
                   borderBottom: i < courses.length - 1 ? '1px solid #f3f4f6' : 'none',
-                  background: hoveredRow === course.id ? '#fdf2f8' : 'transparent',
+                  background: hoveredRow === course.id ? 'var(--primary-50)' : 'transparent',
                   transition: 'background 0.2s',
                   animation: `fadeInUp 0.3s ease-out ${i * 0.05}s backwards`
                 }}
@@ -157,14 +157,14 @@ export default function AdminCourses() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
                   <div style={{
                     width: 40, height: 40, borderRadius: 10, overflow: 'hidden', flexShrink: 0,
-                    background: 'linear-gradient(135deg, #fce7f3, #e9d5ff)',
+                    background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))',
                     display: 'flex', alignItems: 'center', justifyContent: 'center'
                   }}>
                     {course.thumbnail ? (
                       <img src={`/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`}
                         alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <BookOpen size={18} color="#d946ef" />
+                      <BookOpen size={18} color="var(--primary-deep)" />
                     )}
                   </div>
                   <span style={{

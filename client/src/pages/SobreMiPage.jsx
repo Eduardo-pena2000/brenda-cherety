@@ -20,7 +20,7 @@ export default function SobreMiPage() {
   const [hoveredVal, setHoveredVal] = useState(null);
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))' }}>
       {/* Hero */}
       <section style={{
         position: 'relative', overflow: 'hidden',
@@ -31,21 +31,24 @@ export default function SobreMiPage() {
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center', position: 'relative', zIndex: 2 }} className="sobre-grid">
           {/* Text */}
           <div>
-            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: '#f9a8d4', textTransform: 'uppercase', fontWeight: 500 }}>Sobre mí</span>
+            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 500 }}>Sobre mí</span>
             <h1 style={{ fontSize: 'clamp(2rem,5vw,3.2rem)', fontWeight: 300, color: '#fff', lineHeight: 1.15, margin: '12px 0 20px' }}>
               Hola, soy{' '}
-              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#f9a8d4' }}>Brenda</span>
+              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary)' }}>Brenda</span>
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1.1rem', fontWeight: 300, lineHeight: 1.8, marginBottom: 16 }}>
-              Soy nutrióloga certificada con más de 10 años de experiencia ayudando a mujeres a transformar su relación con la comida desde un lugar de amor, no de restricción.
+              Hola, soy Brenda Cherety. Soy Lic. En Nutrición con 9 años de experiencia en consulta, acompañando a personas camino a sus metas físicas y/o de salud de manera personalizada.
             </p>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', fontWeight: 300, lineHeight: 1.8, marginBottom: 32 }}>
-              Creo firmemente que la nutrición no se trata solo de lo que comes, sino de cómo te sientes con tu cuerpo y tu vida. Mi misión es guiarte hacia una alimentación consciente, flexible y sostenible.
+            <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1.1rem', fontWeight: 300, lineHeight: 1.8, marginBottom: 16 }}>
+              El objetivo no es solo lograr tu meta, también es llegar a ella de manera saludable y que en el camino aprendas a hacerlo sostenible.
+            </p>
+            <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1.1rem', fontWeight: 300, lineHeight: 1.8, marginBottom: 32 }}>
+              ¡Será un gusto ayudarte a ti también!
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
               <Link to="/cursos" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '14px 28px', background: 'linear-gradient(135deg,#ec4899,#d946ef)',
+                padding: '14px 28px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
                 color: '#fff', borderRadius: 14, fontSize: '0.95rem', fontWeight: 500,
                 textDecoration: 'none', boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)'
               }}>
@@ -82,11 +85,11 @@ export default function SobreMiPage() {
               padding: '14px 20px', borderRadius: 16, boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
               display: 'flex', alignItems: 'center', gap: 12
             }}>
-              <div style={{ width: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,#fce7f3,#ede9fe)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Award size={20} color="#ec4899" />
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,var(--primary-light),#ede9fe)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Award size={20} color="var(--primary-deep)" />
               </div>
               <div>
-                <p style={{ fontWeight: 600, color: '#1f2937', fontSize: '0.9rem', lineHeight: 1 }}>10+ años</p>
+                <p style={{ fontWeight: 600, color: '#1f2937', fontSize: '0.9rem', lineHeight: 1 }}>9 años</p>
                 <p style={{ color: '#6b7280', fontSize: '0.78rem', fontWeight: 300 }}>de experiencia</p>
               </div>
             </div>
@@ -96,8 +99,8 @@ export default function SobreMiPage() {
               padding: '14px 20px', borderRadius: 16, boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
               display: 'flex', alignItems: 'center', gap: 12, zIndex: 10
             }}>
-              <div style={{ width: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,#fce7f3,#ede9fe)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Heart size={20} color="#ec4899" fill="#ec4899" />
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,var(--primary-light),#ede9fe)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Heart size={20} color="var(--primary-deep)" fill="var(--primary-deep)" />
               </div>
               <div>
                 <p style={{ fontWeight: 600, color: '#1f2937', fontSize: '0.9rem', lineHeight: 1 }}>5,000+</p>
@@ -111,10 +114,10 @@ export default function SobreMiPage() {
       {/* Mi Historia */}
       <section style={{ padding: 'clamp(3rem,6vw,5rem) 1.5rem', background: '#fff' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-          <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: '#ec4899', textTransform: 'uppercase', fontWeight: 500 }}>Mi historia</span>
+          <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary-deep)', textTransform: 'uppercase', fontWeight: 500 }}>Mi historia</span>
           <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#1f2937', margin: '12px 0 24px' }}>
             ¿Por qué me dediqué a la{' '}
-            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#ec4899' }}>nutrición?</span>
+            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)' }}>nutrición?</span>
           </h2>
           <div style={{ textAlign: 'left', fontSize: '1.05rem', color: '#4b5563', fontWeight: 300, lineHeight: 1.9, display: 'flex', flexDirection: 'column', gap: 20 }}>
             <p>
@@ -131,13 +134,13 @@ export default function SobreMiPage() {
       </section>
 
       {/* Valores */}
-      <section style={{ padding: 'clamp(3rem,6vw,5rem) 1.5rem', background: 'linear-gradient(135deg,#fdf2f8,#faf5ff)' }}>
+      <section style={{ padding: 'clamp(3rem,6vw,5rem) 1.5rem', background: 'linear-gradient(135deg,var(--primary-50),var(--accent-50))' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: '#ec4899', textTransform: 'uppercase', fontWeight: 500 }}>Mi filosofía</span>
+            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary-deep)', textTransform: 'uppercase', fontWeight: 500 }}>Mi filosofía</span>
             <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#1f2937', marginTop: 12 }}>
               Lo que me{' '}
-              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#ec4899' }}>guía</span>
+              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)' }}>guía</span>
             </h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
@@ -152,10 +155,10 @@ export default function SobreMiPage() {
                 }}>
                 <div style={{
                   width: 52, height: 52, borderRadius: 14,
-                  background: 'linear-gradient(135deg,#fce7f3,#ede9fe)',
+                  background: 'linear-gradient(135deg,var(--primary-light),#ede9fe)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16
                 }}>
-                  <v.icon size={24} color="#ec4899" />
+                  <v.icon size={24} color="var(--primary-deep)" />
                 </div>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 500, color: '#1f2937', marginBottom: 8 }}>{v.title}</h3>
                 <p style={{ color: '#6b7280', fontSize: '0.92rem', fontWeight: 300, lineHeight: 1.7 }}>{v.desc}</p>
@@ -169,22 +172,22 @@ export default function SobreMiPage() {
       <section style={{ padding: 'clamp(3rem,6vw,5rem) 1.5rem', background: '#fff' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: '#ec4899', textTransform: 'uppercase', fontWeight: 500 }}>Formación</span>
+            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary-deep)', textTransform: 'uppercase', fontWeight: 500 }}>Formación</span>
             <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#1f2937', marginTop: 12 }}>
               Mis{' '}
-              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#ec4899' }}>certificaciones</span>
+              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)' }}>certificaciones</span>
             </h2>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {certifications.map((c, i) => (
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', gap: 16,
-                padding: '20px 24px', background: 'linear-gradient(135deg,#fdf2f8,#faf5ff)',
-                borderRadius: 16, borderLeft: '4px solid #f9a8d4',
+                padding: '20px 24px', background: 'linear-gradient(135deg,var(--primary-50),var(--accent-50))',
+                borderRadius: 16, borderLeft: '4px solid var(--primary)',
                 animation: `fadeInUp 0.4s ease-out ${i * 0.1}s backwards`
               }}>
                 <div style={{ width: 44, height: 44, borderRadius: 12, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', flexShrink: 0 }}>
-                  <Award size={20} color="#ec4899" />
+                  <Award size={20} color="var(--primary-deep)" />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: 500, color: '#1f2937', fontSize: '0.95rem' }}>{c.title}</p>
@@ -192,7 +195,7 @@ export default function SobreMiPage() {
                 </div>
                 <span style={{
                   padding: '4px 12px', borderRadius: 9999, fontSize: '0.78rem', fontWeight: 500,
-                  background: 'rgba(236,72,153,0.1)', color: '#ec4899'
+                  background: 'rgba(236,72,153,0.1)', color: 'var(--primary-deep)'
                 }}>{c.year}</span>
               </div>
             ))}
@@ -203,7 +206,7 @@ export default function SobreMiPage() {
       {/* CTA */}
       <section style={{
         padding: 'clamp(3rem,6vw,5rem) 1.5rem',
-        background: 'linear-gradient(135deg,#ec4899,#d946ef,#8b5cf6)',
+        background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep),var(--accent))',
         textAlign: 'center', position: 'relative', overflow: 'hidden'
       }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
@@ -218,7 +221,7 @@ export default function SobreMiPage() {
           <Link to="/cursos" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '16px 36px', background: '#fff',
-            color: '#ec4899', borderRadius: 14, fontSize: '1rem', fontWeight: 500,
+            color: 'var(--primary-deep)', borderRadius: 14, fontSize: '1rem', fontWeight: 500,
             textDecoration: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
           }}>
             Explorar Cursos <ArrowRight size={18} />

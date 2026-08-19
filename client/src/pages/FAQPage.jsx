@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const categories = [
   {
-    icon: BookOpen, title: 'Sobre los Cursos', color: '#ec4899', bg: '#fce7f3',
+    icon: BookOpen, title: 'Sobre los Cursos', color: 'var(--primary-deep)', bg: 'var(--primary-light)',
     faqs: [
       { q: '¿Por cuánto tiempo tengo acceso a los cursos?', a: 'Una vez que adquieres un curso, tienes acceso de por vida. Puedes verlo a tu propio ritmo, cuando quieras y cuantas veces lo necesites.' },
       { q: '¿Puedo ver los cursos desde mi celular?', a: 'Sí, nuestra plataforma está completamente optimizada para dispositivos móviles. Puedes acceder desde cualquier dispositivo con conexión a internet.' },
@@ -13,7 +13,7 @@ const categories = [
     ]
   },
   {
-    icon: CreditCard, title: 'Pagos y Precios', color: '#8b5cf6', bg: '#ede9fe',
+    icon: CreditCard, title: 'Pagos y Precios', color: 'var(--accent)', bg: '#ede9fe',
     faqs: [
       { q: '¿Qué métodos de pago aceptan?', a: 'Aceptamos todas las tarjetas de crédito y débito (Visa, Mastercard, American Express) a través de Stripe, nuestra plataforma de pagos segura.' },
       { q: '¿Hay plan de pagos o mensualidades?', a: 'Actualmente todos los cursos se pagan en una sola exhibición. Estamos trabajando en opciones de financiamiento que pronto estarán disponibles.' },
@@ -48,10 +48,10 @@ export default function FAQPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#fdf2f8,#ffffff,#faf5ff)', paddingBottom: '5rem' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,var(--primary-50),#ffffff,var(--accent-50))', paddingBottom: '5rem' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(135deg,#ec4899,#d946ef,#8b5cf6)',
+        background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep),var(--accent))',
         padding: 'clamp(3rem,6vw,5rem) 1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden'
       }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-40px', width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
@@ -128,7 +128,7 @@ export default function FAQPage() {
 
         {/* Still have questions */}
         <div style={{
-          background: 'linear-gradient(135deg,#fce7f3,#faf5ff)',
+          background: 'linear-gradient(135deg,var(--primary-light),var(--accent-50))',
           borderRadius: 24, padding: 'clamp(24px,4vw,40px)',
           textAlign: 'center', border: '1px solid rgba(236,72,153,0.1)'
         }}>
@@ -140,7 +140,7 @@ export default function FAQPage() {
           </p>
           <Link to="/contacto" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '14px 30px', background: 'linear-gradient(135deg,#ec4899,#d946ef)',
+            padding: '14px 30px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
             color: '#fff', borderRadius: 12, fontSize: '0.95rem', fontWeight: 500,
             textDecoration: 'none', boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)'
           }}>

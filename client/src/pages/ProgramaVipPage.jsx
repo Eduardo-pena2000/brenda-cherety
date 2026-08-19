@@ -99,10 +99,10 @@ export default function ProgramaVipPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
                         {[
                             { icon: CalendarCheck, title: '12 Sesiones 1 a 1', desc: 'Una sesión semanal de 60 min vía Zoom con plan de acción personalizado.', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.2)' },
-                            { icon: Zap, title: 'Plan Nutricional a Medida', desc: 'Menús semanales adaptados a tus gustos, alergias, horarios y presupuesto.', color: '#ec4899', bg: 'rgba(236,72,153,0.1)', border: 'rgba(236,72,153,0.2)' },
+                            { icon: Zap, title: 'Plan Nutricional a Medida', desc: 'Menús semanales adaptados a tus gustos, alergias, horarios y presupuesto.', color: 'var(--primary-deep)', bg: 'rgba(236,72,153,0.1)', border: 'rgba(236,72,153,0.2)' },
                             { icon: MessageCircle, title: 'WhatsApp Directo', desc: 'Acceso 24/7 para dudas, ajustes y motivación. Respuesta en menos de 2 horas.', color: '#34d399', bg: 'rgba(52,211,153,0.1)', border: 'rgba(52,211,153,0.2)' },
                             { icon: Shield, title: 'Análisis de Laboratorios', desc: 'Interpretación profesional de tus estudios para ajustar el plan a tu bioquímica.', color: '#60a5fa', bg: 'rgba(96,165,250,0.1)', border: 'rgba(96,165,250,0.2)' },
-                            { icon: Heart, title: 'Soporte Emocional', desc: 'Acompañamiento en tu relación con la comida. Sin culpa, sin presión.', color: '#f472b6', bg: 'rgba(244,114,182,0.1)', border: 'rgba(244,114,182,0.2)' },
+                            { icon: Heart, title: 'Soporte Emocional', desc: 'Acompañamiento en tu relación con la comida. Sin culpa, sin presión.', color: 'var(--primary-dark)', bg: 'rgba(244,114,182,0.1)', border: 'rgba(244,114,182,0.2)' },
                             { icon: Sparkles, title: 'Acceso a Todos los Cursos', desc: 'Mientras seas VIP tendrás acceso completo a todo el catálogo de cursos.', color: '#a78bfa', bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.2)' },
                         ].map((item, i) => (
                             <div key={i} style={{
@@ -139,7 +139,7 @@ export default function ProgramaVipPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
                         {[
                             { name: 'Daniela M.', result: '-18 kg en 12 semanas', quote: 'El programa VIP cambió todo. Tener a Brenda disponible por WhatsApp fue clave. Nunca me sentí sola en el proceso.', color: '#fbbf24' },
-                            { name: 'Fernanda L.', result: 'Sin ansiedad por comer', quote: 'Llevaba años con relación tóxica con la comida. El enfoque de Brenda me devolvió la paz y la libertad de disfrutar comer.', color: '#ec4899' },
+                            { name: 'Fernanda L.', result: 'Sin ansiedad por comer', quote: 'Llevaba años con relación tóxica con la comida. El enfoque de Brenda me devolvió la paz y la libertad de disfrutar comer.', color: 'var(--primary-deep)' },
                             { name: 'Lucía G.', result: 'Energía todo el día', quote: 'Mi esposo y mis hijos notaron el cambio. Estoy más activa, duermo mejor y cocino con ingredientes que jamás imaginé.', color: '#34d399' },
                         ].map((t, i) => (
                             <div key={i} style={{

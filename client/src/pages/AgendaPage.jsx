@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 export default function AgendaPage() {
     return (
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)' }}>
+        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))' }}>
             {/* Header */}
             <div style={{
-                background: 'linear-gradient(135deg, #ec4899, #d946ef, #a855f7)',
+                background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep), var(--primary-dark))',
                 padding: '4rem 1.5rem 5rem', position: 'relative', overflow: 'hidden'
             }}>
                 <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }} />
@@ -48,13 +48,13 @@ export default function AgendaPage() {
                         <div style={{
                             background: '#fff', borderRadius: 20, padding: 28,
                             boxShadow: '0 10px 40px -10px rgba(0,0,0,0.08)',
-                            border: '1px solid #fce7f3'
+                            border: '1px solid var(--primary-light)'
                         }}>
                             <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1f2937', marginBottom: 16 }}>
                                 Consulta Nutricional
                             </h3>
                             <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 20 }}>
-                                <span style={{ fontSize: '2.5rem', fontWeight: 300, color: '#ec4899' }}>$1,500</span>
+                                <span style={{ fontSize: '2.5rem', fontWeight: 300, color: 'var(--primary-deep)' }}>$1,500</span>
                                 <span style={{ fontSize: '0.92rem', color: '#9ca3af', fontWeight: 300 }}>MXN</span>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
@@ -65,8 +65,8 @@ export default function AgendaPage() {
                                     { icon: CheckCircle, text: 'Plan personalizado incluido' },
                                 ].map((item, i) => (
                                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                        <div style={{ width: 32, height: 32, borderRadius: 8, background: '#fce7f3', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                            <item.icon size={16} color="#ec4899" />
+                                        <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                            <item.icon size={16} color="var(--primary-deep)" />
                                         </div>
                                         <span style={{ fontSize: '0.9rem', color: '#4b5563', fontWeight: 400 }}>{item.text}</span>
                                     </div>
@@ -107,8 +107,8 @@ export default function AgendaPage() {
                             </p>
                             <Link to="/consulta" style={{
                                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                                padding: '12px 24px', border: '2px solid #ec4899',
-                                color: '#ec4899', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
+                                padding: '12px 24px', border: '2px solid var(--primary-deep)',
+                                color: 'var(--primary-deep)', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
                                 textDecoration: 'none', transition: 'all 0.3s'
                             }}>
                                 Llenar formulario <ArrowRight size={16} />

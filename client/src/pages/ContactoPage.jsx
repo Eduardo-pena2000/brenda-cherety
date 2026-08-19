@@ -22,7 +22,7 @@ export default function ContactoPage() {
   const inputStyle = (field) => ({
     width: '100%', padding: '14px 16px',
     background: focused === field ? '#fff' : '#f9fafb',
-    border: `2px solid ${focused === field ? '#ec4899' : '#e5e7eb'}`,
+    border: `2px solid ${focused === field ? 'var(--primary-deep)' : '#e5e7eb'}`,
     borderRadius: 14, fontSize: '0.95rem',
     fontFamily: "'Outfit',sans-serif", color: '#1f2937',
     outline: 'none', transition: 'all 0.3s',
@@ -40,7 +40,7 @@ export default function ContactoPage() {
   ];
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#fdf2f8,#ffffff,#faf5ff)', paddingBottom: '5rem' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,var(--primary-50),#ffffff,var(--accent-50))', paddingBottom: '5rem' }}>
       {/* Header */}
       <div style={{
         background: 'linear-gradient(135deg,#1f2937,#111827)',
@@ -48,10 +48,10 @@ export default function ContactoPage() {
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(236,72,153,0.12), transparent 50%)' }} />
         <div style={{ maxWidth: 600, margin: '0 auto', position: 'relative', zIndex: 2 }}>
-          <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: '#f9a8d4', textTransform: 'uppercase', fontWeight: 500 }}>Contáctame</span>
+          <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 500 }}>Contáctame</span>
           <h1 style={{ fontSize: 'clamp(2rem,5vw,3rem)', fontWeight: 300, color: '#fff', margin: '12px 0 16px' }}>
             Estoy aquí para{' '}
-            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#f9a8d4' }}>ayudarte</span>
+            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary)' }}>ayudarte</span>
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.05rem', fontWeight: 300 }}>
             ¿Tienes dudas sobre mis cursos? ¿Quieres una consulta personalizada? Escríbeme.
@@ -73,10 +73,10 @@ export default function ContactoPage() {
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                     <div style={{
                       width: 44, height: 44, borderRadius: 12, flexShrink: 0,
-                      background: 'linear-gradient(135deg,#fce7f3,#faf5ff)',
+                      background: 'linear-gradient(135deg,var(--primary-light),var(--accent-50))',
                       display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
-                      <item.icon size={20} color="#ec4899" />
+                      <item.icon size={20} color="var(--primary-deep)" />
                     </div>
                     <div>
                       <p style={{ fontSize: '0.78rem', color: '#9ca3af', fontWeight: 400 }}>{item.label}</p>
@@ -122,7 +122,7 @@ export default function ContactoPage() {
                   Gracias por escribirme. Te responderé a la brevedad posible. 💕
                 </p>
                 <button onClick={() => { setSent(false); setForm({ name: '', email: '', subject: '', message: '' }); }} style={{
-                  marginTop: 24, padding: '12px 28px', background: 'linear-gradient(135deg,#ec4899,#d946ef)',
+                  marginTop: 24, padding: '12px 28px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
                   color: '#fff', borderRadius: 12, border: 'none', cursor: 'pointer',
                   fontSize: '0.9rem', fontWeight: 500, fontFamily: "'Outfit',sans-serif"
                 }}>
@@ -166,7 +166,7 @@ export default function ContactoPage() {
                   </div>
                   <button type="submit" disabled={sending} style={{
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                    padding: '15px 32px', background: sending ? '#9ca3af' : 'linear-gradient(135deg,#ec4899,#d946ef)',
+                    padding: '15px 32px', background: sending ? '#9ca3af' : 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
                     color: '#fff', borderRadius: 14, fontSize: '0.95rem', fontWeight: 500,
                     border: 'none', cursor: sending ? 'not-allowed' : 'pointer',
                     boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)',

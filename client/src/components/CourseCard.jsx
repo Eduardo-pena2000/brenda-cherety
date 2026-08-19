@@ -31,7 +31,7 @@ export default function CourseCard({ course, delay = 0 }) {
       {/* Image */}
       <div style={{
         height: 220, overflow: 'hidden', position: 'relative',
-        background: 'linear-gradient(135deg, #fce7f3, #e9d5ff)'
+        background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))'
       }}>
         {thumbnailUrl ? (
           <img src={thumbnailUrl} alt={course.title} style={{
@@ -45,8 +45,8 @@ export default function CourseCard({ course, delay = 0 }) {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexDirection: 'column', gap: 8
           }}>
-            <BookOpen size={40} color="#d946ef" strokeWidth={1.5} />
-            <span style={{ color: '#a855f7', fontSize: '0.85rem', fontWeight: 300 }}>Sin imagen</span>
+            <BookOpen size={40} color="var(--primary-deep)" strokeWidth={1.5} />
+            <span style={{ color: 'var(--primary-dark)', fontSize: '0.85rem', fontWeight: 300 }}>Sin imagen</span>
           </div>
         )}
 
@@ -71,7 +71,7 @@ export default function CourseCard({ course, delay = 0 }) {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 8px 25px rgba(0,0,0,0.2)'
           }}>
-            <Play size={22} color="#ec4899" fill="#ec4899" style={{ marginLeft: 2 }} />
+            <Play size={22} color="var(--primary-deep)" fill="var(--primary-deep)" style={{ marginLeft: 2 }} />
           </div>
         </div>
 
@@ -81,7 +81,7 @@ export default function CourseCard({ course, delay = 0 }) {
             position: 'absolute', top: 12, left: 12,
             background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)',
             padding: '4px 10px', borderRadius: 9999,
-            fontSize: '0.72rem', fontWeight: 500, color: '#ec4899',
+            fontSize: '0.72rem', fontWeight: 500, color: 'var(--primary-deep)',
             display: 'flex', alignItems: 'center', gap: 4, zIndex: 2
           }}>
             <Sparkles size={11} /> Destacado
@@ -130,7 +130,7 @@ export default function CourseCard({ course, delay = 0 }) {
             </span>
           </div>
           <span style={{
-            fontSize: '1.2rem', color: '#ec4899', fontWeight: 400
+            fontSize: '1.2rem', color: 'var(--primary-deep)', fontWeight: 400
           }}>
             {formatPrice(course.price_cents, course.currency)}
           </span>

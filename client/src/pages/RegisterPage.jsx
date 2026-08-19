@@ -42,14 +42,14 @@ export default function RegisterPage() {
   const iconWrapStyle = (field) => ({
     position: 'absolute', left: '14px', top: '50%',
     width: '36px', height: '36px', borderRadius: '50%',
-    background: focusedField === field ? '#f3e8ff' : '#faf5ff',
+    background: focusedField === field ? '#f3e8ff' : 'var(--accent-50)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     transition: 'all 0.3s',
     transform: focusedField === field ? 'translateY(-50%) scale(1.1)' : 'translateY(-50%)'
   });
 
   const iconColor = (field) => ({
-    color: focusedField === field ? '#a855f7' : '#c084fc',
+    color: focusedField === field ? 'var(--primary-dark)' : '#c084fc',
     transition: 'color 0.3s'
   });
 
@@ -70,7 +70,7 @@ export default function RegisterPage() {
         width: '100%', flex: 1,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '40px 24px',
-        background: 'linear-gradient(180deg, #ffffff 0%, #faf5ff 100%)',
+        background: 'linear-gradient(180deg, #ffffff 0%, var(--accent-50) 100%)',
         position: 'relative'
       }}>
 
@@ -219,7 +219,7 @@ export default function RegisterPage() {
               disabled={loading}
               style={{
                 width: '100%', padding: '17px 24px', borderRadius: '16px', border: 'none',
-                background: 'linear-gradient(135deg, #c084fc, #a855f7, #9333ea)',
+                background: 'linear-gradient(135deg, #c084fc, var(--primary-dark), #9333ea)',
                 color: '#fff', fontSize: '15px', fontWeight: 500, fontFamily: 'inherit',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.65 : 1,
@@ -258,11 +258,11 @@ export default function RegisterPage() {
           <p style={{ textAlign: 'center', fontSize: '14px', color: '#9ca3af', fontWeight: 300, margin: 0 }}>
             ¿Ya tienes cuenta?{' '}
             <Link to="/login" style={{
-              color: '#a855f7', fontWeight: 500, textDecoration: 'none',
+              color: 'var(--primary-dark)', fontWeight: 500, textDecoration: 'none',
               borderBottom: '1px solid transparent', transition: 'all 0.3s'
             }}
               onMouseEnter={e => { e.currentTarget.style.color = '#9333ea'; e.currentTarget.style.borderBottomColor = '#9333ea'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#a855f7'; e.currentTarget.style.borderBottomColor = 'transparent'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--primary-dark)'; e.currentTarget.style.borderBottomColor = 'transparent'; }}
             >
               Inicia sesión
             </Link>
@@ -277,7 +277,7 @@ export default function RegisterPage() {
       {/* ====== RIGHT PANEL — Decorative (desktop only) ====== */}
       <div className="auth-panel auth-panel-decor hidden lg:flex" style={{
         width: '50%',
-        background: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 25%, #c084fc 50%, #a855f7 75%, #9333ea 100%)',
+        background: 'linear-gradient(135deg, var(--accent-50) 0%, #f3e8ff 25%, #c084fc 50%, var(--primary-dark) 75%, #9333ea 100%)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         position: 'relative', overflow: 'hidden'
       }}>

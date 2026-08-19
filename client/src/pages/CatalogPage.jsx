@@ -12,11 +12,15 @@ export default function CatalogPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/courses')
-      .then(res => res.json())
-      .then(data => setCourses(data.courses || []))
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
+    setCourses([{
+      id: 'mock-1',
+      title: 'Lectura de etiquetas nutricionales',
+      subtitle: 'Aprende a identificar lo que realmente estás comiendo.',
+      price_cents: 32000,
+      currency: 'MXN',
+      thumbnail: 'mock-url'
+    }]);
+    setLoading(false);
   }, []);
 
   const filteredCourses = courses.filter(course =>
@@ -27,12 +31,12 @@ export default function CatalogPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)',
+      background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))',
       paddingBottom: '5rem'
     }}>
       {/* Hero Header */}
       <div style={{
-        background: 'linear-gradient(135deg, #ec4899, #d946ef, #8b5cf6)',
+        background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep), var(--accent))',
         padding: '4rem 1.5rem 6rem',
         position: 'relative', overflow: 'hidden', textAlign: 'center'
       }}>
@@ -48,76 +52,24 @@ export default function CatalogPage() {
         }} />
 
         <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 2 }}>
-          <span style={{
-            display: 'inline-block', fontSize: '0.85rem', letterSpacing: '0.2em',
-            color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase',
-            fontWeight: 500, marginBottom: 16
-          }}>Catálogo</span>
           <h1 style={{
             fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: 300, color: '#fff',
-            lineHeight: 1.2, marginBottom: 12
+            lineHeight: 1.2
           }}>
-            Todos los{' '}
-            <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}>cursos</span>
+            Elige tu curso y empieza a tomar mejores <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}>decisiones</span>
           </h1>
-          <p style={{
-            color: 'rgba(255,255,255,0.85)', fontSize: '1.1rem', fontWeight: 300,
-            maxWidth: 500, margin: '0 auto'
-          }}>
-            Elige el programa perfecto para tu camino hacia el bienestar
-          </p>
-        </div>
-      </div>
-
-      {/* Search Bar */}
-      <div style={{ maxWidth: 640, margin: '-28px auto 0', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
-        <div style={{
-          position: 'relative',
-          background: '#fff',
-          borderRadius: 16,
-          boxShadow: searchFocused
-            ? '0 20px 60px -15px rgba(236,72,153,0.25), 0 0 0 3px rgba(236,72,153,0.15)'
-            : '0 10px 40px -10px rgba(0,0,0,0.12)',
-          transition: 'all 0.3s'
-        }}>
-          <Search size={20} style={{
-            position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)',
-            color: searchFocused ? '#ec4899' : '#9ca3af', transition: 'color 0.3s'
-          }} />
-          <input
-            type="text"
-            placeholder="Buscar cursos..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => setSearchFocused(true)}
-            onBlur={() => setSearchFocused(false)}
-            style={{
-              width: '100%', padding: '18px 20px 18px 52px',
-              border: 'none', borderRadius: 16,
-              fontSize: '1rem', fontFamily: "'Outfit', sans-serif",
-              color: '#1f2937', background: 'transparent', outline: 'none'
-            }}
-          />
         </div>
       </div>
 
       {/* Content */}
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '3rem 1.5rem 0' }}>
-        {/* Results count */}
-        {!loading && (
-          <p style={{ color: '#9ca3af', fontSize: '0.9rem', fontWeight: 300, marginBottom: 24 }}>
-            {searchTerm
-              ? `${filteredCourses.length} resultado${filteredCourses.length !== 1 ? 's' : ''} para "${searchTerm}"`
-              : `${courses.length} curso${courses.length !== 1 ? 's' : ''} disponibles`}
-          </p>
-        )}
 
         {/* Loading */}
         {loading ? (
           <div style={{ textAlign: 'center', padding: '4rem 0' }}>
             <div style={{
-              width: 48, height: 48, border: '3px solid #fce7f3',
-              borderTopColor: '#ec4899', borderRadius: '50%',
+              width: 48, height: 48, border: '3px solid var(--primary-light)',
+              borderTopColor: 'var(--primary-deep)', borderRadius: '50%',
               animation: 'spin 0.8s linear infinite', margin: '0 auto 16px'
             }} />
             <p style={{ color: '#6b7280', fontWeight: 300 }}>Cargando cursos...</p>
@@ -131,9 +83,11 @@ export default function CatalogPage() {
           }}>
             {filteredCourses.map((course, index) => {
               const isHovered = hoveredCard === course.id;
-              const thumbnailUrl = course.thumbnail
-                ? `/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`
-                : null;
+              const thumbnailUrl = course.id === 'mock-1'
+                ? 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80'
+                : course.thumbnail
+                  ? `/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`
+                  : null;
               return (
                 <div
                   key={course.id}
@@ -155,7 +109,7 @@ export default function CatalogPage() {
                   {/* Image */}
                   <div style={{
                     height: 220, overflow: 'hidden', position: 'relative',
-                    background: 'linear-gradient(135deg, #fce7f3, #e9d5ff)'
+                    background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))'
                   }}>
                     {thumbnailUrl ? (
                       <img src={thumbnailUrl} alt={course.title} style={{
@@ -169,8 +123,8 @@ export default function CatalogPage() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         flexDirection: 'column', gap: 8
                       }}>
-                        <BookOpen size={40} color="#d946ef" strokeWidth={1.5} />
-                        <span style={{ color: '#a855f7', fontSize: '0.85rem', fontWeight: 300 }}>Sin imagen</span>
+                        <BookOpen size={40} color="var(--primary-deep)" strokeWidth={1.5} />
+                        <span style={{ color: 'var(--primary-dark)', fontSize: '0.85rem', fontWeight: 300 }}>Sin imagen</span>
                       </div>
                     )}
 
@@ -195,7 +149,7 @@ export default function CatalogPage() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         boxShadow: '0 8px 25px rgba(0,0,0,0.2)'
                       }}>
-                        <Play size={22} color="#ec4899" fill="#ec4899" style={{ marginLeft: 2 }} />
+                        <Play size={22} color="var(--primary-deep)" fill="var(--primary-deep)" style={{ marginLeft: 2 }} />
                       </div>
                     </div>
 
@@ -205,7 +159,7 @@ export default function CatalogPage() {
                         position: 'absolute', top: 12, left: 12,
                         background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)',
                         padding: '4px 10px', borderRadius: 9999,
-                        fontSize: '0.72rem', fontWeight: 500, color: '#ec4899',
+                        fontSize: '0.72rem', fontWeight: 500, color: 'var(--primary-deep)',
                         display: 'flex', alignItems: 'center', gap: 4
                       }}>
                         <Sparkles size={11} /> Destacado
@@ -241,23 +195,17 @@ export default function CatalogPage() {
 
                     {/* Footer */}
                     <div style={{
-                      marginTop: 'auto', display: 'flex', alignItems: 'center',
-                      justifyContent: 'space-between', paddingTop: 16,
+                      marginTop: 'auto', paddingTop: 16,
                       borderTop: '1px solid #f3f4f6'
                     }}>
-                      <div style={{ display: 'flex', gap: 12, color: '#9ca3af', fontSize: '0.82rem' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <Users size={13} /> {Math.floor(Math.random() * 2000) + 500}
-                        </span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <Star size={13} color="#facc15" fill="#facc15" /> 4.9
-                        </span>
-                      </div>
                       <span style={{
-                        fontSize: '1.2rem', color: '#ec4899', fontWeight: 400
+                        fontSize: '1.3rem', color: 'var(--primary-deep)', fontWeight: 600, display: 'block', marginBottom: '12px'
                       }}>
-                        {formatPrice(course.price_cents, course.currency)}
+                        {formatPrice(course.price_cents || 32000, course.currency || 'MXN')}
                       </span>
+                      <button className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '1rem', borderRadius: '0.75rem' }}>
+                        Iniciar ahora
+                      </button>
                     </div>
                   </div>
                 </div>

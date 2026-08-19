@@ -85,7 +85,7 @@ export default function AdminCourseForm() {
   const inputStyle = (field) => ({
     width: '100%', padding: '14px 16px 14px 48px',
     background: focusedField === field ? '#fff' : '#f9fafb',
-    border: `2px solid ${focusedField === field ? '#ec4899' : '#e5e7eb'}`,
+    border: `2px solid ${focusedField === field ? 'var(--primary-deep)' : '#e5e7eb'}`,
     borderRadius: 14, fontSize: '0.95rem',
     fontFamily: "'Outfit', sans-serif", color: '#1f2937',
     outline: 'none', transition: 'all 0.3s',
@@ -99,7 +99,7 @@ export default function AdminCourseForm() {
 
   const iconWrap = (field) => ({
     position: 'absolute', left: 14, top: 14,
-    color: focusedField === field ? '#ec4899' : '#9ca3af',
+    color: focusedField === field ? 'var(--primary-deep)' : '#9ca3af',
     transition: 'color 0.3s'
   });
 
@@ -123,7 +123,7 @@ export default function AdminCourseForm() {
             fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 300, color: '#fff'
           }}>
             {isEditing ? 'Editar' : 'Nuevo'}{' '}
-            <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', color: '#f9a8d4' }}>Curso</span>
+            <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', color: 'var(--primary)' }}>Curso</span>
           </h1>
         </div>
       </div>
@@ -228,7 +228,7 @@ export default function AdminCourseForm() {
                 position: 'relative', overflow: 'hidden'
               }}
                 onClick={() => document.getElementById('thumbnail-input').click()}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#f9a8d4'; e.currentTarget.style.background = '#fdf2f8'; }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.background = 'var(--primary-50)'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.background = '#fafafa'; }}
               >
                 {thumbnailPreview ? (
@@ -245,11 +245,11 @@ export default function AdminCourseForm() {
                   <div>
                     <div style={{
                       width: 56, height: 56, borderRadius: 14,
-                      background: 'linear-gradient(135deg, #fce7f3, #faf5ff)',
+                      background: 'linear-gradient(135deg, var(--primary-light), var(--accent-50))',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       margin: '0 auto 12px'
                     }}>
-                      <Image size={24} color="#ec4899" />
+                      <Image size={24} color="var(--primary-deep)" />
                     </div>
                     <p style={{ color: '#6b7280', fontWeight: 400, fontSize: '0.95rem' }}>
                       Click para subir imagen
@@ -275,7 +275,7 @@ export default function AdminCourseForm() {
                 padding: '14px 32px',
                 background: (saving || uploading)
                   ? '#9ca3af'
-                  : 'linear-gradient(135deg, #ec4899, #d946ef)',
+                  : 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
                 color: '#fff', borderRadius: 14, fontSize: '0.95rem', fontWeight: 500,
                 border: 'none', cursor: (saving || uploading) ? 'not-allowed' : 'pointer',
                 boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)',

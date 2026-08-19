@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { listByCourse, create, update, remove, uploadVideo, uploadFile } from '../controllers/lessons.controller.js';
+import { listByCourse, create, update, remove, uploadVideo, uploadFile, markComplete, getProgress } from '../controllers/lessons.controller.js';
 import { authenticate } from '../middleware/auth.js';
 import { adminOnly } from '../middleware/adminOnly.js';
 import { upload } from '../middleware/upload.js';
@@ -22,5 +22,9 @@ router.put('/:id', authenticate, adminOnly, update);
 router.delete('/:id', authenticate, adminOnly, remove);
 router.post('/:id/video', authenticate, adminOnly, upload.single('video'), uploadVideo);
 router.post('/:id/file', authenticate, adminOnly, upload.single('material'), uploadFile);
+
+// Estudiantes
+router.post('/:id/complete', authenticate, markComplete);
+router.get('/course/:courseId/progress', authenticate, getProgress);
 
 export default router;

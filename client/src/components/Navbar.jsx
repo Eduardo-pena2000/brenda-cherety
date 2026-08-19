@@ -20,12 +20,8 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Cursos', path: '/cursos' },
-    { name: 'Herramientas', path: '/herramientas' },
-    { name: 'Recetas', path: '/recetas' },
-    { name: 'Sobre Mi', path: '/sobre-mi' },
-    { name: 'Consulta', path: '/consulta' },
-    ...(isLoggedIn ? [{ name: 'Mis Cursos', path: '/mis-cursos' }] : []),
-    ...(isAdmin ? [{ name: 'Admin', path: '/admin' }] : []),
+    { name: 'Consulta personalizada', path: '/consulta' },
+    { name: 'Sobre mi', path: '/sobre-mi' },
   ];
 
   return (
@@ -33,8 +29,8 @@ export default function Navbar() {
       <div className="navbar-container">
         {/* Brand */}
         <Link to="/" className="navbar-brand" onClick={() => setMobileMenuOpen(false)}>
-          <span className="brand-subtitle">NUTRIÓLOGA</span>
-          <span className="brand-title">Brenda Cherety</span>
+          <span className="brand-subtitle" style={{ fontFamily: "'Assistant', sans-serif", fontWeight: 200, textTransform: 'none', letterSpacing: '0.05em', fontSize: '1.2rem' }}>Nutrióloga</span>
+          <span className="brand-title" style={{ fontFamily: "'Gistesy', 'Playfair Display', cursive", fontSize: '2.5rem', marginTop: '-10px', textTransform: 'capitalize', fontWeight: 'normal' }}>Cherety</span>
         </Link>
 
         {/* Desktop Menu */}
@@ -54,20 +50,15 @@ export default function Navbar() {
         <div className="navbar-actions hidden md:flex">
           {isLoggedIn ? (
             <>
-              <Link to="/perfil" className="navbar-user" style={{ textDecoration: 'none' }}>Hola, {user.name.split(' ')[0]}</Link>
+              <Link to="/perfil" className="nav-link">Mi cuenta</Link>
               <button onClick={handleLogout} className="btn btn-ghost btn-sm">
                 Salir
               </button>
             </>
           ) : (
-            <>
-              <button onClick={() => navigate('/login')} className="btn btn-ghost btn-sm">
-                Iniciar Sesión
-              </button>
-              <button onClick={() => navigate('/registro')} className="btn btn-primary btn-sm">
-                Comenzar
-              </button>
-            </>
+            <button onClick={() => navigate('/login')} className="nav-link bg-transparent border-none cursor-pointer">
+              Mi cuenta
+            </button>
           )}
         </div>
 
@@ -94,20 +85,15 @@ export default function Navbar() {
           <div className="border-t border-gray-100 pt-4 flex flex-col gap-3">
             {isLoggedIn ? (
               <>
-                <div className="text-sm text-gray text-center">Hola, {user.name}</div>
+                <Link to="/perfil" className="nav-link block py-2" onClick={() => setMobileMenuOpen(false)}>Mi cuenta</Link>
                 <button onClick={handleLogout} className="btn btn-secondary w-full">
                   Cerrar Sesión
                 </button>
               </>
             ) : (
-              <>
-                <button onClick={() => { navigate('/login'); setMobileMenuOpen(false); }} className="btn btn-secondary w-full">
-                  Iniciar Sesión
-                </button>
-                <button onClick={() => { navigate('/registro'); setMobileMenuOpen(false); }} className="btn btn-primary w-full">
-                  Comenzar
-                </button>
-              </>
+              <button onClick={() => { navigate('/login'); setMobileMenuOpen(false); }} className="nav-link block py-2 text-left bg-transparent border-none">
+                Mi cuenta
+              </button>
             )}
           </div>
         </div>

@@ -77,12 +77,12 @@ export default function MyCoursesPage() {
     <div style={{
       minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)'
+      background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))'
     }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{
-          width: 48, height: 48, border: '3px solid #fce7f3',
-          borderTopColor: '#ec4899', borderRadius: '50%',
+          width: 48, height: 48, border: '3px solid var(--primary-light)',
+          borderTopColor: 'var(--primary-deep)', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 16px'
         }} />
         <p style={{ color: '#6b7280', fontSize: '1.1rem', fontWeight: 300 }}>Cargando tus cursos...</p>
@@ -94,12 +94,12 @@ export default function MyCoursesPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)',
+      background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))',
       paddingBottom: '4rem'
     }}>
       {/* Header Section */}
       <div style={{
-        background: 'linear-gradient(135deg, #ec4899, #d946ef, #a855f7)',
+        background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep), var(--primary-dark))',
         padding: '4rem 1.5rem 5rem',
         position: 'relative', overflow: 'hidden'
       }}>
@@ -146,11 +146,11 @@ export default function MyCoursesPage() {
           }}>
             <div style={{
               width: 80, height: 80, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #fce7f3, #faf5ff)',
+              background: 'linear-gradient(135deg, var(--primary-light), var(--accent-50))',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 24px'
             }}>
-              <Sparkles size={36} color="#ec4899" />
+              <Sparkles size={36} color="var(--primary-deep)" />
             </div>
             <h2 style={{ fontSize: '1.5rem', fontWeight: 400, color: '#1f2937', marginBottom: 12 }}>
               Aún no tienes cursos
@@ -160,7 +160,7 @@ export default function MyCoursesPage() {
             </p>
             <Link to="/cursos" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 32px', background: 'linear-gradient(135deg, #f9a8d4, #f472b6)',
+              padding: '14px 32px', background: 'linear-gradient(135deg, var(--primary), var(--primary-dark))',
               color: '#fff', borderRadius: 9999, fontSize: '1rem', fontWeight: 500,
               textDecoration: 'none', boxShadow: '0 10px 30px -10px rgba(244,114,182,0.4)',
               transition: 'all 0.3s'
@@ -208,7 +208,7 @@ export default function MyCoursesPage() {
                           top: '-10px',
                           width: `${Math.random() * 8 + 4}px`,
                           height: `${Math.random() * 8 + 4}px`,
-                          background: ['#ec4899', '#d946ef', '#a855f7', '#fbbf24', '#34d399'][i % 5],
+                          background: ['var(--primary-deep)', 'var(--primary-deep)', 'var(--primary-dark)', '#fbbf24', '#34d399'][i % 5],
                           borderRadius: Math.random() > 0.5 ? '50%' : '2px',
                           animation: `confettiFall ${Math.random() * 2 + 1.5}s ease-out ${Math.random() * 0.5}s forwards`
                         }} />
@@ -219,7 +219,7 @@ export default function MyCoursesPage() {
                   {/* Image */}
                   <div style={{
                     height: 200, overflow: 'hidden', position: 'relative',
-                    background: 'linear-gradient(135deg, #fce7f3, #e9d5ff)'
+                    background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))'
                   }}>
                     {thumbnailUrl ? (
                       <img src={thumbnailUrl} alt={p.title} style={{
@@ -233,8 +233,8 @@ export default function MyCoursesPage() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         flexDirection: 'column', gap: 8
                       }}>
-                        <BookOpen size={40} color="#d946ef" strokeWidth={1.5} />
-                        <span style={{ color: '#a855f7', fontSize: '0.85rem', fontWeight: 300 }}>Sin imagen</span>
+                        <BookOpen size={40} color="var(--primary-deep)" strokeWidth={1.5} />
+                        <span style={{ color: 'var(--primary-dark)', fontSize: '0.85rem', fontWeight: 300 }}>Sin imagen</span>
                       </div>
                     )}
                     <div style={{
@@ -255,7 +255,7 @@ export default function MyCoursesPage() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
                       }}>
-                        <Play size={22} color="#ec4899" fill="#ec4899" style={{ marginLeft: 2 }} />
+                        <Play size={22} color="var(--primary-deep)" fill="var(--primary-deep)" style={{ marginLeft: 2 }} />
                       </div>
                     </div>
                     {/* Badge */}
@@ -292,7 +292,7 @@ export default function MyCoursesPage() {
                         <span style={{ fontSize: '0.8rem', color: '#9ca3af', fontWeight: 400 }}>Progreso</span>
                         <span style={{
                           fontSize: '0.8rem',
-                          color: isComplete ? '#10b981' : '#ec4899',
+                          color: isComplete ? '#10b981' : 'var(--primary-deep)',
                           fontWeight: 500
                         }}>
                           {getProgressLabel(percent)}
@@ -303,7 +303,7 @@ export default function MyCoursesPage() {
                           width: `${percent}%`, height: '100%',
                           background: isComplete
                             ? 'linear-gradient(90deg, #10b981, #34d399)'
-                            : 'linear-gradient(90deg, #ec4899, #a855f7)',
+                            : 'linear-gradient(90deg, var(--primary-deep), var(--primary-dark))',
                           borderRadius: 9999, transition: 'width 0.6s ease'
                         }} />
                       </div>
@@ -330,7 +330,7 @@ export default function MyCoursesPage() {
                           style={{
                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                             padding: '12px 16px',
-                            background: 'linear-gradient(135deg, #ec4899, #d946ef)',
+                            background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
                             color: '#fff', borderRadius: 12, fontSize: '0.88rem', fontWeight: 500,
                             border: 'none', cursor: 'pointer', transition: 'all 0.3s',
                             fontFamily: "'Outfit', sans-serif",
@@ -345,8 +345,8 @@ export default function MyCoursesPage() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                         width: '100%', padding: '12px 20px',
                         background: isHovered
-                          ? 'linear-gradient(135deg, #ec4899, #d946ef)'
-                          : 'linear-gradient(135deg, #f9a8d4, #f472b6)',
+                          ? 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))'
+                          : 'linear-gradient(135deg, var(--primary), var(--primary-dark))',
                         color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
                         textDecoration: 'none', transition: 'all 0.3s',
                         boxShadow: isHovered ? '0 8px 25px -6px rgba(236,72,153,0.5)' : 'none'
@@ -396,7 +396,7 @@ export default function MyCoursesPage() {
             <div style={{ textAlign: 'center', marginBottom: 24 }}>
               <div style={{
                 width: 64, height: 64, borderRadius: '50%',
-                background: 'linear-gradient(135deg, #ec4899, #d946ef)',
+                background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 margin: '0 auto 16px', fontSize: '1.8rem'
               }}>

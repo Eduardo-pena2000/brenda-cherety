@@ -48,3 +48,11 @@ CREATE INDEX IF NOT EXISTS idx_purchases_user   ON purchases(user_id);
 CREATE INDEX IF NOT EXISTS idx_purchases_course ON purchases(course_id);
 CREATE INDEX IF NOT EXISTS idx_lessons_course   ON lessons(course_id);
 CREATE INDEX IF NOT EXISTS idx_courses_slug     ON courses(slug);
+
+CREATE TABLE IF NOT EXISTS lesson_progress (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  lesson_id   INTEGER NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+  created_at  TEXT    NOT NULL DEFAULT (datetime('now')),
+  UNIQUE(user_id, lesson_id)
+);

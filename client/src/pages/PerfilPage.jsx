@@ -38,7 +38,7 @@ export default function PerfilPage() {
   const inputStyle = (field) => ({
     width: '100%', padding: '13px 16px 13px 48px',
     background: focused === field ? '#fff' : '#f9fafb',
-    border: `2px solid ${focused === field ? '#ec4899' : '#e5e7eb'}`,
+    border: `2px solid ${focused === field ? 'var(--primary-deep)' : '#e5e7eb'}`,
     borderRadius: 12, fontSize: '0.92rem',
     fontFamily: "'Outfit',sans-serif", color: '#1f2937',
     outline: 'none', transition: 'all 0.3s',
@@ -47,7 +47,7 @@ export default function PerfilPage() {
 
   const iconStyle = (field) => ({
     position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
-    color: focused === field ? '#ec4899' : '#9ca3af', transition: 'color 0.3s'
+    color: focused === field ? 'var(--primary-deep)' : '#9ca3af', transition: 'color 0.3s'
   });
 
   const tabs = [
@@ -71,7 +71,7 @@ export default function PerfilPage() {
           <div style={{ position: 'relative', display: 'inline-block', marginBottom: 16 }}>
             <div style={{
               width: 96, height: 96, borderRadius: '50%',
-              background: 'linear-gradient(135deg,#ec4899,#d946ef)',
+              background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '2rem', fontWeight: 300, color: '#fff',
               boxShadow: '0 10px 30px -8px rgba(236,72,153,0.5)',
@@ -110,7 +110,7 @@ export default function PerfilPage() {
               flex: 1, padding: '10px 16px', borderRadius: 12, border: 'none', cursor: 'pointer',
               fontSize: '0.9rem', fontWeight: 500, transition: 'all 0.3s',
               fontFamily: "'Outfit',sans-serif",
-              background: tab === t.id ? 'linear-gradient(135deg,#ec4899,#d946ef)' : 'transparent',
+              background: tab === t.id ? 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))' : 'transparent',
               color: tab === t.id ? '#fff' : '#6b7280',
               boxShadow: tab === t.id ? '0 4px 15px -4px rgba(236,72,153,0.4)' : 'none'
             }}>
@@ -162,7 +162,7 @@ export default function PerfilPage() {
 
               <button type="submit" disabled={saving} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '13px 28px', background: saving ? '#9ca3af' : 'linear-gradient(135deg,#ec4899,#d946ef)',
+                padding: '13px 28px', background: saving ? '#9ca3af' : 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
                 color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
                 border: 'none', cursor: saving ? 'not-allowed' : 'pointer',
                 boxShadow: '0 8px 20px -6px rgba(236,72,153,0.4)',
@@ -200,7 +200,7 @@ export default function PerfilPage() {
 
               <button type="submit" disabled={saving} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '13px 28px', background: saving ? '#9ca3af' : 'linear-gradient(135deg,#ec4899,#d946ef)',
+                padding: '13px 28px', background: saving ? '#9ca3af' : 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
                 color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
                 border: 'none', cursor: saving ? 'not-allowed' : 'pointer',
                 boxShadow: '0 8px 20px -6px rgba(236,72,153,0.4)',

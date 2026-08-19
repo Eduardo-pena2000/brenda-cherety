@@ -31,7 +31,7 @@ export default function AdminDashboard() {
       <div style={{ textAlign: 'center' }}>
         <div style={{
           width: 48, height: 48, border: '3px solid #e5e7eb',
-          borderTopColor: '#ec4899', borderRadius: '50%',
+          borderTopColor: 'var(--primary-deep)', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 16px'
         }} />
         <p style={{ color: '#6b7280', fontWeight: 300 }}>Cargando panel...</p>
@@ -41,10 +41,10 @@ export default function AdminDashboard() {
   );
 
   const statCards = [
-    { label: 'Total Cursos', value: stats.courses, icon: BookOpen, color: '#8b5cf6', bg: '#ede9fe' },
+    { label: 'Total Cursos', value: stats.courses, icon: BookOpen, color: 'var(--accent)', bg: '#ede9fe' },
     { label: 'Publicados', value: stats.published, icon: CheckCircle, color: '#10b981', bg: '#d1fae5' },
     { label: 'Borradores', value: stats.draft, icon: Eye, color: '#f59e0b', bg: '#fef3c7' },
-    { label: 'Pacientes', value: '2.5k+', icon: Users, color: '#ec4899', bg: '#fce7f3' },
+    { label: 'Pacientes', value: '2.5k+', icon: Users, color: 'var(--primary-deep)', bg: 'var(--primary-light)' },
   ];
 
   return (
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
 
         <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 2 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-            <BarChart3 size={24} color="#f9a8d4" />
+            <BarChart3 size={24} color="var(--primary)" />
             <span style={{
               fontSize: '0.8rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.5)',
               textTransform: 'uppercase', fontWeight: 500
@@ -78,7 +78,7 @@ export default function AdminDashboard() {
             marginBottom: 4
           }}>
             Panel de{' '}
-            <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', color: '#f9a8d4' }}>
+            <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', color: 'var(--primary)' }}>
               Control
             </span>
           </h1>
@@ -138,15 +138,15 @@ export default function AdminDashboard() {
               textDecoration: 'none', transition: 'all 0.3s',
               border: '1px solid transparent'
             }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#f9a8d4'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.transform = 'translateY(0)'; }}
             >
               <div style={{
                 width: 44, height: 44, borderRadius: 12,
-                background: 'linear-gradient(135deg, #fce7f3, #fdf2f8)',
+                background: 'linear-gradient(135deg, var(--primary-light), var(--primary-50))',
                 display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
-                <Settings size={20} color="#ec4899" />
+                <Settings size={20} color="var(--primary-deep)" />
               </div>
               <div>
                 <p style={{ fontWeight: 500, color: '#1f2937', fontSize: '0.95rem' }}>Gestionar Cursos</p>
@@ -166,10 +166,10 @@ export default function AdminDashboard() {
             >
               <div style={{
                 width: 44, height: 44, borderRadius: 12,
-                background: 'linear-gradient(135deg, #ede9fe, #faf5ff)',
+                background: 'linear-gradient(135deg, #ede9fe, var(--accent-50))',
                 display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
-                <PlusCircle size={20} color="#8b5cf6" />
+                <PlusCircle size={20} color="var(--accent)" />
               </div>
               <div>
                 <p style={{ fontWeight: 500, color: '#1f2937', fontSize: '0.95rem' }}>Crear Nuevo Curso</p>
@@ -196,19 +196,19 @@ export default function AdminDashboard() {
                   borderBottom: i < Math.min(courses.length, 5) - 1 ? '1px solid #f3f4f6' : 'none',
                   transition: 'background 0.2s'
                 }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#fdf2f8'}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--primary-50)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
                   <div style={{
                     width: 40, height: 40, borderRadius: 10, overflow: 'hidden',
-                    background: 'linear-gradient(135deg, #fce7f3, #e9d5ff)', flexShrink: 0,
+                    background: 'linear-gradient(135deg, var(--primary-light), var(--accent-light))', flexShrink: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center'
                   }}>
                     {course.thumbnail ? (
                       <img src={`/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`}
                         alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <BookOpen size={18} color="#d946ef" />
+                      <BookOpen size={18} color="var(--primary-deep)" />
                     )}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>

@@ -57,12 +57,12 @@ export default function CourseDetailPage() {
   if (loading) return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)'
+      background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))'
     }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{
-          width: 48, height: 48, border: '3px solid #fce7f3',
-          borderTopColor: '#ec4899', borderRadius: '50%',
+          width: 48, height: 48, border: '3px solid var(--primary-light)',
+          borderTopColor: 'var(--primary-deep)', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 16px'
         }} />
         <p style={{ color: '#6b7280', fontSize: '1.1rem', fontWeight: 300 }}>Cargando curso...</p>
@@ -74,12 +74,12 @@ export default function CourseDetailPage() {
   if (!course) return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)', textAlign: 'center'
+      background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))', textAlign: 'center'
     }}>
       <div>
         <BookOpen size={64} color="#e5e7eb" style={{ margin: '0 auto 16px' }} />
         <h2 style={{ color: '#4b5563', fontSize: '1.5rem', fontWeight: 400, marginBottom: 8 }}>Curso no encontrado</h2>
-        <Link to="/cursos" style={{ color: '#ec4899', fontWeight: 500 }}>Volver al catálogo</Link>
+        <Link to="/cursos" style={{ color: 'var(--primary-deep)', fontWeight: 500 }}>Volver al catálogo</Link>
       </div>
     </div>
   );
@@ -91,7 +91,7 @@ export default function CourseDetailPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #fdf2f8, #ffffff, #faf5ff)',
+      background: 'linear-gradient(135deg, var(--primary-50), #ffffff, var(--accent-50))',
       paddingBottom: '5rem'
     }}>
       {/* Hero Section */}
@@ -174,7 +174,7 @@ export default function CourseDetailPage() {
                     display: 'flex', alignItems: 'center', gap: 6,
                     color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', fontWeight: 300
                   }}>
-                    <item.icon size={16} color="#f9a8d4" /> {item.label}
+                    <item.icon size={16} color="var(--primary)" /> {item.label}
                   </span>
                 ))}
               </div>
@@ -196,7 +196,7 @@ export default function CourseDetailPage() {
                 ) : (
                   <>
                     <div style={{
-                      fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 300, color: '#f9a8d4'
+                      fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 300, color: 'var(--primary)'
                     }}>
                       {formatPrice(course.price_cents, course.currency)}
                     </div>
@@ -205,7 +205,7 @@ export default function CourseDetailPage() {
                       padding: '16px 36px',
                       background: buying
                         ? '#9ca3af'
-                        : 'linear-gradient(135deg, #ec4899, #d946ef)',
+                        : 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
                       color: '#fff', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
                       border: 'none', cursor: buying ? 'not-allowed' : 'pointer',
                       boxShadow: '0 10px 30px -8px rgba(236,72,153,0.4)',
@@ -229,10 +229,10 @@ export default function CourseDetailPage() {
         }}>
           <div style={{
             width: 44, height: 44, borderRadius: 12,
-            background: 'linear-gradient(135deg, #fce7f3, #faf5ff)',
+            background: 'linear-gradient(135deg, var(--primary-light), var(--accent-50))',
             display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>
-            <BookOpen size={22} color="#ec4899" />
+            <BookOpen size={22} color="var(--primary-deep)" />
           </div>
           <div>
             <h2 style={{ fontSize: '1.5rem', fontWeight: 400, color: '#1f2937' }}>
@@ -283,10 +283,10 @@ export default function CourseDetailPage() {
                   <div style={{
                     width: 40, height: 40, borderRadius: 12, flexShrink: 0,
                     background: isHover
-                      ? 'linear-gradient(135deg, #ec4899, #d946ef)'
-                      : 'linear-gradient(135deg, #fce7f3, #faf5ff)',
+                      ? 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))'
+                      : 'linear-gradient(135deg, var(--primary-light), var(--accent-50))',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: isHover ? '#fff' : '#ec4899',
+                    color: isHover ? '#fff' : 'var(--primary-deep)',
                     fontSize: '0.9rem', fontWeight: 600,
                     transition: 'all 0.3s'
                   }}>
@@ -316,7 +316,7 @@ export default function CourseDetailPage() {
                       <Clock size={14} /> {lesson.duration || '15:00'}
                     </span>
                     {isEnrolled ? (
-                      <Play size={16} color="#ec4899" fill="#ec4899" />
+                      <Play size={16} color="var(--primary-deep)" fill="var(--primary-deep)" />
                     ) : (
                       <Lock size={16} color="#d1d5db" />
                     )}

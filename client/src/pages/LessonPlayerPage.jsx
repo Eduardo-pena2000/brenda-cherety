@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Play, ArrowLeft, BookOpen, Clock, CheckCircle, ChevronRight } from 'lucide-react';
+import { Play, ArrowLeft, BookOpen, Clock, CheckCircle, ChevronRight, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { apiFetch } from '../lib/api';
 
@@ -12,18 +12,21 @@ export default function LessonPlayerPage() {
   const [loading, setLoading] = useState(true);
   const [completedLessons, setCompletedLessons] = useState([]);
   const [justCompleted, setJustCompleted] = useState(false);
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const navigate = useNavigate();
 
-  // Load progress from localStorage
-  const getProgress = (cId) => {
+  const fetchProgress = async () => {
+    if (!token) return;
     try {
-      return JSON.parse(localStorage.getItem(`lesson_progress_${cId}`)) || [];
-    } catch { return []; }
-  };
-
-  const saveProgress = (cId, completed) => {
-    localStorage.setItem(`lesson_progress_${cId}`, JSON.stringify(completed));
+      const data = await apiFetch(`/lessons/course/${courseId}/progress`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (data.completedLessons) {
+        setCompletedLessons(data.completedLessons);
+      }
+    } catch (err) {
+      console.error('Error fetching progress:', err);
+    }
   };
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export default function LessonPlayerPage() {
         setLessons(data.lessons || []);
         const lesson = (data.lessons || []).find(l => l.id === parseInt(lessonId));
         setCurrentLesson(lesson || (data.lessons || [])[0]);
-        setCompletedLessons(getProgress(courseId));
+        await fetchProgress();
       } catch (err) {
         console.error(err);
       } finally {
@@ -43,15 +46,22 @@ export default function LessonPlayerPage() {
     };
     fetchData();
     setJustCompleted(false);
-  }, [courseId, lessonId]);
+  }, [courseId, lessonId, token]);
 
-  const handleMarkComplete = () => {
+  const handleMarkComplete = async () => {
     const lid = parseInt(lessonId);
     if (completedLessons.includes(lid)) return;
-    const updated = [...completedLessons, lid];
-    setCompletedLessons(updated);
-    saveProgress(courseId, updated);
-    setJustCompleted(true);
+    
+    try {
+      await apiFetch(`/lessons/${lid}/complete`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      setCompletedLessons(prev => [...prev, lid]);
+      setJustCompleted(true);
+    } catch (err) {
+      console.error('Error marking complete:', err);
+    }
 
     // Auto-advance to next lesson after 1.5s
     const currentIndex = lessons.findIndex(l => l.id === lid);
@@ -73,7 +83,7 @@ export default function LessonPlayerPage() {
       <div style={{ textAlign: 'center' }}>
         <div style={{
           width: 48, height: 48, border: '3px solid #374151',
-          borderTopColor: '#ec4899', borderRadius: '50%',
+          borderTopColor: 'var(--primary-deep)', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 16px'
         }} />
         <p style={{ color: '#6b7280', fontSize: '1.1rem', fontWeight: 300 }}>Cargando clase...</p>
@@ -90,7 +100,7 @@ export default function LessonPlayerPage() {
       <div>
         <BookOpen size={64} color="#374151" style={{ margin: '0 auto 16px' }} />
         <h2 style={{ color: '#9ca3af', fontSize: '1.5rem', fontWeight: 300, marginBottom: 8 }}>Clase no encontrada</h2>
-        <Link to="/mis-cursos" style={{ color: '#ec4899', fontWeight: 500, textDecoration: 'none' }}>Volver a mis cursos</Link>
+        <Link to="/mis-cursos" style={{ color: 'var(--primary-deep)', fontWeight: 500, textDecoration: 'none' }}>Volver a mis cursos</Link>
       </div>
     </div>
   );
@@ -138,7 +148,7 @@ export default function LessonPlayerPage() {
         <div style={{ maxWidth: 1440, margin: '8px auto 0', height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 9999, overflow: 'hidden' }}>
           <div style={{
             width: `${lessons.length > 0 ? (completedLessons.length / lessons.length) * 100 : 0}%`,
-            height: '100%', background: 'linear-gradient(90deg, #ec4899, #a855f7)',
+            height: '100%', background: 'linear-gradient(90deg, var(--primary-deep), var(--primary-dark))',
             borderRadius: 9999, transition: 'width 0.6s ease'
           }} />
         </div>
@@ -231,7 +241,7 @@ export default function LessonPlayerPage() {
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                       width: '100%', padding: '14px 24px',
-                      background: 'linear-gradient(135deg, #ec4899, #d946ef)',
+                      background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
                       color: '#fff', borderRadius: 12, fontSize: '0.95rem', fontWeight: 500,
                       border: 'none', cursor: 'pointer',
                       boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)',
@@ -256,7 +266,7 @@ export default function LessonPlayerPage() {
                     border: '1px solid rgba(236,72,153,0.2)',
                     borderRadius: 12, textAlign: 'center'
                   }}>
-                    <p style={{ fontSize: '1.1rem', fontWeight: 500, color: '#f472b6', marginBottom: 4 }}>
+                    <p style={{ fontSize: '1.1rem', fontWeight: 500, color: 'var(--primary-dark)', marginBottom: 4 }}>
                       🎓 ¡Felicidades! Has completado todas las lecciones
                     </p>
                     <Link to="/mis-cursos" style={{ color: '#a78bfa', fontSize: '0.9rem', textDecoration: 'none', fontWeight: 400 }}>
@@ -280,7 +290,7 @@ export default function LessonPlayerPage() {
               marginBottom: 20, paddingBottom: 16,
               borderBottom: '1px solid rgba(255,255,255,0.06)'
             }}>
-              <BookOpen size={18} color="#ec4899" />
+              <BookOpen size={18} color="var(--primary-deep)" />
               <h3 style={{ fontSize: '0.95rem', fontWeight: 500, color: '#e5e7eb', flex: 1 }}>
                 Contenido del curso
               </h3>
@@ -293,10 +303,14 @@ export default function LessonPlayerPage() {
               {lessons.map((lesson, index) => {
                 const isActive = lesson.id === parseInt(lessonId);
                 const isCompleted = isLessonCompleted(lesson.id);
+                const isLocked = index > 0 && !isLessonCompleted(lessons[index - 1].id) && user?.role !== 'admin';
+                
                 return (
-                  <Link
+                  <div
                     key={lesson.id}
-                    to={`/clase/${courseId}/${lesson.id}`}
+                    onClick={() => {
+                      if (!isLocked) navigate(`/clase/${courseId}/${lesson.id}`);
+                    }}
                     style={{
                       display: 'flex', alignItems: 'center', gap: 12,
                       padding: '12px 14px', borderRadius: 12,
@@ -306,7 +320,8 @@ export default function LessonPlayerPage() {
                       border: isActive
                         ? '1px solid rgba(236,72,153,0.2)'
                         : '1px solid transparent',
-                      textDecoration: 'none',
+                      cursor: isLocked ? 'not-allowed' : 'pointer',
+                      opacity: isLocked ? 0.5 : 1,
                       transition: 'all 0.3s'
                     }}
                   >
@@ -321,10 +336,12 @@ export default function LessonPlayerPage() {
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: isCompleted
                         ? '#34d399'
-                        : isActive ? '#f472b6' : '#6b7280',
+                        : isActive ? 'var(--primary-dark)' : '#6b7280',
                       transition: 'all 0.3s'
                     }}>
-                      {isCompleted ? (
+                      {isLocked ? (
+                        <Lock size={13} fill="currentColor" />
+                      ) : isCompleted ? (
                         <CheckCircle size={15} />
                       ) : isActive ? (
                         <Play size={13} fill="currentColor" />
@@ -337,7 +354,7 @@ export default function LessonPlayerPage() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p style={{
                         fontSize: '0.88rem', fontWeight: isActive ? 500 : 400,
-                        color: isCompleted ? '#34d399' : isActive ? '#f472b6' : '#d1d5db',
+                        color: isCompleted ? '#34d399' : isActive ? 'var(--primary-dark)' : '#d1d5db',
                         whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                         transition: 'color 0.3s',
                         textDecoration: isCompleted && !isActive ? 'line-through' : 'none',
@@ -357,10 +374,10 @@ export default function LessonPlayerPage() {
                     {isActive && !isCompleted && (
                       <div style={{
                         width: 6, height: 6, borderRadius: '50%',
-                        background: '#ec4899', flexShrink: 0
+                        background: 'var(--primary-deep)', flexShrink: 0
                       }} />
                     )}
-                  </Link>
+                  </div>
                 );
               })}
             </div>

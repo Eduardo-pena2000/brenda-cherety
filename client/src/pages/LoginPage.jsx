@@ -39,7 +39,7 @@ export default function LoginPage() {
       {/* ====== LEFT PANEL — Decorative (desktop only) ====== */}
       <div style={{
         width: '50%',
-        background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #f9a8d4 50%, #f472b6 75%, #ec4899 100%)',
+        background: 'linear-gradient(135deg, var(--primary-50) 0%, var(--primary-light) 25%, var(--primary) 50%, var(--primary-dark) 75%, var(--primary-deep) 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -145,7 +145,7 @@ export default function LoginPage() {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '40px 24px',
-        background: 'linear-gradient(180deg, #ffffff 0%, #fdf2f8 100%)',
+        background: 'linear-gradient(180deg, #ffffff 0%, var(--primary-50) 100%)',
         position: 'relative'
       }}>
 
@@ -226,12 +226,12 @@ export default function LoginPage() {
                 <div style={{
                   position: 'absolute', left: '14px', top: '50%',
                   width: '36px', height: '36px', borderRadius: '50%',
-                  background: focusedField === 'email' ? '#fce7f3' : '#fdf2f8',
+                  background: focusedField === 'email' ? 'var(--primary-light)' : 'var(--primary-50)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'all 0.3s',
                   transform: focusedField === 'email' ? 'translateY(-50%) scale(1.1)' : 'translateY(-50%)'
                 }}>
-                  <Mail size={16} style={{ color: focusedField === 'email' ? '#ec4899' : '#f9a8d4', transition: 'color 0.3s' }} />
+                  <Mail size={16} style={{ color: focusedField === 'email' ? 'var(--primary-deep)' : 'var(--primary)', transition: 'color 0.3s' }} />
                 </div>
                 <input
                   type="email"
@@ -245,7 +245,7 @@ export default function LoginPage() {
                     width: '100%', boxSizing: 'border-box',
                     paddingLeft: '62px', paddingRight: '16px', paddingTop: '16px', paddingBottom: '16px',
                     background: focusedField === 'email' ? '#ffffff' : '#f9fafb',
-                    border: focusedField === 'email' ? '2px solid #f9a8d4' : '2px solid #f3f4f6',
+                    border: focusedField === 'email' ? '2px solid var(--primary)' : '2px solid #f3f4f6',
                     borderRadius: '16px', fontSize: '15px', color: '#374151',
                     outline: 'none', transition: 'all 0.3s',
                     boxShadow: focusedField === 'email' ? '0 0 0 4px rgba(249,168,212,0.1)' : 'none'
@@ -266,12 +266,12 @@ export default function LoginPage() {
                 <div style={{
                   position: 'absolute', left: '14px', top: '50%',
                   width: '36px', height: '36px', borderRadius: '50%',
-                  background: focusedField === 'password' ? '#fce7f3' : '#fdf2f8',
+                  background: focusedField === 'password' ? 'var(--primary-light)' : 'var(--primary-50)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'all 0.3s',
                   transform: focusedField === 'password' ? 'translateY(-50%) scale(1.1)' : 'translateY(-50%)'
                 }}>
-                  <Lock size={16} style={{ color: focusedField === 'password' ? '#ec4899' : '#f9a8d4', transition: 'color 0.3s' }} />
+                  <Lock size={16} style={{ color: focusedField === 'password' ? 'var(--primary-deep)' : 'var(--primary)', transition: 'color 0.3s' }} />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -285,7 +285,7 @@ export default function LoginPage() {
                     width: '100%', boxSizing: 'border-box',
                     paddingLeft: '62px', paddingRight: '52px', paddingTop: '16px', paddingBottom: '16px',
                     background: focusedField === 'password' ? '#ffffff' : '#f9fafb',
-                    border: focusedField === 'password' ? '2px solid #f9a8d4' : '2px solid #f3f4f6',
+                    border: focusedField === 'password' ? '2px solid var(--primary)' : '2px solid #f3f4f6',
                     borderRadius: '16px', fontSize: '15px', color: '#374151',
                     outline: 'none', transition: 'all 0.3s',
                     boxShadow: focusedField === 'password' ? '0 0 0 4px rgba(249,168,212,0.1)' : 'none'
@@ -313,11 +313,11 @@ export default function LoginPage() {
             <div style={{ textAlign: 'right', marginBottom: '24px' }}>
               <button type="button" style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: '13px', color: '#f472b6', fontWeight: 300, fontFamily: 'inherit',
+                fontSize: '13px', color: 'var(--primary-dark)', fontWeight: 300, fontFamily: 'inherit',
                 transition: 'color 0.3s', padding: 0
               }}
-                onMouseEnter={e => e.currentTarget.style.color = '#ec4899'}
-                onMouseLeave={e => e.currentTarget.style.color = '#f472b6'}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--primary-deep)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--primary-dark)'}
               >
                 ¿Olvidaste tu contraseña?
               </button>
@@ -329,7 +329,7 @@ export default function LoginPage() {
               disabled={loading}
               style={{
                 width: '100%', padding: '17px 24px', borderRadius: '16px', border: 'none',
-                background: 'linear-gradient(135deg, #f9a8d4, #f472b6, #ec4899)',
+                background: 'linear-gradient(135deg, var(--primary), var(--primary-dark), var(--primary-deep))',
                 color: '#fff', fontSize: '15px', fontWeight: 500, fontFamily: 'inherit',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.65 : 1,
@@ -368,11 +368,11 @@ export default function LoginPage() {
           <p style={{ textAlign: 'center', fontSize: '14px', color: '#9ca3af', fontWeight: 300, margin: 0 }}>
             ¿Primera vez aquí?{' '}
             <Link to="/registro" style={{
-              color: '#f472b6', fontWeight: 500, textDecoration: 'none',
+              color: 'var(--primary-dark)', fontWeight: 500, textDecoration: 'none',
               borderBottom: '1px solid transparent', transition: 'all 0.3s'
             }}
-              onMouseEnter={e => { e.currentTarget.style.color = '#ec4899'; e.currentTarget.style.borderBottomColor = '#ec4899'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#f472b6'; e.currentTarget.style.borderBottomColor = 'transparent'; }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--primary-deep)'; e.currentTarget.style.borderBottomColor = 'var(--primary-deep)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--primary-dark)'; e.currentTarget.style.borderBottomColor = 'transparent'; }}
             >
               Crea tu cuenta
             </Link>

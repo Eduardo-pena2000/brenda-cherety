@@ -34,14 +34,14 @@ function ImcCalculator() {
             <input type="number" value={field.value} onChange={e => field.setter(e.target.value)}
               placeholder={field.placeholder}
               style={{ width: '100%', padding: '12px 14px', border: '2px solid #f3f4f6', borderRadius: 12, fontSize: '1rem', fontFamily: "'Outfit',sans-serif", outline: 'none', color: '#1f2937', boxSizing: 'border-box', transition: 'border-color 0.3s' }}
-              onFocus={e => e.target.style.borderColor = '#ec4899'}
+              onFocus={e => e.target.style.borderColor = 'var(--primary-deep)'}
               onBlur={e => e.target.style.borderColor = '#f3f4f6'}
             />
           </div>
         ))}
       </div>
       <div style={{ display: 'flex', gap: 10 }}>
-        <button onClick={calculate} style={{ flex: 1, padding: '13px', background: 'linear-gradient(135deg,#ec4899,#d946ef)', color: '#fff', borderRadius: 12, border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: '0.92rem', fontFamily: "'Outfit',sans-serif" }}>
+        <button onClick={calculate} style={{ flex: 1, padding: '13px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))', color: '#fff', borderRadius: 12, border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: '0.92rem', fontFamily: "'Outfit',sans-serif" }}>
           Calcular IMC
         </button>
         {result && (
@@ -261,7 +261,7 @@ function CaloriasCalculator() {
 
 /* ────────── MAIN PAGE ────────── */
 const tools = [
-  { id: 'imc', icon: Scale, label: 'Calculadora de IMC', desc: 'Conoce tu Índice de Masa Corporal y recibe recomendaciones personalizadas.', color: '#ec4899', gradient: 'linear-gradient(135deg,#fce7f3,#faf5ff)', component: ImcCalculator },
+  { id: 'imc', icon: Scale, label: 'Calculadora de IMC', desc: 'Conoce tu Índice de Masa Corporal y recibe recomendaciones personalizadas.', color: 'var(--primary-deep)', gradient: 'linear-gradient(135deg,var(--primary-light),var(--accent-50))', component: ImcCalculator },
   { id: 'agua', icon: Droplets, label: 'Hidratación Diaria', desc: 'Descubre cuánta agua deberías tomar según tu peso y nivel de actividad.', color: '#3b82f6', gradient: 'linear-gradient(135deg,#eff6ff,#f0f9ff)', component: AguaCalculator },
   { id: 'calorias', icon: Flame, label: 'Calculadora de Calorías', desc: 'Calcula tus necesidades calóricas diarias con la fórmula Mifflin-St Jeor.', color: '#f97316', gradient: 'linear-gradient(135deg,#fff7ed,#fef2f2)', component: CaloriasCalculator },
 ];
@@ -277,10 +277,10 @@ export default function HerramientasPage() {
       <section style={{ background: 'linear-gradient(135deg,#1f2937,#111827)', padding: 'clamp(3rem,6vw,5rem) 1.5rem', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 70% 50%, rgba(236,72,153,0.12), transparent 50%)' }} />
         <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
-          <span style={{ fontSize: '0.78rem', letterSpacing: '0.2em', color: '#f9a8d4', textTransform: 'uppercase', fontWeight: 500, display: 'block', marginBottom: 12 }}>100% gratuito</span>
+          <span style={{ fontSize: '0.78rem', letterSpacing: '0.2em', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 500, display: 'block', marginBottom: 12 }}>100% gratuito</span>
           <h1 style={{ fontSize: 'clamp(2rem,5vw,3.2rem)', fontWeight: 300, color: '#fff', lineHeight: 1.15, marginBottom: 16 }}>
             Herramientas de{' '}
-            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#f9a8d4' }}>nutrición</span>
+            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary)' }}>nutrición</span>
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', fontWeight: 300, lineHeight: 1.7 }}>
             Calculadoras diseñadas para darte información práctica sobre tu salud. Completamente gratis.
@@ -336,7 +336,7 @@ export default function HerramientasPage() {
           <Info size={18} color="#9ca3af" style={{ flexShrink: 0, marginTop: 2 }} />
           <p style={{ fontSize: '0.82rem', color: '#6b7280', fontWeight: 300, lineHeight: 1.6 }}>
             <strong style={{ fontWeight: 500 }}>Aviso:</strong> Estas calculadoras son orientativas y no reemplazan la consulta médica o nutricional profesional. Para un plan de alimentación personalizado, te invito a{' '}
-            <a href="/consulta" style={{ color: '#ec4899', fontWeight: 500 }}>agendar una consulta privada</a>.
+            <a href="/consulta" style={{ color: 'var(--primary-deep)', fontWeight: 500 }}>agendar una consulta privada</a>.
           </p>
         </div>
       </div>

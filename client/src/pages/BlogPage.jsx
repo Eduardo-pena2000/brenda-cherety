@@ -64,10 +64,10 @@ export default function BlogPage() {
   const rest = filtered.filter(p => !p.featured || filtered.indexOf(p) > 0);
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#fdf2f8,#ffffff,#faf5ff)', paddingBottom: '5rem' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,var(--primary-50),#ffffff,var(--accent-50))', paddingBottom: '5rem' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(135deg,#ec4899,#d946ef,#8b5cf6)',
+        background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep),var(--accent))',
         padding: 'clamp(3rem,6vw,5rem) 1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden'
       }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-40px', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
@@ -91,7 +91,7 @@ export default function BlogPage() {
             boxShadow: searchFocused ? '0 15px 50px -10px rgba(236,72,153,0.2), 0 0 0 3px rgba(236,72,153,0.1)' : '0 8px 30px -8px rgba(0,0,0,0.1)',
             transition: 'all 0.3s', position: 'relative'
           }}>
-            <Search size={18} style={{ position: 'absolute', left: 18, top: '50%', transform: 'translateY(-50%)', color: searchFocused ? '#ec4899' : '#9ca3af', transition: 'color 0.3s' }} />
+            <Search size={18} style={{ position: 'absolute', left: 18, top: '50%', transform: 'translateY(-50%)', color: searchFocused ? 'var(--primary-deep)' : '#9ca3af', transition: 'color 0.3s' }} />
             <input
               placeholder="Buscar artículos..."
               value={searchTerm}
@@ -109,7 +109,7 @@ export default function BlogPage() {
                 padding: '8px 18px', borderRadius: 9999, fontSize: '0.85rem', fontWeight: 500,
                 border: 'none', cursor: 'pointer', transition: 'all 0.2s',
                 fontFamily: "'Outfit',sans-serif",
-                background: activeCategory === cat ? 'linear-gradient(135deg,#ec4899,#d946ef)' : '#fff',
+                background: activeCategory === cat ? 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))' : '#fff',
                 color: activeCategory === cat ? '#fff' : '#6b7280',
                 boxShadow: activeCategory === cat ? '0 6px 20px -4px rgba(236,72,153,0.35)' : '0 2px 8px rgba(0,0,0,0.06)'
               }}>
@@ -141,12 +141,12 @@ export default function BlogPage() {
               >
                 <div style={{ height: 'clamp(250px,35vw,400px)', overflow: 'hidden', position: 'relative' }}>
                   <img src={featuredPost.image} alt={featuredPost.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s', transform: hovered === 'featured' ? 'scale(1.05)' : 'scale(1)' }} />
-                  <div style={{ position: 'absolute', top: 16, left: 16, background: 'linear-gradient(135deg,#ec4899,#d946ef)', color: '#fff', padding: '4px 12px', borderRadius: 9999, fontSize: '0.75rem', fontWeight: 500 }}>
+                  <div style={{ position: 'absolute', top: 16, left: 16, background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))', color: '#fff', padding: '4px 12px', borderRadius: 9999, fontSize: '0.75rem', fontWeight: 500 }}>
                     Destacado
                   </div>
                 </div>
                 <div style={{ padding: 'clamp(24px,4vw,40px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.8rem', color: '#ec4899', fontWeight: 500, marginBottom: 12 }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.8rem', color: 'var(--primary-deep)', fontWeight: 500, marginBottom: 12 }}>
                     <Tag size={12} /> {featuredPost.category}
                   </span>
                   <h2 style={{ fontSize: 'clamp(1.3rem,3vw,1.9rem)', fontWeight: 400, color: '#1f2937', lineHeight: 1.3, marginBottom: 16 }}>
@@ -161,7 +161,7 @@ export default function BlogPage() {
                       <Clock size={13} /> {featuredPost.readTime} lectura
                     </span>
                   </div>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#ec4899', fontWeight: 500, fontSize: '0.9rem' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--primary-deep)', fontWeight: 500, fontSize: '0.9rem' }}>
                     Leer artículo <ArrowRight size={16} />
                   </span>
                 </div>
@@ -184,7 +184,7 @@ export default function BlogPage() {
                 >
                   <div style={{ height: 200, overflow: 'hidden', position: 'relative' }}>
                     <img src={post.image} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s', transform: hovered === post.id ? 'scale(1.07)' : 'scale(1)' }} />
-                    <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(6px)', padding: '3px 10px', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 500, color: '#ec4899' }}>
+                    <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(6px)', padding: '3px 10px', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 500, color: 'var(--primary-deep)' }}>
                       {post.category}
                     </div>
                   </div>
@@ -201,7 +201,7 @@ export default function BlogPage() {
                     <p style={{ color: '#6b7280', fontSize: '0.88rem', fontWeight: 300, lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {post.excerpt}
                     </p>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: '#ec4899', fontWeight: 500, fontSize: '0.85rem', marginTop: 16 }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: 'var(--primary-deep)', fontWeight: 500, fontSize: '0.85rem', marginTop: 16 }}>
                       Leer más <ArrowRight size={14} />
                     </span>
                   </div>

@@ -5,7 +5,7 @@ export default function PagoCanceladoPage() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(135deg,#fdf2f8,#ffffff,#faf5ff)',
+      background: 'linear-gradient(135deg,var(--primary-50),#ffffff,var(--accent-50))',
       padding: '2rem 1.5rem', position: 'relative', overflow: 'hidden'
     }}>
       <div style={{ position: 'absolute', top: '10%', left: '5%', width: 250, height: 250, borderRadius: '50%', background: 'rgba(254,202,202,0.3)', filter: 'blur(50px)' }} />
@@ -39,7 +39,7 @@ export default function PagoCanceladoPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
           <Link to="/cursos" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '15px 32px', background: 'linear-gradient(135deg,#ec4899,#d946ef)',
+            padding: '15px 32px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
             color: '#fff', borderRadius: 14, fontSize: '0.95rem', fontWeight: 500,
             textDecoration: 'none', boxShadow: '0 8px 25px -6px rgba(236,72,153,0.4)',
             transition: 'all 0.3s', width: '100%', maxWidth: 320, justifyContent: 'center'

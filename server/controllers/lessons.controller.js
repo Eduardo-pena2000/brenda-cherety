@@ -2,6 +2,7 @@ import db from '../db/database.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { uploadToS3, isS3Configured } from '../lib/s3.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsBase = path.join(__dirname, '..', 'uploads');
@@ -95,7 +96,7 @@ export function remove(req, res) {
 }
 
 // Admin: subir/reemplazar video
-export function uploadVideo(req, res) {
+export async function uploadVideo(req, res) {
   const lesson = db.prepare('SELECT * FROM lessons WHERE id = ?').get(req.params.id);
   if (!lesson) {
     return res.status(404).json({ error: 'Leccion no encontrada' });
@@ -105,19 +106,30 @@ export function uploadVideo(req, res) {
     return res.status(400).json({ error: 'No se envio video' });
   }
 
-  if (lesson.video_path) {
+  let finalPath = '';
+  if (isS3Configured()) {
+    const s3Key = `videos/${Date.now()}_${req.file.originalname}`;
+    await uploadToS3(req.file.path, s3Key, req.file.mimetype);
+    finalPath = s3Key;
+    // Borrar archivo temporal
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+  } else {
+    finalPath = 'videos/' + req.file.filename;
+  }
+
+  // Si habia un video local viejo, lo intentamos borrar
+  if (lesson.video_path && !lesson.video_path.includes('/')) {
     const old = path.join(uploadsBase, lesson.video_path);
     if (fs.existsSync(old)) fs.unlinkSync(old);
   }
 
-  const relativePath = 'videos/' + req.file.filename;
-  db.prepare('UPDATE lessons SET video_path = ? WHERE id = ?').run(relativePath, lesson.id);
+  db.prepare('UPDATE lessons SET video_path = ? WHERE id = ?').run(finalPath, lesson.id);
 
-  res.json({ video_path: relativePath });
+  res.json({ video_path: finalPath });
 }
 
 // Admin: subir/reemplazar archivo
-export function uploadFile(req, res) {
+export async function uploadFile(req, res) {
   const lesson = db.prepare('SELECT * FROM lessons WHERE id = ?').get(req.params.id);
   if (!lesson) {
     return res.status(404).json({ error: 'Leccion no encontrada' });
@@ -127,13 +139,55 @@ export function uploadFile(req, res) {
     return res.status(400).json({ error: 'No se envio archivo' });
   }
 
-  if (lesson.file_path) {
+  let finalPath = '';
+  if (isS3Configured()) {
+    const s3Key = `files/${Date.now()}_${req.file.originalname}`;
+    await uploadToS3(req.file.path, s3Key, req.file.mimetype);
+    finalPath = s3Key;
+    // Borrar archivo temporal
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+  } else {
+    finalPath = 'files/' + req.file.filename;
+  }
+
+  if (lesson.file_path && !lesson.file_path.includes('/')) {
     const old = path.join(uploadsBase, lesson.file_path);
     if (fs.existsSync(old)) fs.unlinkSync(old);
   }
 
-  const relativePath = 'files/' + req.file.filename;
-  db.prepare('UPDATE lessons SET file_path = ? WHERE id = ?').run(relativePath, lesson.id);
+  db.prepare('UPDATE lessons SET file_path = ? WHERE id = ?').run(finalPath, lesson.id);
 
-  res.json({ file_path: relativePath });
+  res.json({ file_path: finalPath });
 }
+
+// Estudiante: Marcar leccion como completada
+export function markComplete(req, res) {
+  const lessonId = req.params.id;
+  const userId = req.user.id;
+
+  const lesson = db.prepare('SELECT id FROM lessons WHERE id = ?').get(lessonId);
+  if (!lesson) return res.status(404).json({ error: 'Leccion no encontrada' });
+
+  db.prepare(
+    'INSERT OR IGNORE INTO lesson_progress (user_id, lesson_id) VALUES (?, ?)'
+  ).run(userId, lesson.id);
+
+  res.json({ success: true });
+}
+
+// Estudiante: Obtener progreso del curso
+export function getProgress(req, res) {
+  const courseId = req.params.courseId;
+  const userId = req.user.id;
+
+  const rows = db.prepare(`
+    SELECT lp.lesson_id 
+    FROM lesson_progress lp
+    JOIN lessons l ON l.id = lp.lesson_id
+    WHERE lp.user_id = ? AND l.course_id = ?
+  `).all(userId, courseId);
+
+  const completedLessons = rows.map(r => r.lesson_id);
+  res.json({ completedLessons });
+}
+

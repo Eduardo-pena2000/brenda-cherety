@@ -78,7 +78,7 @@ export default function AdminLessons() {
   const inputStyle = (field) => ({
     width: '100%', padding: '12px 16px',
     background: focusedField === field ? '#fff' : '#f9fafb',
-    border: `2px solid ${focusedField === field ? '#8b5cf6' : '#e5e7eb'}`,
+    border: `2px solid ${focusedField === field ? 'var(--accent)' : '#e5e7eb'}`,
     borderRadius: 12, fontSize: '0.92rem',
     fontFamily: "'Outfit', sans-serif", color: '#1f2937',
     outline: 'none', transition: 'all 0.3s',
@@ -93,7 +93,7 @@ export default function AdminLessons() {
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ width: 48, height: 48, border: '3px solid #e5e7eb', borderTopColor: '#8b5cf6', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+        <div style={{ width: 48, height: 48, border: '3px solid #e5e7eb', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
         <p style={{ color: '#6b7280', fontWeight: 300 }}>Cargando lecciones...</p>
       </div>
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
@@ -105,7 +105,7 @@ export default function AdminLessons() {
       <div style={{ textAlign: 'center' }}>
         <BookOpen size={56} color="#e5e7eb" style={{ margin: '0 auto 16px' }} />
         <h2 style={{ color: '#4b5563', fontWeight: 400 }}>Curso no encontrado</h2>
-        <Link to="/admin/cursos" style={{ color: '#8b5cf6' }}>Volver a cursos</Link>
+        <Link to="/admin/cursos" style={{ color: 'var(--accent)' }}>Volver a cursos</Link>
       </div>
     </div>
   );
@@ -139,7 +139,7 @@ export default function AdminLessons() {
             <button onClick={() => setShowForm(!showForm)} style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '12px 24px',
-              background: showForm ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+              background: showForm ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg, var(--accent), #7c3aed)',
               color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
               border: 'none', cursor: 'pointer',
               boxShadow: showForm ? 'none' : '0 8px 25px -6px rgba(139,92,246,0.4)',
@@ -173,7 +173,7 @@ export default function AdminLessons() {
             animation: 'slideDown 0.3s ease-out'
           }}>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 500, color: '#1f2937', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <PlusCircle size={20} color="#8b5cf6" /> Agregar Lección
+              <PlusCircle size={20} color="var(--accent)" /> Agregar Lección
             </h3>
 
             <form onSubmit={handleCreateLesson}>
@@ -261,7 +261,7 @@ export default function AdminLessons() {
                 }}>
                   <div style={{
                     width: `${uploadProgress}%`, height: '100%',
-                    background: 'linear-gradient(90deg, #8b5cf6, #ec4899)',
+                    background: 'linear-gradient(90deg, var(--accent), var(--primary-deep))',
                     borderRadius: 9999, transition: 'width 0.3s ease'
                   }} />
                 </div>
@@ -270,7 +270,7 @@ export default function AdminLessons() {
               <button type="submit" disabled={saving} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '12px 28px',
-                background: saving ? '#9ca3af' : 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                background: saving ? '#9ca3af' : 'linear-gradient(135deg, var(--accent), #7c3aed)',
                 color: '#fff', borderRadius: 12, fontSize: '0.9rem', fontWeight: 500,
                 border: 'none', cursor: saving ? 'not-allowed' : 'pointer',
                 boxShadow: '0 8px 25px -6px rgba(139,92,246,0.4)',
@@ -317,7 +317,7 @@ export default function AdminLessons() {
                   display: 'flex', alignItems: 'center', gap: 16,
                   padding: '16px 24px',
                   borderBottom: i < lessons.length - 1 ? '1px solid #f3f4f6' : 'none',
-                  background: hoveredLesson === lesson.id ? '#faf5ff' : 'transparent',
+                  background: hoveredLesson === lesson.id ? 'var(--accent-50)' : 'transparent',
                   transition: 'background 0.2s',
                   animation: `fadeInUp 0.3s ease-out ${i * 0.05}s backwards`
                 }}
@@ -325,7 +325,7 @@ export default function AdminLessons() {
                 {/* Number */}
                 <div style={{
                   width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                  background: 'linear-gradient(135deg, #ede9fe, #faf5ff)',
+                  background: 'linear-gradient(135deg, #ede9fe, var(--accent-50))',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: '#7c3aed', fontSize: '0.85rem', fontWeight: 600
                 }}>
@@ -342,7 +342,7 @@ export default function AdminLessons() {
                     {lesson.video_path && (
                       <span style={{
                         display: 'inline-flex', alignItems: 'center', gap: 4,
-                        fontSize: '0.75rem', color: '#8b5cf6', fontWeight: 500,
+                        fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 500,
                         background: '#ede9fe', padding: '2px 8px', borderRadius: 6
                       }}>
                         <Film size={11} /> Video

@@ -8,7 +8,7 @@ const recipes = [
     difficulty: 'Fácil', calories: 320, tags: ['vegano', 'sin gluten'],
     image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80',
     excerpt: 'Un desayuno lleno de antioxidantes, perfecto para empezar el día con energía y vitalidad.',
-    color: '#ec4899',
+    color: 'var(--primary-deep)',
   },
   {
     id: 2, category: 'Desayuno', title: 'Tostadas de Aguacate con Huevo', time: '15 min', servings: 2,
@@ -36,7 +36,7 @@ const recipes = [
     difficulty: 'Fácil', calories: 95, tags: ['vegano', 'sin horno'],
     image: 'https://images.unsplash.com/photo-1548365328-8c6db3220e4c?w=600&q=80',
     excerpt: 'Bocados energéticos hechos con dátiles, avena y cacao. Perfectos para media tarde.',
-    color: '#8b5cf6',
+    color: 'var(--accent)',
   },
   {
     id: 6, category: 'Cena', title: 'Sopa de Lentejas con Cúrcuma', time: '35 min', servings: 4,
@@ -57,7 +57,7 @@ const recipes = [
     difficulty: 'Fácil', calories: 420, tags: ['proteína', 'equilibrado'],
     image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&q=80',
     excerpt: 'Wraps ligeros y sabrosos de pollo a la plancha con aguacate, tomate y lechuga.',
-    color: '#ec4899',
+    color: 'var(--primary-deep)',
   },
 ];
 
@@ -87,24 +87,24 @@ export default function RecetasPage() {
       <section style={{ background: 'linear-gradient(135deg,#1f2937,#111827)', padding: 'clamp(3rem,6vw,5rem) 1.5rem', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 70% 50%, rgba(236,72,153,0.15), transparent 50%)' }} />
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
-          <span style={{ fontSize: '0.78rem', letterSpacing: '0.2em', color: '#f9a8d4', textTransform: 'uppercase', fontWeight: 500, display: 'block', marginBottom: 12 }}>
+          <span style={{ fontSize: '0.78rem', letterSpacing: '0.2em', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 500, display: 'block', marginBottom: 12 }}>
             Nutrición deliciosa
           </span>
           <h1 style={{ fontSize: 'clamp(2rem,5vw,3.2rem)', fontWeight: 300, color: '#fff', lineHeight: 1.15, marginBottom: 16 }}>
             Recetas{' '}
-            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: '#f9a8d4' }}>saludables</span>
+            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary)' }}>saludables</span>
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1.05rem', fontWeight: 300, lineHeight: 1.7, marginBottom: 32, maxWidth: 540, margin: '0 auto 32px' }}>
             Recetas nutritivas y deliciosas, probadas y aprobadas. Comer sano nunca fue tan rico.
           </p>
           {/* Search */}
           <div style={{ position: 'relative', maxWidth: 480, margin: '0 auto' }}>
-            <Search size={18} style={{ position: 'absolute', left: 18, top: '50%', transform: 'translateY(-50%)', color: searchFocused ? '#ec4899' : '#9ca3af', transition: 'color 0.3s' }} />
+            <Search size={18} style={{ position: 'absolute', left: 18, top: '50%', transform: 'translateY(-50%)', color: searchFocused ? 'var(--primary-deep)' : '#9ca3af', transition: 'color 0.3s' }} />
             <input
               type="text" value={search} onChange={e => setSearch(e.target.value)}
               onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)}
               placeholder="Buscar receta..."
-              style={{ width: '100%', padding: '16px 16px 16px 48px', background: '#fff', border: `2px solid ${searchFocused ? '#ec4899' : 'transparent'}`, borderRadius: 16, fontSize: '0.95rem', fontFamily: "'Outfit',sans-serif", outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.3s' }}
+              style={{ width: '100%', padding: '16px 16px 16px 48px', background: '#fff', border: `2px solid ${searchFocused ? 'var(--primary-deep)' : 'transparent'}`, borderRadius: 16, fontSize: '0.95rem', fontFamily: "'Outfit',sans-serif", outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.3s' }}
             />
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function RecetasPage() {
               padding: '9px 20px', borderRadius: 50, border: 'none', cursor: 'pointer',
               fontSize: '0.88rem', fontWeight: 500, whiteSpace: 'nowrap',
               fontFamily: "'Outfit',sans-serif", transition: 'all 0.3s',
-              background: activeCategory === cat.id ? 'linear-gradient(135deg,#ec4899,#d946ef)' : '#f3f4f6',
+              background: activeCategory === cat.id ? 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))' : '#f3f4f6',
               color: activeCategory === cat.id ? '#fff' : '#6b7280',
               boxShadow: activeCategory === cat.id ? '0 4px 14px -4px rgba(236,72,153,0.4)' : 'none',
             }}>
@@ -146,7 +146,7 @@ export default function RecetasPage() {
       </div>
 
       {/* CTA Banner */}
-      <section style={{ background: 'linear-gradient(135deg,#ec4899,#d946ef)', padding: 'clamp(2.5rem,5vw,4rem) 1.5rem', textAlign: 'center', marginTop: 24 }}>
+      <section style={{ background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))', padding: 'clamp(2.5rem,5vw,4rem) 1.5rem', textAlign: 'center', marginTop: 24 }}>
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
           <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 300, color: '#fff', marginBottom: 12, lineHeight: 1.3 }}>
             ¿Quieres aprender a cocinar de forma{' '}
@@ -155,7 +155,7 @@ export default function RecetasPage() {
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1rem', fontWeight: 300, marginBottom: 28 }}>
             En mis cursos aprenderás no solo recetas sino a entender tu alimentación.
           </p>
-          <Link to="/cursos" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', background: '#fff', color: '#ec4899', borderRadius: 50, fontSize: '0.95rem', fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 25px rgba(0,0,0,0.15)' }}>
+          <Link to="/cursos" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', background: '#fff', color: 'var(--primary-deep)', borderRadius: 50, fontSize: '0.95rem', fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 25px rgba(0,0,0,0.15)' }}>
             Ver Cursos <ChevronRight size={18} />
           </Link>
         </div>
