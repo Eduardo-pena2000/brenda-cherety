@@ -32,7 +32,8 @@ export default function LoginPage() {
       minHeight: '100vh',
       display: 'flex',
       fontFamily: "'Outfit', system-ui, sans-serif",
-      overflow: 'hidden',
+      overflowY: 'auto',
+      overflowX: 'hidden',
       position: 'relative'
     }}>
 
@@ -109,16 +110,13 @@ export default function LoginPage() {
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '18px', fontWeight: 300, lineHeight: 1.6, marginBottom: '16px' }}>
             Tu bienestar comienza con una decisión.
           </p>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 300, lineHeight: 1.7 }}>
-            Accede a cursos exclusivos de nutrición diseñados para transformar tu relación con la alimentación.
-          </p>
 
           {/* Floating feature cards */}
           <div style={{ marginTop: '48px', display: 'flex', justifyContent: 'center', gap: '20px' }}>
             {[
-              { icon: <Heart size={22} />, label: 'Salud', delay: '0s' },
-              { icon: <Sparkles size={22} />, label: 'Bienestar', delay: '1s' },
-              { icon: <Leaf size={22} />, label: 'Nutrición', delay: '2s' }
+              { icon: <Heart size={22} />, label: 'Nutrición', delay: '0s' },
+              { icon: <Sparkles size={22} />, label: 'Hábitos', delay: '1s' },
+              { icon: <Leaf size={22} />, label: 'Prevención', delay: '2s' }
             ].map((item, i) => (
               <div key={i} className="animate-float" style={{
                 background: 'rgba(255,255,255,0.15)',

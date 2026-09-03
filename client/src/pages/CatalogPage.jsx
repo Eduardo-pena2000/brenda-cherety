@@ -188,10 +188,7 @@ export default function CatalogPage() {
                       fontSize: '1.15rem', fontWeight: 500, color: '#1f2937',
                       marginBottom: 6, lineHeight: 1.3
                     }}>{course.title}</h3>
-                    <p style={{
-                      color: '#6b7280', fontSize: '0.88rem', fontWeight: 300,
-                      marginBottom: 20, lineHeight: 1.5
-                    }}>{course.subtitle || 'Curso de nutrición integral'}</p>
+
 
                     {/* Footer */}
                     <div style={{

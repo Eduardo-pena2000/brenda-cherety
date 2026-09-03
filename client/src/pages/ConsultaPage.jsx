@@ -54,10 +54,7 @@ export default function ConsultaPage() {
           
           {/* Consulta Presencial */}
           <div style={{ background: '#fff', borderRadius: '1.5rem', padding: '2.5rem', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.08)', border: '1px solid var(--primary-light)' }}>
-            <h3 style={{ fontSize: '1.5rem', color: '#1f2937', marginBottom: '0.5rem' }}>Consulta Presencial</h3>
-            <p style={{ color: '#6b7280', marginBottom: '2rem', fontSize: '0.95rem', lineHeight: '1.6' }}>
-              Atención personalizada en mi consultorio para una evaluación física completa y plan a medida.
-            </p>
+            <h3 style={{ fontSize: '1.5rem', color: '#1f2937', marginBottom: '2rem' }}>Consulta Presencial</h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <a 
@@ -87,10 +84,7 @@ export default function ConsultaPage() {
 
           {/* Video Consulta */}
           <div style={{ background: '#fff', borderRadius: '1.5rem', padding: '2.5rem', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.08)', border: '1px solid var(--accent-light)' }}>
-            <h3 style={{ fontSize: '1.5rem', color: '#1f2937', marginBottom: '0.5rem' }}>Consulta por video llamada en whatsapp</h3>
-            <p style={{ color: '#6b7280', marginBottom: '2rem', fontSize: '0.95rem', lineHeight: '1.6' }}>
-              Consulta por videollamada desde la comodidad de tu hogar, sin importar donde estés.
-            </p>
+            <h3 style={{ fontSize: '1.5rem', color: '#1f2937', marginBottom: '2rem' }}>Consulta por video llamada en whatsapp</h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <a 
@@ -126,19 +120,19 @@ export default function ConsultaPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', textAlign: 'left' }}>
             {[
               {
-                name: "Maria Rodriguez",
-                time: "hace 2 meses",
-                text: "Excelente nutrióloga, muy profesional y atenta. Me ayudó muchísimo a entender mejor mis porciones sin dejar de comer lo que me gusta. ¡Súper recomendada!",
+                name: "Daniela Garcia",
+                time: "Hace 4 meses",
+                text: "Excelente nutriologa!! Siempre adapto todos mis antojos y comidas favoritas para que se acoplaran en mi plan, ademas de ser muy comprensiva y flexible❤️",
               },
               {
-                name: "Ana Laura Gómez",
-                time: "hace 3 meses",
-                text: "Me encantó mi consulta con Brenda. Es muy empática y el plan que me dio es súper fácil de seguir. He visto muchos cambios positivos.",
+                name: "Mayra De La Rosa",
+                time: "Hace 10 meses",
+                text: "Súper recomendable, la Nutrióloga es muy amable, muy accesible, si no bajas de peso no es por ella, es porque no llevaste bien tu plan de alimentación 😁",
               },
               {
-                name: "Karla Silva",
-                time: "hace 5 meses",
-                text: "La mejor decisión que tomé. Llevaba años intentando bajar de peso y con Brenda por fin logré ver resultados reales sin sentir que estoy a dieta todo el tiempo.",
+                name: "EMILIO V",
+                time: "Hace 10 meses",
+                text: "Es una excelente Dra. En Nutrición ofrece un plan de alimentación personalizado, basado en tus hábitos alimenticios, estilo de vida y estado de salud 10/10",
               }
             ].map((review, i) => (
               <div key={i} style={{ background: '#fff', padding: '1.5rem', borderRadius: '1rem', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>

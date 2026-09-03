@@ -3,10 +3,18 @@ import { Link } from 'react-router-dom';
 import { Heart, Award, BookOpen, Star, ArrowRight, CheckCircle, Instagram, Mail } from 'lucide-react';
 
 const certifications = [
-  { title: 'Licenciatura en Nutrición', org: 'Universidad Autónoma de México', year: '2015' },
-  { title: 'Especialidad en Nutrición Clínica', org: 'Instituto Nacional de Salud', year: '2017' },
-  { title: 'Certificación en Alimentación Consciente', org: 'The Center for Mindful Eating', year: '2019' },
-  { title: 'Diplomado en Nutrición Deportiva', org: 'ISSN Internacional', year: '2021' },
+  { title: 'Lic. en Salud Publica y Nutrición', org: '', year: '2012 - 2018' },
+  { title: 'Diplomado en diabetes mellitus', org: 'Facultad de Salud Pública y Nutrición, UANL', year: '2018' },
+  { title: 'Diplomado en nutrición deportiva', org: 'Colegio Mexicano de Nutriólogos, A.C.', year: '2019' },
+  { title: 'Nutrición en diferentes tipos de enfermedad renal', org: 'Colegio Mexicano de Nutriólogos Renales, A.C.', year: '2019' },
+  { title: 'Bioquímica Clínica', org: 'CIICEM', year: '2019' },
+  { title: 'Nutrición en distintos tipos de enfermedad renal', org: 'COMENUR', year: '2019' },
+  { title: 'Generalidades de apoyo nutricio', org: 'ASEPROS', year: '2020' },
+  { title: 'Experto en Running', org: 'CND', year: '2020' },
+  { title: 'Enfermedades gastrointestinales', org: 'ASEPROS', year: '2021' },
+  { title: 'Hipertensión arterial para personal de primer contacto', org: 'Asociación nacional de cardiólogos de México A.C.', year: '2021' },
+  { title: 'Foro internacional de nutrición en ciencias aplicadas al deporte, actividad física y fitness', org: 'CDN', year: '2022' },
+  { title: 'Soporte nutricional', org: 'Feel Good INC.', year: '2025' },
 ];
 
 const values = [
@@ -93,89 +101,22 @@ export default function SobreMiPage() {
                 <p style={{ color: '#6b7280', fontSize: '0.78rem', fontWeight: 300 }}>de experiencia</p>
               </div>
             </div>
-            <div style={{
-              position: 'absolute', top: -10, right: -10,
-              background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)',
-              padding: '14px 20px', borderRadius: 16, boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
-              display: 'flex', alignItems: 'center', gap: 12, zIndex: 10
-            }}>
-              <div style={{ width: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,var(--primary-light),#ede9fe)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Heart size={20} color="var(--primary-deep)" fill="var(--primary-deep)" />
-              </div>
-              <div>
-                <p style={{ fontWeight: 600, color: '#1f2937', fontSize: '0.9rem', lineHeight: 1 }}>5,000+</p>
-                <p style={{ color: '#6b7280', fontSize: '0.78rem', fontWeight: 300 }}>pacientes felices</p>
-              </div>
-            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Mi Historia */}
-      <section style={{ padding: 'clamp(3rem,6vw,5rem) 1.5rem', background: '#fff' }}>
-        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-          <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary-deep)', textTransform: 'uppercase', fontWeight: 500 }}>Mi historia</span>
-          <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#1f2937', margin: '12px 0 24px' }}>
-            ¿Por qué me dediqué a la{' '}
-            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)' }}>nutrición?</span>
-          </h2>
-          <div style={{ textAlign: 'left', fontSize: '1.05rem', color: '#4b5563', fontWeight: 300, lineHeight: 1.9, display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <p>
-              Desde pequeña tuve una relación complicada con la comida. Crecí escuchando "eso engorda" o "no deberías comer eso", y llegué a la adultez con una relación llena de culpa y restricción con la alimentación.
-            </p>
-            <p>
-              Fue cuando estudié nutrición que entendí que el problema nunca fue la comida en sí, sino la narrativa que construimos alrededor de ella. La nutrición consciente cambió mi vida, y desde entonces me apasiona compartirlo con otras mujeres.
-            </p>
-            <p>
-              Hoy, después de haber atendido a más de 5,000 pacientes en consulta y a través de mis cursos, sé que el bienestar real viene de aprender a escuchar tu cuerpo, de comer con placer y sin culpa, y de entender que cada persona es única.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Valores */}
-      <section style={{ padding: 'clamp(3rem,6vw,5rem) 1.5rem', background: 'linear-gradient(135deg,var(--primary-50),var(--accent-50))' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary-deep)', textTransform: 'uppercase', fontWeight: 500 }}>Mi filosofía</span>
-            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#1f2937', marginTop: 12 }}>
-              Lo que me{' '}
-              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)' }}>guía</span>
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
-            {values.map((v, i) => (
-              <div key={i}
-                onMouseEnter={() => setHoveredVal(i)}
-                onMouseLeave={() => setHoveredVal(null)}
-                style={{
-                  background: '#fff', borderRadius: 20, padding: '28px 24px',
-                  boxShadow: hoveredVal === i ? '0 20px 50px -10px rgba(236,72,153,0.15)' : '0 4px 15px -4px rgba(0,0,0,0.06)',
-                  transition: 'all 0.3s', transform: hoveredVal === i ? 'translateY(-6px)' : 'none'
-                }}>
-                <div style={{
-                  width: 52, height: 52, borderRadius: 14,
-                  background: 'linear-gradient(135deg,var(--primary-light),#ede9fe)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16
-                }}>
-                  <v.icon size={24} color="var(--primary-deep)" />
-                </div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 500, color: '#1f2937', marginBottom: 8 }}>{v.title}</h3>
-                <p style={{ color: '#6b7280', fontSize: '0.92rem', fontWeight: 300, lineHeight: 1.7 }}>{v.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
+
 
       {/* Certificaciones */}
       <section style={{ padding: 'clamp(3rem,6vw,5rem) 1.5rem', background: '#fff' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span style={{ fontSize: '0.82rem', letterSpacing: '0.2em', color: 'var(--primary-deep)', textTransform: 'uppercase', fontWeight: 500 }}>Formación</span>
             <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#1f2937', marginTop: 12 }}>
-              Mis{' '}
-              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)' }}>certificaciones</span>
+              Mi{' '}
+              <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)' }}>formación</span>
             </h2>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -211,13 +152,10 @@ export default function SobreMiPage() {
       }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
         <div style={{ maxWidth: 600, margin: '0 auto', position: 'relative', zIndex: 2 }}>
-          <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#fff', marginBottom: 16 }}>
-            ¿Lista para comenzar tu{' '}
-            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic' }}>transformación?</span>
+          <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 300, color: '#fff', marginBottom: 32 }}>
+            Empieza a tomar mejores{' '}
+            <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic' }}>decisiones</span>
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.05rem', fontWeight: 300, marginBottom: 32 }}>
-            Únete a miles de mujeres que ya están viviendo una vida más saludable y feliz.
-          </p>
           <Link to="/cursos" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '16px 36px', background: '#fff',

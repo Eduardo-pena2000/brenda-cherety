@@ -62,7 +62,7 @@ export default function RegisterPage() {
     <div className="auth-page-container auth-page-container-reverse" style={{
       minHeight: '100vh', display: 'flex',
       fontFamily: "'Outfit', system-ui, sans-serif",
-      overflow: 'hidden', position: 'relative'
+      overflowY: 'auto', overflowX: 'hidden', position: 'relative'
     }}>
 
       {/* ====== LEFT PANEL — Form ====== */}
@@ -343,16 +343,13 @@ export default function RegisterPage() {
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '18px', fontWeight: 300, lineHeight: 1.6, marginBottom: '16px' }}>
             Únete a miles de mujeres que ya están transformando su vida.
           </p>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 300, lineHeight: 1.7 }}>
-            Cursos de nutrición diseñados con amor para guiarte hacia una relación más sana con la alimentación.
-          </p>
 
           {/* Feature cards */}
           <div style={{ marginTop: '48px', display: 'flex', justifyContent: 'center', gap: '20px' }}>
             {[
               { icon: <Apple size={22} />, label: 'Nutrición', delay: '0s' },
-              { icon: <Heart size={22} />, label: 'Bienestar', delay: '1s' },
-              { icon: <Sparkles size={22} />, label: 'Comunidad', delay: '2s' }
+              { icon: <Heart size={22} />, label: 'Hábitos', delay: '1s' },
+              { icon: <Sparkles size={22} />, label: 'Prevención', delay: '2s' }
             ].map((item, i) => (
               <div key={i} className="animate-float" style={{
                 background: 'rgba(255,255,255,0.15)',

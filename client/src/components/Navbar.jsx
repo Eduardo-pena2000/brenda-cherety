@@ -30,7 +30,7 @@ export default function Navbar() {
         {/* Brand */}
         <Link to="/" className="navbar-brand" onClick={() => setMobileMenuOpen(false)}>
           <span className="brand-subtitle" style={{ fontFamily: "'Assistant', sans-serif", fontWeight: 200, textTransform: 'none', letterSpacing: '0.05em', fontSize: '1.2rem' }}>Nutrióloga</span>
-          <span className="brand-title" style={{ fontFamily: "'Gistesy', 'Playfair Display', cursive", fontSize: '2.5rem', marginTop: '-10px', textTransform: 'capitalize', fontWeight: 'normal' }}>Cherety</span>
+          <span className="brand-title" style={{ fontFamily: "'Gistesy', 'Playfair Display', cursive", fontSize: '2.5rem', textTransform: 'capitalize', fontWeight: 'normal' }}>Cherety</span>
         </Link>
 
         {/* Desktop Menu */}
