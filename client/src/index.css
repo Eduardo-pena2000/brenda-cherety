@@ -1531,16 +1531,26 @@ button {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+}
 
-  /* Text below image on mobile */
-  .hero-content {
-    margin: 0 auto;
-    order: 2;
+@media (max-width: 1023px) {
+  .hero-grid {
+    display: flex !important;
+    flex-direction: column !important;
   }
-
-  /* Image shows ABOVE text on mobile */
+  .hero-content {
+    order: 2;
+    margin: 0 auto;
+  }
   .hero-image-wrapper {
     order: 1;
+    display: block !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Image shows ABOVE text on mobile */
+  .hero-image-wrapper {
     display: block !important;
   }
 
