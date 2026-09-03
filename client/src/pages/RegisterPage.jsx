@@ -364,19 +364,7 @@ export default function RegisterPage() {
             ))}
           </div>
 
-          {/* Stats */}
-          <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center', gap: '40px' }}>
-            {[
-              { value: '5K+', label: 'Pacientes' },
-              { value: '12', label: 'Cursos' },
-              { value: '4.9', label: 'Rating' }
-            ].map((stat, i) => (
-              <div key={i} style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: '28px', fontWeight: 300, color: '#fff', margin: '0 0 4px 0' }}>{stat.value}</p>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', fontWeight: 300, margin: 0 }}>{stat.label}</p>
-              </div>
-            ))}
-          </div>
+
         </div>
       </div>
 
