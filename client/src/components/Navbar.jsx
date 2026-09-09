@@ -30,7 +30,7 @@ export default function Navbar() {
         {/* Brand */}
         <Link to="/" className="navbar-brand" onClick={() => setMobileMenuOpen(false)}>
           <span className="brand-subtitle" style={{ fontFamily: "'Assistant', sans-serif", fontWeight: 200, textTransform: 'none', letterSpacing: '0.05em', fontSize: '1.2rem' }}>Nutrióloga</span>
-          <span className="brand-title" style={{ fontFamily: "'Gistesy', 'Playfair Display', cursive", fontSize: '2.5rem', textTransform: 'capitalize', fontWeight: 'normal' }}>Cherety</span>
+          <span className="brand-title" style={{ fontFamily: "'Gistesy', cursive, serif", fontSize: '3rem', textTransform: 'capitalize', fontWeight: 'normal', lineHeight: 0.8 }}>Cherety</span>
         </Link>
 
         {/* Desktop Menu */}
@@ -50,6 +50,9 @@ export default function Navbar() {
         <div className="navbar-actions hidden md:flex">
           {isLoggedIn ? (
             <>
+              {isAdmin && (
+                <Link to="/admin" className="nav-link" style={{ color: 'var(--primary-deep)', fontWeight: 500 }}>Panel Admin</Link>
+              )}
               <Link to="/perfil" className="nav-link">Mi cuenta</Link>
               <button onClick={handleLogout} className="btn btn-ghost btn-sm">
                 Salir
@@ -85,6 +88,9 @@ export default function Navbar() {
           <div className="border-t border-gray-100 pt-4 flex flex-col gap-3">
             {isLoggedIn ? (
               <>
+                {isAdmin && (
+                  <Link to="/admin" className="nav-link block py-2" style={{ color: 'var(--primary-deep)', fontWeight: 500 }} onClick={() => setMobileMenuOpen(false)}>Panel Admin</Link>
+                )}
                 <Link to="/perfil" className="nav-link block py-2" onClick={() => setMobileMenuOpen(false)}>Mi cuenta</Link>
                 <button onClick={handleLogout} className="btn btn-secondary w-full">
                   Cerrar Sesión

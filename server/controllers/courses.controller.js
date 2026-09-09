@@ -2,6 +2,7 @@ import db from '../db/database.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { uploadToS3, isS3Configured } from '../lib/s3.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsBase = path.join(__dirname, '..', 'uploads');
@@ -158,7 +159,7 @@ export function remove(req, res) {
 }
 
 // Admin: subir thumbnail
-export function uploadThumbnail(req, res) {
+export async function uploadThumbnail(req, res) {
   const course = db.prepare('SELECT * FROM courses WHERE id = ?').get(req.params.id);
   if (!course) {
     return res.status(404).json({ error: 'Curso no encontrado' });
@@ -168,14 +169,24 @@ export function uploadThumbnail(req, res) {
     return res.status(400).json({ error: 'No se envio imagen' });
   }
 
-  // Eliminar thumbnail anterior
-  if (course.thumbnail) {
+  let finalPath = '';
+  if (isS3Configured()) {
+    const s3Key = `thumbnails/${Date.now()}_${req.file.originalname}`;
+    await uploadToS3(req.file.path, s3Key, req.file.mimetype);
+    finalPath = s3Key;
+    // Borrar archivo temporal
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+  } else {
+    finalPath = 'thumbnails/' + req.file.filename;
+  }
+
+  // Eliminar thumbnail anterior si era local
+  if (course.thumbnail && !course.thumbnail.includes('/')) {
     const old = path.join(uploadsBase, course.thumbnail);
     if (fs.existsSync(old)) fs.unlinkSync(old);
   }
 
-  const relativePath = 'thumbnails/' + req.file.filename;
-  db.prepare('UPDATE courses SET thumbnail = ? WHERE id = ?').run(relativePath, course.id);
+  db.prepare('UPDATE courses SET thumbnail = ? WHERE id = ?').run(finalPath, course.id);
 
-  res.json({ thumbnail: relativePath });
+  res.json({ thumbnail: finalPath });
 }

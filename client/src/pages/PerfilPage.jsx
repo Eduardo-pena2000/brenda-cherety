@@ -98,7 +98,7 @@ export default function PerfilPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 1.5rem', marginTop: -40 }}>
+      <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 1.5rem', marginTop: -40, position: 'relative', zIndex: 10 }}>
         {/* Tabs */}
         <div style={{
           background: '#fff', borderRadius: 16, padding: 6,
