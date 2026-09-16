@@ -52,9 +52,14 @@ export function createCheckout(req, res) {
       });
 
       // Crear registro de compra pendiente
-      db.prepare(
-        'INSERT OR IGNORE INTO purchases (user_id, course_id, stripe_session_id, amount_cents, status) VALUES (?, ?, ?, ?, ?)'
-      ).run(userId, course.id, session.id, course.price_cents, 'pending');
+      db.prepare(`
+        INSERT INTO purchases (user_id, course_id, stripe_session_id, amount_cents, status) 
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, course_id) DO UPDATE SET 
+          stripe_session_id = excluded.stripe_session_id,
+          amount_cents = excluded.amount_cents,
+          status = 'pending'
+      `).run(userId, course.id, session.id, course.price_cents, 'pending');
 
       res.json({ url: session.url });
     } catch (err) {
