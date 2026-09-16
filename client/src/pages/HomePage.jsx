@@ -7,8 +7,19 @@ export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const navigate = useNavigate();
 
+  const [featuredCourse, setFeaturedCourse] = useState(null);
+
   useEffect(() => {
     setIsLoaded(true);
+    const fetchFeatured = async () => {
+      try {
+        const data = await apiFetch('/courses');
+        if (data.courses && data.courses.length > 0) {
+          setFeaturedCourse(data.courses[0]);
+        }
+      } catch (err) {}
+    };
+    fetchFeatured();
   }, []);
 
   // Phone number for WhatsApp
@@ -82,37 +93,49 @@ export default function HomePage() {
                 <span className="font-serif text-pink italic">salud</span>
               </h1>
 
-              {/* Static Featured Course Card in Hero */}
-              <div 
-                style={{
-                  background: '#fff', borderRadius: '1.5rem', overflow: 'hidden',
-                  boxShadow: '0 4px 20px -4px rgba(0,0,0,0.08)',
-                  display: 'flex', flexDirection: 'column',
-                  maxWidth: '400px', width: '100%', margin: '2rem auto',
-                  border: '1px solid #f3f4f6'
-                }}
-              >
-                <div style={{ height: 220, overflow: 'hidden', position: 'relative', background: '#f3f4f6' }}>
-                  <img 
-                    src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80" 
-                    alt="Lectura de etiquetas nutricionales" 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                  />
-                  <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', padding: '4px 10px', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 500, color: 'var(--primary-deep)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <Sparkles size={11} /> Destacado
+              {/* Dynamic Featured Course Card in Hero */}
+              {featuredCourse && (
+                <div 
+                  onClick={() => navigate(`/curso/${featuredCourse.id}`)}
+                  style={{
+                    background: '#fff', borderRadius: '1.5rem', overflow: 'hidden',
+                    boxShadow: '0 4px 20px -4px rgba(0,0,0,0.08)',
+                    display: 'flex', flexDirection: 'column',
+                    maxWidth: '400px', width: '100%', margin: '2rem auto',
+                    border: '1px solid #f3f4f6', cursor: 'pointer',
+                    transition: 'transform 0.3s',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-4px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  <div style={{ height: 220, overflow: 'hidden', position: 'relative', background: '#f3f4f6' }}>
+                    {featuredCourse.thumbnail ? (
+                      <img 
+                        src={`/api/files/thumbnail/${featuredCourse.thumbnail.replace('thumbnails/', '')}`}
+                        alt={featuredCourse.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                      />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <BookOpen size={40} color="var(--primary-deep)" />
+                      </div>
+                    )}
+                    <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', padding: '4px 10px', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 500, color: 'var(--primary-deep)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <Sparkles size={11} /> Destacado
+                    </div>
+                  </div>
+                  <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', flex: 1, textAlign: 'left' }}>
+                    <h3 style={{ fontSize: '1.15rem', fontWeight: 500, color: '#1f2937', marginBottom: 16, lineHeight: 1.3 }}>
+                      {featuredCourse.title}
+                    </h3>
+                    <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid #f3f4f6' }}>
+                      <span style={{ fontSize: '1.3rem', color: 'var(--primary-deep)', fontWeight: 600, display: 'block' }}>
+                        {formatPrice(featuredCourse.price_cents, featuredCourse.currency)}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', flex: 1, textAlign: 'left' }}>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 500, color: '#1f2937', marginBottom: 16, lineHeight: 1.3 }}>
-                    Lectura de etiquetas nutricionales
-                  </h3>
-                  <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid #f3f4f6' }}>
-                    <span style={{ fontSize: '1.3rem', color: 'var(--primary-deep)', fontWeight: 600, display: 'block' }}>
-                      $320.00
-                    </span>
-                  </div>
-                </div>
-              </div>
+              )}
 
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
                 <button onClick={() => navigate('/cursos')} className="btn btn-primary btn-lg">

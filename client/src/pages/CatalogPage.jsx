@@ -12,20 +12,22 @@ export default function CatalogPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCourses([{
-      id: 'mock-1',
-      title: 'Lectura de etiquetas nutricionales',
-      subtitle: 'Aprende a identificar lo que realmente estás comiendo.',
-      price_cents: 32000,
-      currency: 'MXN',
-      thumbnail: 'mock-url'
-    }]);
-    setLoading(false);
+    const fetchCourses = async () => {
+      try {
+        const data = await apiFetch('/courses');
+        setCourses(data.courses || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCourses();
   }, []);
 
   const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (course.subtitle && course.subtitle.toLowerCase().includes(searchTerm.toLowerCase()))
+    (course.description && course.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -83,9 +85,7 @@ export default function CatalogPage() {
           }}>
             {filteredCourses.map((course, index) => {
               const isHovered = hoveredCard === course.id;
-              const thumbnailUrl = course.id === 'mock-1'
-                ? 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80'
-                : course.thumbnail
+              const thumbnailUrl = course.thumbnail
                   ? `/api/files/thumbnail/${course.thumbnail.replace('thumbnails/', '')}`
                   : null;
               return (
@@ -198,7 +198,7 @@ export default function CatalogPage() {
                       <span style={{
                         fontSize: '1.3rem', color: 'var(--primary-deep)', fontWeight: 600, display: 'block', marginBottom: '12px'
                       }}>
-                        {formatPrice(course.price_cents || 32000, course.currency || 'MXN')}
+                        {formatPrice(course.price_cents, course.currency)}
                       </span>
                       <button className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '1rem', borderRadius: '0.75rem' }}>
                         Iniciar ahora
