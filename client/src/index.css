@@ -746,6 +746,7 @@ button {
   width: 100%;
   height: auto;
   display: block;
+  transform: scale(1.02);
 }
 
 @media (min-width: 1024px) {
