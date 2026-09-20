@@ -44,6 +44,11 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          {isLoggedIn && !isAdmin && (
+            <Link to="/mis-cursos" className={`nav-link ${location.pathname === '/mis-cursos' ? 'active' : ''}`}>
+              Mis Cursos
+            </Link>
+          )}
         </div>
 
         {/* Desktop Actions */}
@@ -85,6 +90,11 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          {isLoggedIn && !isAdmin && (
+            <Link to="/mis-cursos" className={`nav-link block py-2 ${location.pathname === '/mis-cursos' ? 'text-pink' : ''}`} onClick={() => setMobileMenuOpen(false)}>
+              Mis Cursos
+            </Link>
+          )}
           <div className="border-t border-gray-100 pt-4 flex flex-col gap-3">
             {isLoggedIn ? (
               <>

@@ -5,7 +5,7 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(sessionStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
       apiFetch('/auth/me')
         .then(data => setUser(data.user))
         .catch(() => {
-          sessionStorage.removeItem('token');
+          localStorage.removeItem('token');
           setToken(null);
           setUser(null);
         })
@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    sessionStorage.setItem('token', data.token);
+    localStorage.setItem('token', data.token);
     setToken(data.token);
     setUser(data.user);
     return data.user;
@@ -39,14 +39,14 @@ export function AuthProvider({ children }) {
       method: 'POST',
       body: JSON.stringify({ email, password, name }),
     });
-    sessionStorage.setItem('token', data.token);
+    localStorage.setItem('token', data.token);
     setToken(data.token);
     setUser(data.user);
     return data.user;
   }
 
   function logout() {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     setToken(null);
     setUser(null);
   }
