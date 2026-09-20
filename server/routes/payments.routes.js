@@ -10,7 +10,10 @@ router.get('/debug', (req, res) => {
   res.json({
     hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
     hasClientUrl: !!process.env.CLIENT_URL,
-    hasS3: !!process.env.S3_BUCKET_NAME,
+    hasS3Bucket: !!process.env.S3_BUCKET_NAME,
+    hasAwsKey: !!process.env.AWS_ACCESS_KEY_ID,
+    hasAwsSecret: !!process.env.AWS_SECRET_ACCESS_KEY,
+    hasS3Endpoint: !!process.env.S3_ENDPOINT_URL,
     clientUrlVal: process.env.CLIENT_URL || null
   });
 });
