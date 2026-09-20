@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, MessageCircle, CreditCard, BookOpen, Play, Sparkles, Clock } from 'lucide-react';
-import { formatPrice } from '../lib/api';
+import { formatPrice, apiFetch } from '../lib/api';
 
 export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);

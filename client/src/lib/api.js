@@ -1,7 +1,7 @@
 const API_BASE = '/api';
 
 export async function apiFetch(path, options = {}) {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const headers = { ...options.headers };
 
   if (token) {
@@ -24,10 +24,13 @@ export async function apiFetch(path, options = {}) {
 }
 
 export function formatPrice(cents, currency = 'usd') {
+  const value = cents / 100;
   return new Intl.NumberFormat('es-MX', {
     style: 'currency',
     currency: currency.toUpperCase(),
-  }).format(cents / 100);
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+    maximumFractionDigits: 2
+  }).format(value);
 }
 
 export function uploadWithProgress(url, formData, token, onProgress) {

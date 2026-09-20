@@ -12,7 +12,7 @@ export default function AdminCourseForm() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [priceCents, setPriceCents] = useState('');
+  const [price, setPrice] = useState('');
   const [currency, setCurrency] = useState('usd');
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
@@ -27,7 +27,7 @@ export default function AdminCourseForm() {
         .then(data => {
           setTitle(data.course.title);
           setDescription(data.course.description || '');
-          setPriceCents(String(data.course.price_cents));
+          setPrice(String(data.course.price_cents / 100));
           setCurrency(data.course.currency);
           if (data.course.thumbnail) {
             setThumbnailPreview(`/api/files/thumbnail/${data.course.thumbnail.replace('thumbnails/', '')}`);
@@ -56,12 +56,12 @@ export default function AdminCourseForm() {
       if (isEditing) {
         await apiFetch(`/courses/${id}`, {
           method: 'PUT',
-          body: JSON.stringify({ title, description, price_cents: Number(priceCents), currency }),
+          body: JSON.stringify({ title, description, price_cents: Math.round(Number(price) * 100), currency }),
         });
       } else {
         const data = await apiFetch('/courses', {
           method: 'POST',
-          body: JSON.stringify({ title, description, price_cents: Number(priceCents), currency }),
+          body: JSON.stringify({ title, description, price_cents: Math.round(Number(price) * 100), currency }),
         });
         courseId = data.course.id;
       }
@@ -184,13 +184,13 @@ export default function AdminCourseForm() {
             {/* Price + Currency Row */}
             <div className="admin-form-price-row">
               <div>
-                <label style={labelStyle}>Precio (centavos, ej: 2999 = $29.99)</label>
+                <label style={labelStyle}>Precio</label>
                 <div style={{ position: 'relative' }}>
                   <div style={iconWrap('price')}><DollarSign size={18} /></div>
                   <input
-                    type="number" value={priceCents} required min="0"
-                    placeholder="2999"
-                    onChange={e => setPriceCents(e.target.value)}
+                    type="number" value={price} required min="0" step="0.01"
+                    placeholder="Ej: 500"
+                    onChange={e => setPrice(e.target.value)}
                     onFocus={() => setFocusedField('price')}
                     onBlur={() => setFocusedField(null)}
                     style={inputStyle('price')}

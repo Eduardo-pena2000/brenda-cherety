@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Clock, BookOpen, Users, Star, Play, Sparkles, Filter } from 'lucide-react';
-import { formatPrice } from '../lib/api';
+import { formatPrice, apiFetch } from '../lib/api';
 
 export default function CatalogPage() {
   const [courses, setCourses] = useState([]);
