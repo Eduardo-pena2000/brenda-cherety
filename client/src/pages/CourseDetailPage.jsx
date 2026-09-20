@@ -49,6 +49,7 @@ export default function CourseDetailPage() {
       if (data.url) window.location.href = data.url;
     } catch (err) {
       console.error(err);
+      alert('Error: ' + err.message);
     } finally {
       setBuying(false);
     }
