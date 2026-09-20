@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import db from '../db/database.js';
+import { sendCustomerReceipt, sendAdminNotification } from '../lib/mail.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -49,8 +50,8 @@ export function createCheckout(req, res) {
           },
           quantity: 1,
         }],
-        success_url: `${clientUrl}/checkout/exito?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${clientUrl}/checkout/cancelado`,
+        success_url: `${clientUrl}/pago-exitoso?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${clientUrl}/pago-cancelado`,
       });
 
       // Crear registro de compra pendiente
@@ -129,14 +130,34 @@ export function webhook(req, res) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const { user_id, course_id } = session.metadata;
+    const { user_id, course_id, type, is_consultation } = session.metadata || {};
 
-    db.prepare(`
-      UPDATE purchases SET status = 'completed', stripe_payment_intent = ?
-      WHERE stripe_session_id = ?
-    `).run(session.payment_intent, session.id);
+    const customerEmail = session.customer_details?.email || session.customer_email || 'correo@desconocido.com';
+    const customerName = session.customer_details?.name || 'Hermosa';
+    const amountCents = session.amount_total;
 
-    console.log(`Compra completada: usuario ${user_id}, curso ${course_id}`);
+    if (is_consultation === 'true') {
+      const itemName = type === 'online' ? 'Consulta Online' : 'Consulta Presencial';
+      console.log(`Compra de consulta completada: usuario ${user_id}, tipo ${type}`);
+      
+      // Correos
+      sendCustomerReceipt(customerEmail, customerName, itemName, amountCents, true).catch(console.error);
+      sendAdminNotification(customerEmail, customerName, itemName, amountCents, true).catch(console.error);
+    } else if (course_id) {
+      db.prepare(`
+        UPDATE purchases SET status = 'completed', stripe_payment_intent = ?
+        WHERE stripe_session_id = ?
+      `).run(session.payment_intent, session.id);
+
+      const course = db.prepare('SELECT title FROM courses WHERE id = ?').get(course_id);
+      const itemName = course ? course.title : 'Curso en línea';
+
+      console.log(`Compra completada: usuario ${user_id}, curso ${course_id}`);
+      
+      // Correos
+      sendCustomerReceipt(customerEmail, customerName, itemName, amountCents, false).catch(console.error);
+      sendAdminNotification(customerEmail, customerName, itemName, amountCents, false).catch(console.error);
+    }
   }
 
   res.json({ received: true });
