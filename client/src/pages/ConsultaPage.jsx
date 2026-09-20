@@ -1,19 +1,32 @@
 import { useState } from 'react';
 import { CreditCard, MessageCircle, Star, Calendar, Clock, CheckCircle, ArrowRight, ArrowLeft, Video, ClipboardList } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../lib/api';
 
 export default function ConsultaPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [buying, setBuying] = useState(false);
 
   const whatsappNumber = "528281056153"; 
   const videoMsg = encodeURIComponent("¡Hola! Quisiera más información sobre la video consulta");
   const presencialMsg = encodeURIComponent("¡Hola! Quisiera más información sobre la consulta presencial");
 
-  const handleBuy = () => {
-    // Aquí iría la lógica de Stripe para la consulta
+  const handleBuy = async () => {
+    if (!user) return navigate('/login');
     setBuying(true);
-    setTimeout(() => setBuying(false), 2000);
+    try {
+      const data = await apiFetch('/payments/create-consultation-checkout', {
+        method: 'POST',
+        body: JSON.stringify({ type: 'online' })
+      });
+      if (data.url) window.location.href = data.url;
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setBuying(false);
+    }
   };
 
   return (
@@ -111,20 +124,30 @@ export default function ConsultaPage() {
                     $700.00 MXN
                   </div>
                   
-                  <button onClick={handleBuy} disabled={buying} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 10,
-                    padding: '16px 36px',
-                    background: buying
-                      ? '#9ca3af'
-                      : 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
-                    color: '#fff', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
-                    border: 'none', cursor: buying ? 'not-allowed' : 'pointer',
-                    boxShadow: '0 10px 30px -8px rgba(236,72,153,0.4)',
-                    transition: 'all 0.3s', fontFamily: "'Outfit', sans-serif"
-                  }}>
-                    <CreditCard size={20} />
-                    {buying ? 'Procesando...' : 'Pagar Consulta'}
-                  </button>
+                  {user?.role === 'admin' ? (
+                    <div style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 10,
+                      padding: '16px 36px',
+                      background: '#f3f4f6', color: '#4b5563', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
+                    }}>
+                      Eres el administrador
+                    </div>
+                  ) : (
+                    <button onClick={handleBuy} disabled={buying} style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 10,
+                      padding: '16px 36px',
+                      background: buying
+                        ? '#9ca3af'
+                        : 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
+                      color: '#fff', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
+                      border: 'none', cursor: buying ? 'not-allowed' : 'pointer',
+                      boxShadow: '0 10px 30px -8px rgba(236,72,153,0.4)',
+                      transition: 'all 0.3s', fontFamily: "'Outfit', sans-serif"
+                    }}>
+                      <CreditCard size={20} />
+                      {buying ? 'Procesando...' : 'Pagar Consulta'}
+                    </button>
+                  )}
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

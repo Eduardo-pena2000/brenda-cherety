@@ -69,6 +69,48 @@ export function createCheckout(req, res) {
   })();
 }
 
+// Crear sesion de Stripe Checkout para Consultas
+export function createConsultationCheckout(req, res) {
+  const userId = req.user.id;
+  const { type } = req.body;
+
+  const amount_cents = type === 'online' ? 70000 : 80000;
+  const title = type === 'online' ? 'Consulta Online' : 'Consulta Presencial';
+
+  (async () => {
+    try {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',
+        customer_email: req.user.email,
+        metadata: {
+          user_id: String(userId),
+          type: type,
+          is_consultation: 'true'
+        },
+        line_items: [{
+          price_data: {
+            currency: 'mxn',
+            product_data: {
+              name: title,
+              description: 'Sesión de consulta nutricional con Brenda Cherety',
+            },
+            unit_amount: amount_cents,
+          },
+          quantity: 1,
+        }],
+        success_url: `${process.env.CLIENT_URL}/pago-exitoso?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.CLIENT_URL}/pago-cancelado`,
+      });
+
+      res.json({ url: session.url });
+    } catch (err) {
+      console.error('Error creando checkout de consulta:', err);
+      res.status(500).json({ error: 'Error al crear sesión de pago' });
+    }
+  })();
+}
+
 // Webhook de Stripe
 export function webhook(req, res) {
   const sig = req.headers['stripe-signature'];

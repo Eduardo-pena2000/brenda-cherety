@@ -179,7 +179,15 @@ export default function CourseDetailPage() {
 
               {/* Price + CTA */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-                {isEnrolled ? (
+                {user?.role === 'admin' ? (
+                  <div style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 10,
+                    padding: '16px 36px',
+                    background: '#f3f4f6', color: '#4b5563', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
+                  }}>
+                    Eres el administrador
+                  </div>
+                ) : isEnrolled ? (
                   <Link to={`/clase/${id}/${lessons[0]?.id}`} style={{
                     display: 'inline-flex', alignItems: 'center', gap: 10,
                     padding: '16px 36px',
