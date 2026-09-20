@@ -28,7 +28,8 @@ export function createCheckout(req, res) {
 
   (async () => {
     try {
-      const clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
+      let clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
+      if (!clientUrl.startsWith('http')) clientUrl = 'https://' + clientUrl;
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -65,7 +66,7 @@ export function createCheckout(req, res) {
       res.json({ url: session.url });
     } catch (err) {
       console.error('Error creando checkout:', err);
-      res.status(500).json({ error: 'Error al crear sesion de pago' });
+      res.status(500).json({ error: err.message || 'Error al crear sesion de pago' });
     }
   })();
 }
@@ -80,7 +81,8 @@ export function createConsultationCheckout(req, res) {
 
   (async () => {
     try {
-      const clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
+      let clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
+      if (!clientUrl.startsWith('http')) clientUrl = 'https://' + clientUrl;
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -108,7 +110,7 @@ export function createConsultationCheckout(req, res) {
       res.json({ url: session.url });
     } catch (err) {
       console.error('Error creando checkout de consulta:', err);
-      res.status(500).json({ error: 'Error al crear sesión de pago' });
+      res.status(500).json({ error: err.message || 'Error al crear sesión de pago' });
     }
   })();
 }
