@@ -28,6 +28,7 @@ export function createCheckout(req, res) {
 
   (async () => {
     try {
+      const clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -41,14 +42,14 @@ export function createCheckout(req, res) {
             currency: course.currency,
             product_data: {
               name: course.title,
-              description: course.description.substring(0, 500) || 'Curso en linea',
+              description: (course.description || '').substring(0, 500) || 'Curso en linea',
             },
             unit_amount: course.price_cents,
           },
           quantity: 1,
         }],
-        success_url: `${process.env.CLIENT_URL}/checkout/exito?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.CLIENT_URL}/checkout/cancelado`,
+        success_url: `${clientUrl}/checkout/exito?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${clientUrl}/checkout/cancelado`,
       });
 
       // Crear registro de compra pendiente
@@ -79,6 +80,7 @@ export function createConsultationCheckout(req, res) {
 
   (async () => {
     try {
+      const clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -99,8 +101,8 @@ export function createConsultationCheckout(req, res) {
           },
           quantity: 1,
         }],
-        success_url: `${process.env.CLIENT_URL}/pago-exitoso?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.CLIENT_URL}/pago-cancelado`,
+        success_url: `${clientUrl}/pago-exitoso?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${clientUrl}/pago-cancelado`,
       });
 
       res.json({ url: session.url });
