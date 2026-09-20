@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { createCheckout, webhook, myPurchases, createConsultationCheckout } from '../controllers/payments.controller.js';
 import db from '../db/database.js';
+import { getSignedS3Url } from '../lib/s3.js';
 import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
@@ -22,6 +23,15 @@ router.get('/clear', (req, res) => {
   
   db.prepare('DELETE FROM purchases WHERE user_id = ?').run(user.id);
   res.json({ success: true, message: `Compras borradas para ${email}` });
+});
+
+router.get('/test-s3', async (req, res) => {
+  try {
+    const url = await getSignedS3Url('test.jpg', 3600);
+    res.json({ url });
+  } catch (error) {
+    res.json({ error: error.message, stack: error.stack });
+  }
 });
 
 router.post('/create-checkout', authenticate, createCheckout);
