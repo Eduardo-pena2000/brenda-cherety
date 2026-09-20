@@ -166,9 +166,7 @@ export default function CourseDetailPage() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginBottom: 28 }}>
                 {[
                   { icon: Clock, label: course.duration || '4 semanas' },
-                  { icon: Play, label: `${lessons.length} lecciones` },
-                  { icon: CheckCircle, label: 'Certificado' },
-                  { icon: Users, label: '2.5k+ pacientes' }
+                  { icon: Play, label: `${lessons.length} lecciones` }
                 ].map((item, i) => (
                   <span key={i} style={{
                     display: 'flex', alignItems: 'center', gap: 6,

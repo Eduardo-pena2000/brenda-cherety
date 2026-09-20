@@ -43,8 +43,7 @@ export default function AdminDashboard() {
   const statCards = [
     { label: 'Total Cursos', value: stats.courses, icon: BookOpen, color: 'var(--accent)', bg: '#ede9fe' },
     { label: 'Publicados', value: stats.published, icon: CheckCircle, color: '#10b981', bg: '#d1fae5' },
-    { label: 'Borradores', value: stats.draft, icon: Eye, color: '#f59e0b', bg: '#fef3c7' },
-    { label: 'Pacientes', value: '2.5k+', icon: Users, color: 'var(--primary-deep)', bg: 'var(--primary-light)' },
+    { label: 'Borradores', value: stats.draft, icon: Eye, color: '#f59e0b', bg: '#fef3c7' }
   ];
 
   return (
@@ -216,7 +215,7 @@ export default function AdminDashboard() {
 
         .admin-stats-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 16px;
           margin-top: 32px;
         }

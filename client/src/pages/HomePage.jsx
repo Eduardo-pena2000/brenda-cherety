@@ -197,13 +197,15 @@ export default function HomePage() {
                   <MessageCircle size={20} /> Agendar en WhatsApp
                 </a>
                 
-                <button style={{
+                <button 
+                  onClick={() => navigate('/consulta')}
+                  style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                   padding: '14px 24px', background: '#fff',
                   color: 'var(--primary-deep)', borderRadius: '0.75rem', fontSize: '1rem', fontWeight: 500,
                   border: '1px solid var(--primary-deep)', cursor: 'pointer', transition: 'background 0.3s'
                 }}>
-                  <CreditCard size={20} /> Pagar ($800 MXN)
+                  <CreditCard size={20} /> Ver Detalles / Pagar
                 </button>
               </div>
             </div>
@@ -227,13 +229,15 @@ export default function HomePage() {
                   <MessageCircle size={20} /> Agendar en WhatsApp
                 </a>
                 
-                <button style={{
+                <button 
+                  onClick={() => navigate('/consulta')}
+                  style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                   padding: '14px 24px', background: '#fff',
                   color: 'var(--primary-dark)', borderRadius: '0.75rem', fontSize: '1rem', fontWeight: 500,
                   border: '1px solid var(--primary-dark)', cursor: 'pointer', transition: 'background 0.3s'
                 }}>
-                  <CreditCard size={20} /> Pagar ($700 MXN)
+                  <CreditCard size={20} /> Ver Detalles / Pagar
                 </button>
               </div>
             </div>

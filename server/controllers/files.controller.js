@@ -121,7 +121,20 @@ export async function downloadFile(req, res) {
 }
 
 // Servir thumbnails (publico)
-export function serveThumbnail(req, res) {
+export async function serveThumbnail(req, res) {
+  const s3Key = `thumbnails/${req.params.filename}`;
+  if (isS3Configured()) {
+    try {
+      const url = await getSignedS3Url(s3Key, 3600); // 1 hora de validez
+      if (url) {
+        return res.redirect(302, url);
+      }
+    } catch (error) {
+      console.error('Error generando URL de thumbnail:', error);
+    }
+  }
+
+  // Fallback local
   const filePath = path.join(uploadsBase, 'thumbnails', req.params.filename);
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ error: 'Imagen no encontrada' });

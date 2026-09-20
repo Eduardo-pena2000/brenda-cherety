@@ -21,14 +21,7 @@ const categories = [
       { q: '¿Los precios incluyen IVA?', a: 'Sí, todos los precios mostrados en la plataforma ya incluyen impuestos aplicables según tu país de residencia.' },
     ]
   },
-  {
-    icon: Award, title: 'Certificados', color: '#10b981', bg: '#d1fae5',
-    faqs: [
-      { q: '¿Recibo un certificado al terminar?', a: 'Sí, al completar el 100% de las lecciones de cualquier curso recibes un certificado digital firmado por Brenda Cherety que puedes compartir en LinkedIn.' },
-      { q: '¿Los certificados tienen validez oficial?', a: 'Los certificados son de reconocimiento profesional. Son emitidos por nuestra plataforma y avalan tu formación en nutrición consciente.' },
-      { q: '¿Cómo descargo mi certificado?', a: 'Una vez completado el curso, el certificado aparecerá automáticamente en tu perfil para descargarlo en PDF de alta calidad.' },
-    ]
-  },
+
   {
     icon: Headphones, title: 'Soporte', color: '#f59e0b', bg: '#fef3c7',
     faqs: [

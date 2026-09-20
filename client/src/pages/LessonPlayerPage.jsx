@@ -270,7 +270,7 @@ export default function LessonPlayerPage() {
                       🎓 ¡Felicidades! Has completado todas las lecciones
                     </p>
                     <Link to="/mis-cursos" style={{ color: '#a78bfa', fontSize: '0.9rem', textDecoration: 'none', fontWeight: 400 }}>
-                      Ver tu certificado en Mis Cursos →
+                      Volver a Mis Cursos →
                     </Link>
                   </div>
                 )}
