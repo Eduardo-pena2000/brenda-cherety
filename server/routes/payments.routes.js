@@ -7,13 +7,29 @@ import { authenticate } from '../middleware/auth.js';
 const router = Router();
 
 router.get('/debug', (req, res) => {
+  const storageKey = process.env.STORAGE_ACCESS_KEY;
+  const r2Key = process.env.R2_ACCESS_KEY_ID;
+  const awsKey = process.env.AWS_ACCESS_KEY_ID;
+  const storageSecret = process.env.STORAGE_SECRET_KEY;
+  const r2Secret = process.env.R2_SECRET_ACCESS_KEY;
+  const awsSecret = process.env.AWS_SECRET_ACCESS_KEY;
+
   res.json({
     hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
     hasClientUrl: !!process.env.CLIENT_URL,
     hasS3Bucket: !!process.env.S3_BUCKET_NAME,
-    hasAwsKey: !!(process.env.R2_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID),
-    hasAwsSecret: !!(process.env.R2_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY),
+    s3BucketName: process.env.S3_BUCKET_NAME || null,
     hasS3Endpoint: !!process.env.S3_ENDPOINT_URL,
+    keys: {
+      STORAGE_ACCESS_KEY: storageKey ? storageKey.substring(0, 4) + '...' : null,
+      R2_ACCESS_KEY_ID: r2Key ? r2Key.substring(0, 4) + '...' : null,
+      AWS_ACCESS_KEY_ID: awsKey ? awsKey.substring(0, 4) + '...' : null,
+    },
+    secrets: {
+      STORAGE_SECRET_KEY: !!storageSecret,
+      R2_SECRET_ACCESS_KEY: !!r2Secret,
+      AWS_SECRET_ACCESS_KEY: !!awsSecret,
+    },
     clientUrlVal: process.env.CLIENT_URL || null
   });
 });
