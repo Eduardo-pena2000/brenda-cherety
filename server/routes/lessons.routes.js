@@ -27,4 +27,11 @@ router.post('/:id/file', authenticate, adminOnly, upload.single('material'), upl
 router.post('/:id/complete', authenticate, markComplete);
 router.get('/course/:courseId/progress', authenticate, getProgress);
 
+// Debug: ver lecciones con sus rutas de video
+import db from '../db/database.js';
+router.get('/debug/all', (req, res) => {
+  const lessons = db.prepare('SELECT id, title, video_path, file_path FROM lessons ORDER BY id').all();
+  res.json({ lessons });
+});
+
 export default router;
