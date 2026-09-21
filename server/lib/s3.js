@@ -6,9 +6,9 @@ import fs from 'fs';
 let s3Client = null;
 let bucketName = null;
 
-// Buscar credenciales con múltiples prefijos por si el hosting bloquea alguno
-const awsKey = process.env.STORAGE_ACCESS_KEY || process.env.R2_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
-const awsSecret = process.env.STORAGE_SECRET_KEY || process.env.R2_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
+// Buscar credenciales con múltiples prefijos (incluyendo variantes con typo)
+const awsKey = process.env.STORAGE_ACCESS_KEY || process.env.R2_ACCESS_KEY_ID || process.env.R2_ACCES_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
+const awsSecret = process.env.STORAGE_SECRET_KEY || process.env.R2_SECRET_ACCESS_KEY || process.env.R2_SECRET_ACCES_KEY || process.env.AWS_SECRET_ACCESS_KEY;
 
 console.log('[S3 Init] Bucket:', !!process.env.S3_BUCKET_NAME, '| Key:', !!awsKey, '| Secret:', !!awsSecret, '| Endpoint:', !!process.env.S3_ENDPOINT_URL);
 
