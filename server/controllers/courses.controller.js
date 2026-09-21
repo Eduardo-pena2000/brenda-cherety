@@ -34,7 +34,7 @@ export function getPublicById(req, res) {
   }
 
   const lessons = db.prepare(
-    'SELECT id, title, description, sort_order, duration FROM lessons WHERE course_id = ? ORDER BY sort_order'
+    'SELECT id, title, description, sort_order, duration, video_path, file_path FROM lessons WHERE course_id = ? ORDER BY sort_order'
   ).all(course.id);
 
   res.json({ course, lessons });
@@ -51,7 +51,7 @@ export function getBySlug(req, res) {
   }
 
   const lessons = db.prepare(
-    'SELECT id, title, description, sort_order, duration FROM lessons WHERE course_id = ? ORDER BY sort_order'
+    'SELECT id, title, description, sort_order, duration, video_path, file_path FROM lessons WHERE course_id = ? ORDER BY sort_order'
   ).all(course.id);
 
   res.json({ course, lessons });
