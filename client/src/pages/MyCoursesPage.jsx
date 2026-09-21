@@ -137,7 +137,7 @@ export default function MyCoursesPage() {
       </div>
 
       {/* Content */}
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 1.5rem', marginTop: '-2rem' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10, marginTop: '-2rem' }}>
         {purchases.length === 0 ? (
           <div style={{
             background: '#fff', borderRadius: 24, padding: 'clamp(2rem, 5vw, 4rem)',

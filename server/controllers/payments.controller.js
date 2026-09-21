@@ -104,7 +104,7 @@ export function createConsultationCheckout(req, res) {
           },
           quantity: 1,
         }],
-        success_url: `${clientUrl}/pago-exitoso?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${clientUrl}/pago-exitoso?type=consultation&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${clientUrl}/pago-cancelado`,
       });
 
