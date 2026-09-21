@@ -32,10 +32,26 @@ export function create(req, res) {
   let filePath = null;
 
   if (req.files?.video?.[0]) {
-    videoPath = 'videos/' + req.files.video[0].filename;
+    const vf = req.files.video[0];
+    if (isS3Configured()) {
+      const s3Key = `videos/${Date.now()}_${vf.originalname}`;
+      await uploadToS3(vf.path, s3Key, vf.mimetype);
+      videoPath = s3Key;
+      if (fs.existsSync(vf.path)) fs.unlinkSync(vf.path);
+    } else {
+      videoPath = 'videos/' + vf.filename;
+    }
   }
   if (req.files?.material?.[0]) {
-    filePath = 'files/' + req.files.material[0].filename;
+    const mf = req.files.material[0];
+    if (isS3Configured()) {
+      const s3Key = `files/${Date.now()}_${mf.originalname}`;
+      await uploadToS3(mf.path, s3Key, mf.mimetype);
+      filePath = s3Key;
+      if (fs.existsSync(mf.path)) fs.unlinkSync(mf.path);
+    } else {
+      filePath = 'files/' + mf.filename;
+    }
   }
 
   const result = db.prepare(
