@@ -28,6 +28,22 @@ router.get('/clear', (req, res) => {
   res.json({ success: true, message: `Compras borradas para ${email}` });
 });
 
+router.get('/gift', (req, res) => {
+  const email = req.query.email;
+  const courseId = req.query.courseId || 1;
+  if (!email) return res.json({ error: 'Falta email' });
+  const user = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
+  if (!user) return res.json({ error: 'Usuario no encontrado' });
+  
+  db.prepare('DELETE FROM purchases WHERE user_id = ? AND course_id = ?').run(user.id, courseId);
+  db.prepare(`
+    INSERT INTO purchases (user_id, course_id, stripe_session_id, amount_cents, status) 
+    VALUES (?, ?, ?, ?, ?)
+  `).run(user.id, courseId, 'gift_' + Date.now(), 0, 'completed');
+  
+  res.json({ success: true, message: `Curso regalado a ${email}` });
+});
+
 router.get('/test-s3', async (req, res) => {
   try {
     const url = await getSignedS3Url('test.jpg', 3600);
