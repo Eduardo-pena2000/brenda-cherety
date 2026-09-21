@@ -6,13 +6,16 @@ import fs from 'fs';
 let s3Client = null;
 let bucketName = null;
 
-if (process.env.S3_BUCKET_NAME && process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+const awsKey = process.env.R2_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
+const awsSecret = process.env.R2_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
+
+if (process.env.S3_BUCKET_NAME && awsKey && awsSecret) {
   s3Client = new S3Client({
     region: process.env.AWS_REGION || 'auto', // 'auto' para R2
     endpoint: process.env.S3_ENDPOINT_URL || undefined, // Ej: https://<account_id>.r2.cloudflarestorage.com
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      accessKeyId: awsKey,
+      secretAccessKey: awsSecret,
     }
   });
   bucketName = process.env.S3_BUCKET_NAME;

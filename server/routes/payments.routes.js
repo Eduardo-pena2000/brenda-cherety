@@ -11,8 +11,8 @@ router.get('/debug', (req, res) => {
     hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
     hasClientUrl: !!process.env.CLIENT_URL,
     hasS3Bucket: !!process.env.S3_BUCKET_NAME,
-    hasAwsKey: !!process.env.AWS_ACCESS_KEY_ID,
-    hasAwsSecret: !!process.env.AWS_SECRET_ACCESS_KEY,
+    hasAwsKey: !!(process.env.R2_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID),
+    hasAwsSecret: !!(process.env.R2_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY),
     hasS3Endpoint: !!process.env.S3_ENDPOINT_URL,
     clientUrlVal: process.env.CLIENT_URL || null
   });
