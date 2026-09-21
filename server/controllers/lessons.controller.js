@@ -16,7 +16,7 @@ export function listByCourse(req, res) {
 }
 
 // Admin: crear leccion con archivos
-export function create(req, res) {
+export async function create(req, res) {
   const { course_id, title, description, sort_order } = req.body;
 
   if (!course_id || !title) {
