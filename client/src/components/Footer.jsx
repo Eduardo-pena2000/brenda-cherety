@@ -92,6 +92,27 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Legal */}
+          <div>
+            <h4 style={{ fontWeight: 500, fontSize: '1rem', color: '#e5e7eb', marginBottom: 16 }}>Legal</h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {[
+                { to: '/terminos', label: 'Términos y Condiciones' },
+                { to: '/privacidad', label: 'Aviso de Privacidad' },
+                { to: '/devoluciones', label: 'Política de Devoluciones' },
+              ].map((link, i) => (
+                <li key={i}>
+                  <Link to={link.to} style={{ color: '#9ca3af', fontSize: '0.9rem', fontWeight: 300, textDecoration: 'none', transition: 'color 0.3s' }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#9ca3af'}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
         </div>
 
         {/* Divider */}

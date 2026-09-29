@@ -22,6 +22,9 @@ import HerramientasPage from './pages/HerramientasPage';
 import ConsultaPage from './pages/ConsultaPage';
 import AgendaPage from './pages/AgendaPage';
 import ProgramaVipPage from './pages/ProgramaVipPage';
+import TerminosPage from './pages/TerminosPage';
+import PrivacidadPage from './pages/PrivacidadPage';
+import DevolucionesPage from './pages/DevolucionesPage';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -60,6 +63,9 @@ function App() {
             <Route path="/consulta" element={<ConsultaPage />} />
             <Route path="/agenda" element={<AgendaPage />} />
             <Route path="/programa-vip" element={<ProgramaVipPage />} />
+            <Route path="/terminos" element={<TerminosPage />} />
+            <Route path="/privacidad" element={<PrivacidadPage />} />
+            <Route path="/devoluciones" element={<DevolucionesPage />} />
 
             {/* Protegidas */}
             <Route element={<ProtectedRoute />}>
