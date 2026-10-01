@@ -128,9 +128,17 @@ export default function HomePage() {
                     <h3 style={{ fontSize: '1.15rem', fontWeight: 500, color: '#1f2937', marginBottom: 16, lineHeight: 1.3 }}>
                       {featuredCourse.title}
                     </h3>
-                    <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid #f3f4f6' }}>
-                      <span style={{ fontSize: '1.3rem', color: 'var(--primary-deep)', fontWeight: 600, display: 'block' }}>
+                    <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '1.3rem', color: 'var(--primary-deep)', fontWeight: 600 }}>
                         {formatPrice(featuredCourse.price_cents, featuredCourse.currency)}
+                      </span>
+                      <span style={{
+                        background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-dark))',
+                        color: '#fff', padding: '8px 16px', borderRadius: '10px',
+                        fontSize: '0.85rem', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px',
+                        boxShadow: '0 4px 12px -2px rgba(116,150,149,0.3)'
+                      }}>
+                        Inscribirme <ChevronRight size={14} />
                       </span>
                     </div>
                   </div>

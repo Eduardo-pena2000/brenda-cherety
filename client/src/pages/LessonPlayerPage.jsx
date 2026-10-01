@@ -165,17 +165,27 @@ export default function LessonPlayerPage() {
               boxShadow: '0 25px 60px -15px rgba(0,0,0,0.5)'
             }}>
               {currentLesson.video_path ? (
-                <video
-                  key={currentLesson.id}
-                  src={videoUrl}
-                  controls
-                  controlsList="nodownload"
-                  onContextMenu={(e) => e.preventDefault()}
-                  style={{
-                    position: 'absolute', top: 0, left: 0,
-                    width: '100%', height: '100%', objectFit: 'contain'
-                  }}
-                />
+                currentLesson.video_path.startsWith('cf_stream:') ? (
+                  <iframe
+                    key={currentLesson.id}
+                    src={`https://customer-${currentLesson.video_path.split(':')[2]}.cloudflarestream.com/${currentLesson.video_path.split(':')[1]}/iframe`}
+                    style={{ border: 'none', position: 'absolute', top: 0, left: 0, height: '100%', width: '100%' }}
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowFullScreen={true}
+                  ></iframe>
+                ) : (
+                  <video
+                    key={currentLesson.id}
+                    src={videoUrl}
+                    controls
+                    controlsList="nodownload"
+                    onContextMenu={(e) => e.preventDefault()}
+                    style={{
+                      position: 'absolute', top: 0, left: 0,
+                      width: '100%', height: '100%', objectFit: 'contain'
+                    }}
+                  />
+                )
               ) : (
                 <div style={{
                   position: 'absolute', inset: 0,
@@ -202,20 +212,22 @@ export default function LessonPlayerPage() {
               </p>
 
               {/* Description Card */}
-              <div style={{
-                marginTop: 24, padding: 24,
-                background: 'rgba(255,255,255,0.04)',
-                borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)'
-              }}>
-                <h3 style={{
-                  fontSize: '1rem', fontWeight: 500, color: '#d1d5db', marginBottom: 10
-                }}>Descripción</h3>
-                <p style={{
-                  color: '#9ca3af', fontWeight: 300, lineHeight: 1.7, fontSize: '0.95rem'
+              {currentLesson.description && (
+                <div style={{
+                  marginTop: 24, padding: 24,
+                  background: 'rgba(255,255,255,0.04)',
+                  borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)'
                 }}>
-                  {currentLesson.description || 'Sin descripción disponible.'}
-                </p>
-              </div>
+                  <h3 style={{
+                    fontSize: '1rem', fontWeight: 500, color: '#d1d5db', marginBottom: 10
+                  }}>Descripción</h3>
+                  <p style={{
+                    color: '#9ca3af', fontWeight: 300, lineHeight: 1.7, fontSize: '0.95rem'
+                  }}>
+                    {currentLesson.description}
+                  </p>
+                </div>
+              )}
 
               {/* ===== MARK AS COMPLETED BUTTON ===== */}
               <div style={{ marginTop: 20 }}>

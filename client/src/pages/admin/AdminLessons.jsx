@@ -16,6 +16,7 @@ export default function AdminLessons() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [sortOrder, setSortOrder] = useState(0);
+  const [duration, setDuration] = useState('');
   const [videoFile, setVideoFile] = useState(null);
   const [materialFile, setMaterialFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -49,12 +50,13 @@ export default function AdminLessons() {
       formData.append('title', title);
       formData.append('description', description);
       formData.append('sort_order', String(sortOrder));
+      if (duration) formData.append('duration', String(duration));
       if (videoFile) formData.append('video', videoFile);
       if (materialFile) formData.append('material', materialFile);
 
       await uploadWithProgress('/api/lessons', formData, token, setUploadProgress);
 
-      setTitle(''); setDescription('');
+      setTitle(''); setDescription(''); setDuration('');
       setVideoFile(null); setMaterialFile(null);
       setShowForm(false); setUploadProgress(0);
       await loadData();
@@ -187,6 +189,17 @@ export default function AdminLessons() {
                     onFocus={() => setFocusedField('title')}
                     onBlur={() => setFocusedField(null)}
                     style={inputStyle('title')}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Duración (min)</label>
+                  <input
+                    type="number" value={duration} min="1"
+                    placeholder="Ej: 15"
+                    onChange={e => setDuration(e.target.value)}
+                    onFocus={() => setFocusedField('duration')}
+                    onBlur={() => setFocusedField(null)}
+                    style={{ ...inputStyle('duration'), textAlign: 'center' }}
                   />
                 </div>
                 <div>
@@ -340,6 +353,31 @@ export default function AdminLessons() {
                     whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
                   }}>{lesson.title}</p>
                   <div style={{ display: 'flex', gap: 12, marginTop: 4 }}>
+                    <span 
+                      onClick={async () => {
+                        const newDur = prompt('Ingresa la duración de esta lección en minutos (ej: 15):', lesson.duration || '');
+                        if (newDur !== null) {
+                          try {
+                            await apiFetch(`/lessons/${lesson.id}`, {
+                              method: 'PUT',
+                              body: JSON.stringify({ duration: newDur })
+                            });
+                            await loadData();
+                          } catch(err) { alert(err.message) }
+                        }
+                      }}
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: 4, cursor: 'pointer',
+                        fontSize: '0.75rem', color: '#4f46e5', fontWeight: 500,
+                        background: '#e0e7ff', padding: '2px 8px', borderRadius: 6,
+                        transition: 'opacity 0.2s'
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
+                      onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                      title="Haz clic para editar la duración"
+                    >
+                      ⏱ {lesson.duration || '10'} min
+                    </span>
                     {lesson.video_path && (
                       <span style={{
                         display: 'inline-flex', alignItems: 'center', gap: 4,
@@ -394,7 +432,7 @@ export default function AdminLessons() {
         }
         .admin-lesson-title-row {
           display: grid;
-          grid-template-columns: 1fr 80px;
+          grid-template-columns: 1fr 100px 80px;
           gap: 16px;
           margin-bottom: 16px;
         }

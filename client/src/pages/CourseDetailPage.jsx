@@ -156,26 +156,23 @@ export default function CourseDetailPage() {
                 lineHeight: 1.2, marginBottom: 16
               }}>{course.title}</h1>
 
-              <p style={{
-                color: 'rgba(255,255,255,0.7)', fontSize: '1.1rem', fontWeight: 300,
-                lineHeight: 1.7, marginBottom: 24, maxWidth: 600
-              }}>
-                {course.description || 'Transforma tu vida con este curso integral de nutrición consciente.'}
-              </p>
+              {course.description && (
+                <p style={{
+                  color: 'rgba(255,255,255,0.7)', fontSize: '1.1rem', fontWeight: 300,
+                  lineHeight: 1.7, marginBottom: 24, maxWidth: 600
+                }}>
+                  {course.description}
+                </p>
+              )}
 
               {/* Stats */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginBottom: 28 }}>
-                {[
-                  { icon: Clock, label: course.duration || '4 semanas' },
-                  { icon: Play, label: `${lessons.length} lecciones` }
-                ].map((item, i) => (
-                  <span key={i} style={{
-                    display: 'flex', alignItems: 'center', gap: 6,
-                    color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', fontWeight: 300
-                  }}>
-                    <item.icon size={16} color="var(--primary)" /> {item.label}
-                  </span>
-                ))}
+                <span style={{
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', fontWeight: 300
+                }}>
+                  <Play size={16} color="var(--primary)" /> {lessons.length} {lessons.length === 1 ? 'clase' : 'clases'}
+                </span>
               </div>
 
               {/* Price + CTA */}
@@ -229,111 +226,7 @@ export default function CourseDetailPage() {
         </div>
       </div>
 
-      {/* Lessons Section */}
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '3rem 1.5rem 0' }}>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32
-        }}>
-          <div style={{
-            width: 44, height: 44, borderRadius: 12,
-            background: 'linear-gradient(135deg, var(--primary-light), var(--accent-50))',
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }}>
-            <BookOpen size={22} color="var(--primary-deep)" />
-          </div>
-          <div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 400, color: '#1f2937' }}>
-              Contenido del curso
-            </h2>
-            <p style={{ color: '#9ca3af', fontSize: '0.9rem', fontWeight: 300 }}>
-              {lessons.length} lecciones disponibles
-            </p>
-          </div>
-        </div>
 
-        {lessons.length === 0 ? (
-          <div style={{
-            textAlign: 'center', padding: '4rem 2rem',
-            background: '#fff', borderRadius: 20,
-            boxShadow: '0 4px 20px -4px rgba(0,0,0,0.05)'
-          }}>
-            <Clock size={48} color="#e5e7eb" style={{ margin: '0 auto 16px' }} />
-            <p style={{ color: '#9ca3af', fontSize: '1rem', fontWeight: 300 }}>
-              Próximamente...
-            </p>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {lessons.map((lesson, index) => {
-              const isHover = hoveredLesson === lesson.id;
-              return (
-                <div
-                  key={lesson.id}
-                  onMouseEnter={() => setHoveredLesson(lesson.id)}
-                  onMouseLeave={() => setHoveredLesson(null)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 16,
-                    padding: '18px 24px',
-                    background: isHover ? '#fff' : 'rgba(255,255,255,0.7)',
-                    borderRadius: 16,
-                    boxShadow: isHover ? '0 8px 30px -8px rgba(0,0,0,0.1)' : '0 1px 4px rgba(0,0,0,0.04)',
-                    transition: 'all 0.3s',
-                    transform: isHover ? 'translateX(4px)' : 'translateX(0)',
-                    cursor: isEnrolled ? 'pointer' : 'default',
-                    animation: `fadeInUp 0.4s ease-out ${index * 0.06}s backwards`
-                  }}
-                  onClick={() => {
-                    if (isEnrolled) navigate(`/clase/${id}/${lesson.id}`);
-                  }}
-                >
-                  {/* Number */}
-                  <div style={{
-                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
-                    background: isHover
-                      ? 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))'
-                      : 'linear-gradient(135deg, var(--primary-light), var(--accent-50))',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: isHover ? '#fff' : 'var(--primary-deep)',
-                    fontSize: '0.9rem', fontWeight: 600,
-                    transition: 'all 0.3s'
-                  }}>
-                    {index + 1}
-                  </div>
-
-                  {/* Title */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{
-                      fontSize: '1rem', fontWeight: 450, color: '#1f2937',
-                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-                    }}>{lesson.title}</p>
-                    {lesson.description && (
-                      <p style={{
-                        fontSize: '0.85rem', color: '#9ca3af', fontWeight: 300,
-                        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: 2
-                      }}>{lesson.description}</p>
-                    )}
-                  </div>
-
-                  {/* Duration + Lock */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-                    <span style={{
-                      display: 'flex', alignItems: 'center', gap: 4,
-                      color: '#9ca3af', fontSize: '0.85rem', fontWeight: 300
-                    }}>
-                      <Clock size={14} /> {lesson.duration || '15:00'}
-                    </span>
-                    {isEnrolled ? (
-                      <Play size={16} color="var(--primary-deep)" fill="var(--primary-deep)" />
-                    ) : (
-                      <Lock size={16} color="#d1d5db" />
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
 
       <style>{`
         @keyframes spin { to { transform: rotate(360deg) } }

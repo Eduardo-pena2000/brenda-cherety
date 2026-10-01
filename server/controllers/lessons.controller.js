@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { uploadToS3, isS3Configured } from '../lib/s3.js';
+import { uploadToCloudflareStream } from '../lib/cloudflareStream.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsBase = path.join(__dirname, '..', 'uploads');
@@ -17,11 +18,12 @@ export function listByCourse(req, res) {
 
 // Admin: crear leccion con archivos
 export async function create(req, res) {
-  const { course_id, title, description, sort_order } = req.body;
+  try {
+    const { course_id, title, description, sort_order, duration } = req.body;
 
-  if (!course_id || !title) {
-    return res.status(400).json({ error: 'course_id y title son requeridos' });
-  }
+    if (!course_id || !title) {
+      return res.status(400).json({ error: 'course_id y title son requeridos' });
+    }
 
   const course = db.prepare('SELECT id FROM courses WHERE id = ?').get(course_id);
   if (!course) {
@@ -34,9 +36,9 @@ export async function create(req, res) {
   if (req.files?.video?.[0]) {
     const vf = req.files.video[0];
     if (isS3Configured()) {
-      const s3Key = `videos/${Date.now()}_${vf.originalname}`;
-      await uploadToS3(vf.path, s3Key, vf.mimetype);
-      videoPath = s3Key;
+      // Upload video to Cloudflare Stream
+      const uidInfo = await uploadToCloudflareStream(vf.path);
+      videoPath = 'cf_stream:' + uidInfo;
       if (fs.existsSync(vf.path)) fs.unlinkSync(vf.path);
     } else {
       videoPath = 'videos/' + vf.filename;
@@ -55,18 +57,23 @@ export async function create(req, res) {
   }
 
   const result = db.prepare(
-    'INSERT INTO lessons (course_id, title, description, video_path, file_path, sort_order) VALUES (?, ?, ?, ?, ?, ?)'
+    'INSERT INTO lessons (course_id, title, description, video_path, file_path, sort_order, duration) VALUES (?, ?, ?, ?, ?, ?, ?)'
   ).run(
     Number(course_id),
     title,
     description || '',
     videoPath,
     filePath,
-    Number(sort_order) || 0
+    Number(sort_order) || 0,
+    duration ? Number(duration) : null
   );
 
   const lesson = db.prepare('SELECT * FROM lessons WHERE id = ?').get(result.lastInsertRowid);
   res.status(201).json({ lesson });
+  } catch (error) {
+    console.error('Error creando leccion:', error);
+    res.status(500).json({ error: error.message || 'Error interno del servidor' });
+  }
 }
 
 // Admin: actualizar leccion
@@ -76,14 +83,15 @@ export function update(req, res) {
     return res.status(404).json({ error: 'Leccion no encontrada' });
   }
 
-  const { title, description, sort_order } = req.body;
+  const { title, description, sort_order, duration } = req.body;
 
   db.prepare(
-    'UPDATE lessons SET title = ?, description = ?, sort_order = ? WHERE id = ?'
+    'UPDATE lessons SET title = ?, description = ?, sort_order = ?, duration = ? WHERE id = ?'
   ).run(
     title ?? lesson.title,
     description ?? lesson.description,
     sort_order !== undefined ? Number(sort_order) : lesson.sort_order,
+    duration !== undefined ? Number(duration) : lesson.duration,
     lesson.id
   );
 
@@ -113,20 +121,20 @@ export function remove(req, res) {
 
 // Admin: subir/reemplazar video
 export async function uploadVideo(req, res) {
-  const lesson = db.prepare('SELECT * FROM lessons WHERE id = ?').get(req.params.id);
-  if (!lesson) {
-    return res.status(404).json({ error: 'Leccion no encontrada' });
-  }
+  try {
+    const lesson = db.prepare('SELECT * FROM lessons WHERE id = ?').get(req.params.id);
+    if (!lesson) {
+      return res.status(404).json({ error: 'Leccion no encontrada' });
+    }
 
-  if (!req.file) {
-    return res.status(400).json({ error: 'No se envio video' });
-  }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No se envio video' });
+    }
 
   let finalPath = '';
   if (isS3Configured()) {
-    const s3Key = `videos/${Date.now()}_${req.file.originalname}`;
-    await uploadToS3(req.file.path, s3Key, req.file.mimetype);
-    finalPath = s3Key;
+    const uidInfo = await uploadToCloudflareStream(req.file.path);
+    finalPath = 'cf_stream:' + uidInfo;
     // Borrar archivo temporal
     if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
   } else {
@@ -142,6 +150,10 @@ export async function uploadVideo(req, res) {
   db.prepare('UPDATE lessons SET video_path = ? WHERE id = ?').run(finalPath, lesson.id);
 
   res.json({ video_path: finalPath });
+  } catch (error) {
+    console.error('Error subiendo video:', error);
+    res.status(500).json({ error: error.message || 'Error interno del servidor' });
+  }
 }
 
 // Admin: subir/reemplazar archivo

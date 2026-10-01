@@ -56,7 +56,7 @@ export default function Navbar() {
           {isLoggedIn ? (
             <>
               {isAdmin && (
-                <Link to="/admin" className="nav-link" style={{ color: 'var(--primary-deep)', fontWeight: 500 }}>Panel Admin</Link>
+                <Link to="/admin/cursos" className="nav-link" style={{ color: 'var(--primary-deep)', fontWeight: 500 }}>Panel Admin</Link>
               )}
               <Link to="/perfil" className="nav-link">Mi cuenta</Link>
               <button onClick={handleLogout} className="btn btn-ghost btn-sm">
@@ -99,7 +99,7 @@ export default function Navbar() {
             {isLoggedIn ? (
               <>
                 {isAdmin && (
-                  <Link to="/admin" className="nav-link block py-2" style={{ color: 'var(--primary-deep)', fontWeight: 500 }} onClick={() => setMobileMenuOpen(false)}>Panel Admin</Link>
+                  <Link to="/admin/cursos" className="nav-link block py-2" style={{ color: 'var(--primary-deep)', fontWeight: 500 }} onClick={() => setMobileMenuOpen(false)}>Panel Admin</Link>
                 )}
                 <Link to="/perfil" className="nav-link block py-2" onClick={() => setMobileMenuOpen(false)}>Mi cuenta</Link>
                 <button onClick={handleLogout} className="btn btn-secondary w-full">
