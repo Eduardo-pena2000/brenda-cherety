@@ -58,7 +58,7 @@ export default function TerminosPage() {
           <p style={{ marginBottom: '1.5rem' }}>Estos términos se regirán e interpretarán de acuerdo con las leyes de México, y cualquier disputa estará sujeta a la jurisdicción exclusiva de los tribunales competentes en Nuevo León, México.</p>
           
           <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid #f3f4f6', fontSize: '0.85rem', color: '#9ca3af' }}>
-            Para preguntas sobre estos términos, por favor contacte a brendacheretynutricion@gmail.com
+            Para preguntas sobre estos términos, por favor contacte a Brendacheretynutricion@gmail.com
           </div>
         </div>
       </div>

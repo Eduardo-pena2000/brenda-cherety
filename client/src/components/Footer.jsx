@@ -39,7 +39,7 @@ export default function Footer() {
                 { icon: MessageCircle, href: `https://wa.me/${whatsappNumber}`, label: 'WhatsApp' },
                 { icon: Facebook, href: 'https://www.facebook.com/Nutriologacherety?locale=es_LA', label: 'Facebook' },
                 { icon: Instagram, href: 'https://www.instagram.com/nutriologacherety/', label: 'Instagram' },
-                { icon: Mail, href: 'mailto:brendacheretynutricion@gmail.com', label: 'Email' },
+                { icon: Mail, href: 'mailto:Brendacheretynutricion@gmail.com', label: 'Email' },
                 { isTiktok: true, href: '#', label: 'TikTok' },
               ].map((s, i) => (
                 <a key={i} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} style={{

@@ -47,7 +47,7 @@ export default function DevolucionesPage() {
           <h2 style={{ fontSize: '1.3rem', color: '#1f2937', fontWeight: 500, marginTop: '2rem', marginBottom: '1rem' }}>3. Proceso para Solicitar un Reembolso</h2>
           <p style={{ marginBottom: '0.5rem' }}>Para solicitar un reembolso dentro del periodo aplicable, debes:</p>
           <ol style={{ paddingLeft: '1.5rem', marginBottom: '1.5rem' }}>
-            <li>Enviar un correo a <strong>brendacheretynutricion@gmail.com</strong>.</li>
+            <li>Enviar un correo a <strong>Brendacheretynutricion@gmail.com</strong>.</li>
             <li>Incluir en el asunto "Solicitud de Reembolso - [Tu Nombre]".</li>
             <li>Proporcionar el recibo de compra o el correo electrónico utilizado para la compra.</li>
             <li>Incluir una breve descripción del motivo de tu insatisfacción (esto nos ayuda a mejorar, pero no condiciona la devolución válida).</li>
@@ -60,7 +60,7 @@ export default function DevolucionesPage() {
           <p style={{ marginBottom: '1.5rem' }}>Si presentas una disputa de cargo con tu banco o proveedor de tarjeta de crédito (chargeback) sin antes contactarnos para solicitar un reembolso según esta política, tu cuenta en la plataforma será suspendida de manera permanente y podrías perder acceso a todas las compras anteriores.</p>
 
           <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid #f3f4f6', fontSize: '0.85rem', color: '#9ca3af' }}>
-            Para preguntas sobre reembolsos, por favor contacte a brendacheretynutricion@gmail.com
+            Para preguntas sobre reembolsos, por favor contacte a Brendacheretynutricion@gmail.com
           </div>
         </div>
       </div>

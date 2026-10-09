@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.SMTP_USER, // Ej: brenda.cheretynutricion@gmail.com
+    user: process.env.SMTP_USER, // Ej: Brendacheretynutricion@gmail.com
     pass: process.env.SMTP_PASS, // Contraseña de Aplicación de Gmail
   },
 });
@@ -97,7 +97,7 @@ export async function sendAdminNotification(customerEmail, customerName, itemNam
   try {
     await transporter.sendMail({
       from: `"Sistema Cherety" <${process.env.SMTP_USER}>`,
-      to: 'brenda.cheretynutricion@gmail.com', // Correo destino (hardcoded por si el SMTP_USER es distinto)
+      to: 'Brendacheretynutricion@gmail.com', // Correo destino (hardcoded por si el SMTP_USER es distinto)
       subject,
       html,
     });

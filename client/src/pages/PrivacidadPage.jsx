@@ -62,7 +62,7 @@ export default function PrivacidadPage() {
           <p style={{ marginBottom: '1.5rem' }}>Implementamos medidas de seguridad administrativas, técnicas y físicas para proteger sus datos personales contra daño, pérdida, alteración, destrucción o el uso, acceso o tratamiento no autorizado. Las transacciones de pago están encriptadas bajo protocolos de seguridad estándar.</p>
 
           <h2 style={{ fontSize: '1.3rem', color: '#1f2937', fontWeight: 500, marginTop: '2rem', marginBottom: '1rem' }}>5. Derechos ARCO</h2>
-          <p style={{ marginBottom: '1.5rem' }}>Usted tiene derecho a conocer qué datos personales tenemos de usted, para qué los utilizamos y las condiciones del uso que les damos (Acceso). Asimismo, es su derecho solicitar la corrección de su información personal en caso de que esté desactualizada, sea inexacta o incompleta (Rectificación); que la eliminemos de nuestros registros o bases de datos cuando considere que la misma no está siendo utilizada adecuadamente (Cancelación); así como oponerse al uso de sus datos personales para fines específicos (Oposición). Para el ejercicio de cualquiera de los derechos ARCO, usted deberá presentar la solicitud respectiva a través del correo electrónico: brendacheretynutricion@gmail.com.</p>
+          <p style={{ marginBottom: '1.5rem' }}>Usted tiene derecho a conocer qué datos personales tenemos de usted, para qué los utilizamos y las condiciones del uso que les damos (Acceso). Asimismo, es su derecho solicitar la corrección de su información personal en caso de que esté desactualizada, sea inexacta o incompleta (Rectificación); que la eliminemos de nuestros registros o bases de datos cuando considere que la misma no está siendo utilizada adecuadamente (Cancelación); así como oponerse al uso de sus datos personales para fines específicos (Oposición). Para el ejercicio de cualquiera de los derechos ARCO, usted deberá presentar la solicitud respectiva a través del correo electrónico: Brendacheretynutricion@gmail.com.</p>
           
           <h2 style={{ fontSize: '1.3rem', color: '#1f2937', fontWeight: 500, marginTop: '2rem', marginBottom: '1rem' }}>6. Uso de Cookies</h2>
           <p style={{ marginBottom: '1.5rem' }}>Nuestro sitio web utiliza cookies, web beacons y otras tecnologías a través de las cuales es posible monitorear su comportamiento como usuario de internet, así como brindarle un mejor servicio y experiencia de usuario al navegar en nuestra página. Usted puede deshabilitar estas tecnologías en la configuración de su navegador.</p>
@@ -71,7 +71,7 @@ export default function PrivacidadPage() {
           <p style={{ marginBottom: '1.5rem' }}>Nos reservamos el derecho de efectuar en cualquier momento modificaciones o actualizaciones al presente aviso de privacidad, para la atención de novedades legislativas, políticas internas o nuevos requerimientos para la prestación u ofrecimiento de nuestros servicios o productos. Estas modificaciones estarán disponibles al público a través de nuestro sitio web.</p>
 
           <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid #f3f4f6', fontSize: '0.85rem', color: '#9ca3af' }}>
-            Para preguntas sobre nuestra política de privacidad, por favor contacte a brendacheretynutricion@gmail.com
+            Para preguntas sobre nuestra política de privacidad, por favor contacte a Brendacheretynutricion@gmail.com
           </div>
         </div>
       </div>
