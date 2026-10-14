@@ -21,7 +21,21 @@ app.set('trust proxy', 1);
 
 // Set security headers
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" } // Allow loading media from S3/Cloudflare
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://js.stripe.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https:", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https:", "data:", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https:", "*.r2.cloudflarestorage.com"],
+      mediaSrc: ["'self'", "blob:", "https:", "*.r2.cloudflarestorage.com", "*.videodelivery.net", "*.cloudflarestream.com"],
+      connectSrc: ["'self'", "https:", "*.r2.cloudflarestorage.com", "*.cloudflarestream.com", "https://api.stripe.com"],
+      frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com", "https://iframe.videodelivery.net"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    }
+  }
 }));
 
 // Rate limiting (100 requests per 15 minutes per IP)

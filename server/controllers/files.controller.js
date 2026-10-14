@@ -2,7 +2,7 @@ import db from '../db/database.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getSignedS3Url, isS3Configured } from '../lib/s3.js';
+import { getSignedS3Url, getS3ObjectStream, isS3Configured } from '../lib/s3.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsBase = path.join(__dirname, '..', 'uploads');
@@ -122,22 +122,31 @@ export async function downloadFile(req, res) {
 
 // Servir thumbnails (publico)
 export async function serveThumbnail(req, res) {
-  const s3Key = `thumbnails/${req.params.filename}`;
+  const filename = req.params.filename;
+  const s3Key = `thumbnails/${filename}`;
+
+  // 1. Intentar servir desde R2/S3 directamente mediante stream (evita redirects y problemas de CSP)
   if (isS3Configured()) {
     try {
-      const url = await getSignedS3Url(s3Key, 3600); // 1 hora de validez
-      if (url) {
-        return res.redirect(302, url);
+      const obj = await getS3ObjectStream(s3Key);
+      if (obj && obj.stream) {
+        res.setHeader('Content-Type', obj.contentType || 'image/jpeg');
+        if (obj.contentLength) res.setHeader('Content-Length', obj.contentLength);
+        if (obj.etag) res.setHeader('ETag', obj.etag);
+        res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=43200');
+        return obj.stream.pipe(res);
       }
     } catch (error) {
-      console.error('Error generando URL de thumbnail:', error);
+      console.error('Error sirviendo thumbnail desde S3 stream:', error);
     }
   }
 
-  // Fallback local
-  const filePath = path.join(uploadsBase, 'thumbnails', req.params.filename);
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: 'Imagen no encontrada' });
+  // 2. Fallback local si existe
+  const filePath = path.join(uploadsBase, 'thumbnails', filename);
+  if (fs.existsSync(filePath)) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.sendFile(filePath);
   }
-  res.sendFile(filePath);
+
+  res.status(404).json({ error: 'Imagen no encontrada' });
 }
