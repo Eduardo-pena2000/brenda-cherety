@@ -56,6 +56,16 @@ export async function streamVideo(req, res) {
     return res.status(404).json({ error: 'Esta leccion no tiene video' });
   }
 
+  if (lesson.video_path.startsWith('cf_stream:')) {
+    const parts = lesson.video_path.split(':');
+    const uid = (parts[1] || '').split('?')[0].trim();
+    const customerCode = (parts[2] || '').split('?')[0].trim();
+    const streamUrl = customerCode
+      ? `https://customer-${customerCode}.cloudflarestream.com/${uid}/iframe`
+      : `https://iframe.videodelivery.net/${uid}`;
+    return res.redirect(302, streamUrl);
+  }
+
   if (isS3Configured() && lesson.video_path.includes('/')) {
     // Redirigir a URL firmada de S3 que soporta rangos nativamente
     const url = await getSignedS3Url(lesson.video_path, 3600 * 4); // 4 horas

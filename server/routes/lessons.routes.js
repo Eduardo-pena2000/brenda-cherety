@@ -30,6 +30,7 @@ router.get('/course/:courseId/progress', authenticate, getProgress);
 // Debug: ver lecciones con sus rutas de video
 import db from '../db/database.js';
 import { uploadToS3, isS3Configured } from '../lib/s3.js';
+import { runStreamMigration } from '../db/migrateStream.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -40,6 +41,13 @@ const uploadsBase = path.join(__dirname, '..', 'uploads');
 router.get('/debug/all', (req, res) => {
   const lessons = db.prepare('SELECT id, title, video_path, file_path FROM lessons ORDER BY id').all();
   res.json({ lessons, s3Configured: isS3Configured() });
+});
+
+// Migrar videos a Cloudflare Stream
+router.get('/migrate-to-stream', (req, res) => {
+  const result = runStreamMigration();
+  const lessons = db.prepare('SELECT id, title, video_path, duration FROM lessons ORDER BY id').all();
+  res.json({ result, lessons });
 });
 
 // Migrar videos locales a R2

@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { uploadToS3, isS3Configured } from '../lib/s3.js';
-import { uploadToCloudflareStream } from '../lib/cloudflareStream.js';
+import { uploadToCloudflareStream, isCloudflareStreamConfigured } from '../lib/cloudflareStream.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsBase = path.join(__dirname, '..', 'uploads');
@@ -35,10 +35,16 @@ export async function create(req, res) {
 
   if (req.files?.video?.[0]) {
     const vf = req.files.video[0];
-    if (isS3Configured()) {
-      // Upload video to Cloudflare Stream
+    if (isCloudflareStreamConfigured()) {
+      // Upload video to Cloudflare Stream (HLS adaptive streaming)
       const uidInfo = await uploadToCloudflareStream(vf.path);
       videoPath = 'cf_stream:' + uidInfo;
+      if (fs.existsSync(vf.path)) fs.unlinkSync(vf.path);
+    } else if (isS3Configured()) {
+      const ext = path.extname(vf.originalname) || '.mp4';
+      const s3Key = `videos/${Date.now()}_${Math.random().toString(36).substring(2, 8)}${ext}`;
+      await uploadToS3(vf.path, s3Key, vf.mimetype || 'video/mp4');
+      videoPath = s3Key;
       if (fs.existsSync(vf.path)) fs.unlinkSync(vf.path);
     } else {
       videoPath = 'videos/' + vf.filename;
@@ -132,10 +138,16 @@ export async function uploadVideo(req, res) {
     }
 
   let finalPath = '';
-  if (isS3Configured()) {
+  if (isCloudflareStreamConfigured()) {
     const uidInfo = await uploadToCloudflareStream(req.file.path);
     finalPath = 'cf_stream:' + uidInfo;
     // Borrar archivo temporal
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+  } else if (isS3Configured()) {
+    const ext = path.extname(req.file.originalname) || '.mp4';
+    const s3Key = `videos/${Date.now()}_${Math.random().toString(36).substring(2, 8)}${ext}`;
+    await uploadToS3(req.file.path, s3Key, req.file.mimetype || 'video/mp4');
+    finalPath = s3Key;
     if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
   } else {
     finalPath = 'videos/' + req.file.filename;

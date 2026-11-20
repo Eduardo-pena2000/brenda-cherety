@@ -11,6 +11,7 @@ import coursesRoutes from './routes/courses.routes.js';
 import lessonsRoutes from './routes/lessons.routes.js';
 import paymentsRoutes from './routes/payments.routes.js';
 import filesRoutes from './routes/files.routes.js';
+import { runStreamMigration } from './db/migrateStream.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -28,23 +29,29 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://js.stripe.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https:", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https:", "data:", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "blob:", "https:", "*.r2.cloudflarestorage.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https:", "*.r2.cloudflarestorage.com", "*.cloudflarestream.com", "*.videodelivery.net"],
       mediaSrc: ["'self'", "blob:", "https:", "*.r2.cloudflarestorage.com", "*.videodelivery.net", "*.cloudflarestream.com"],
-      connectSrc: ["'self'", "https:", "*.r2.cloudflarestorage.com", "*.cloudflarestream.com", "https://api.stripe.com"],
-      frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com", "https://iframe.videodelivery.net"],
+      connectSrc: ["'self'", "https:", "*.r2.cloudflarestorage.com", "*.cloudflarestream.com", "*.videodelivery.net", "https://api.stripe.com"],
+      frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com", "https://iframe.videodelivery.net", "https://*.cloudflarestream.com", "https://*.videodelivery.net", "*.cloudflarestream.com", "*.videodelivery.net"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     }
   }
 }));
 
-// Rate limiting (100 requests per 15 minutes per IP)
+// Rate limiting (evitar limitar streaming de video o webhooks)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
-  max: 100,
+  max: 300,
   message: 'Demasiadas solicitudes desde esta IP, por favor intenta de nuevo más tarde.'
 });
-app.use('/api', limiter);
+
+app.use('/api', (req, res, next) => {
+  if (req.path.startsWith('/files/video') || req.path.startsWith('/payments/webhook')) {
+    return next();
+  }
+  return limiter(req, res, next);
+});
 
 // Stripe webhooks necesitan body raw - ANTES de express.json()
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
@@ -71,4 +78,5 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  runStreamMigration();
 });

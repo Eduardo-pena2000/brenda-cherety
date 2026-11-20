@@ -4,6 +4,17 @@ import { Play, ArrowLeft, BookOpen, Clock, CheckCircle, ChevronRight, Lock } fro
 import { useAuth } from '../context/AuthContext';
 import { apiFetch } from '../lib/api';
 
+function getStreamIframeUrl(videoPath) {
+  if (!videoPath || !videoPath.startsWith('cf_stream:')) return '';
+  const parts = videoPath.split(':');
+  const uid = (parts[1] || '').split('?')[0].trim();
+  const customerCode = (parts[2] || '').split('?')[0].trim();
+  if (customerCode) {
+    return `https://customer-${customerCode}.cloudflarestream.com/${uid}/iframe?poster=https%3A%2F%2Fcustomer-${customerCode}.cloudflarestream.com%2F${uid}%2Fthumbnails%2Fthumbnail.jpg`;
+  }
+  return `https://iframe.videodelivery.net/${uid}`;
+}
+
 export default function LessonPlayerPage() {
   const { courseId, lessonId } = useParams();
   const [course, setCourse] = useState(null);
@@ -168,7 +179,7 @@ export default function LessonPlayerPage() {
                 currentLesson.video_path.startsWith('cf_stream:') ? (
                   <iframe
                     key={currentLesson.id}
-                    src={`https://customer-${currentLesson.video_path.split(':')[2]}.cloudflarestream.com/${currentLesson.video_path.split(':')[1]}/iframe`}
+                    src={getStreamIframeUrl(currentLesson.video_path)}
                     style={{ border: 'none', position: 'absolute', top: 0, left: 0, height: '100%', width: '100%' }}
                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                     allowFullScreen={true}
@@ -178,6 +189,8 @@ export default function LessonPlayerPage() {
                     key={currentLesson.id}
                     src={videoUrl}
                     controls
+                    playsInline
+                    preload="metadata"
                     controlsList="nodownload"
                     onContextMenu={(e) => e.preventDefault()}
                     style={{

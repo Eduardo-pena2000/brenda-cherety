@@ -2,6 +2,10 @@ import fs from 'fs';
 import axios from 'axios';
 import * as tus from 'tus-js-client';
 
+export function isCloudflareStreamConfigured() {
+  return Boolean(process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_STREAM_TOKEN);
+}
+
 export async function uploadToCloudflareStream(filePath) {
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
   const token = process.env.CLOUDFLARE_STREAM_TOKEN;
@@ -25,8 +29,9 @@ export async function uploadToCloudflareStream(filePath) {
       },
       onSuccess: async function () {
         try {
-          // El URL de TUS termina con el UID del video
-          const uid = upload.url.split('/').pop();
+          // El URL de TUS termina con el UID del video (limpiar posibles query params como ?tusv2=true)
+          const lastPart = upload.url.split('/').pop() || '';
+          const uid = lastPart.split('?')[0].trim();
           
           // Obtener los detalles del video para sacar el customerCode
           const details = await axios.get(
@@ -34,7 +39,7 @@ export async function uploadToCloudflareStream(filePath) {
             { headers: { Authorization: `Bearer ${token}` } }
           );
           
-          const preview = details.data.result.preview;
+          const preview = details.data?.result?.preview || '';
           const match = preview.match(/customer-([a-zA-Z0-9]+)\.cloudflarestream\.com/);
           const customerCode = match ? match[1] : '';
           
