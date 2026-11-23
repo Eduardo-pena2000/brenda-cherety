@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, X } from 'lucide-react';
-
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 export default function LoginModal({ isOpen, onClose }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [forgotOpen, setForgotOpen] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -112,7 +113,13 @@ export default function LoginModal({ isOpen, onClose }) {
                             </button>
                         </div>
 
-                        <button type="button" className="text-sm text-pink-400 hover:text-pink-500 transition-colors">¿Olvidaste tu contraseña?</button>
+                        <button 
+                            type="button" 
+                            onClick={() => setForgotOpen(true)}
+                            className="text-sm text-pink-400 hover:text-pink-500 transition-colors"
+                        >
+                            ¿Olvidaste tu contraseña?
+                        </button>
 
                         <button type="submit" className="w-full py-4 bg-gradient-to-r from-pink-300 to-pink-400 text-white rounded-2xl font-medium hover:shadow-lg hover:shadow-pink-200 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
                             Iniciar Sesión
@@ -130,6 +137,9 @@ export default function LoginModal({ isOpen, onClose }) {
                     </div>
                 </div>
             </div>
+
+            {/* Modal para restablecer contraseña */}
+            <ForgotPasswordModal isOpen={forgotOpen} onClose={() => setForgotOpen(false)} />
         </div>
     );
 }

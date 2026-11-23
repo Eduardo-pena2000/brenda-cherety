@@ -25,6 +25,7 @@ import ProgramaVipPage from './pages/ProgramaVipPage';
 import TerminosPage from './pages/TerminosPage';
 import PrivacidadPage from './pages/PrivacidadPage';
 import DevolucionesPage from './pages/DevolucionesPage';
+import RestablecerContrasenaPage from './pages/RestablecerContrasenaPage';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -37,7 +38,7 @@ import AdminRoute from './components/AdminRoute';
 
 function App() {
   const location = useLocation();
-  const isAuthPage = ['/login', '/registro'].includes(location.pathname);
+  const isAuthPage = ['/login', '/registro', '/restablecer-contrasena'].includes(location.pathname);
 
   return (
     <AuthProvider>
@@ -50,6 +51,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registro" element={<RegisterPage />} />
+            <Route path="/restablecer-contrasena" element={<RestablecerContrasenaPage />} />
             <Route path="/cursos" element={<CatalogPage />} />
             <Route path="/curso/:id" element={<CourseDetailPage />} />
             <Route path="/sobre-mi" element={<SobreMiPage />} />

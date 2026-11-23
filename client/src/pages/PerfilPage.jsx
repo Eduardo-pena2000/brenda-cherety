@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { apiFetch } from '../lib/api';
 
 export default function PerfilPage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [tab, setTab] = useState('info');
   const [focused, setFocused] = useState(null);
   const [saved, setSaved] = useState(false);
@@ -19,20 +19,41 @@ export default function PerfilPage() {
   async function handleSaveInfo(e) {
     e.preventDefault();
     setSaving(true); setError(''); setSaved(false);
-    await new Promise(r => setTimeout(r, 800));
-    setSaved(true); setSaving(false);
-    setTimeout(() => setSaved(false), 3000);
+    try {
+      const data = await apiFetch('/auth/update-profile', {
+        method: 'PUT',
+        body: JSON.stringify({ name })
+      });
+      if (data.user && updateUser) {
+        updateUser(data.user);
+      }
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err) {
+      setError(err.message || 'Error al guardar la información');
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function handleChangePwd(e) {
     e.preventDefault();
     if (newPwd !== confirmPwd) { setError('Las contraseñas no coinciden'); return; }
-    if (newPwd.length < 6) { setError('La contraseña debe tener al menos 6 caracteres'); return; }
+    if (newPwd.length < 6) { setError('La nueva contraseña debe tener al menos 6 caracteres'); return; }
     setSaving(true); setError(''); setSaved(false);
-    await new Promise(r => setTimeout(r, 800));
-    setSaved(true); setSaving(false);
-    setCurrentPwd(''); setNewPwd(''); setConfirmPwd('');
-    setTimeout(() => setSaved(false), 3000);
+    try {
+      await apiFetch('/auth/change-password', {
+        method: 'PUT',
+        body: JSON.stringify({ currentPassword: currentPwd, newPassword: newPwd })
+      });
+      setSaved(true);
+      setCurrentPwd(''); setNewPwd(''); setConfirmPwd('');
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err) {
+      setError(err.message || 'Error al cambiar la contraseña');
+    } finally {
+      setSaving(false);
+    }
   }
 
   const inputStyle = (field) => ({

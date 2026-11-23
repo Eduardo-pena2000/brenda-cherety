@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, X, Heart, Sparkles, Leaf } from 'lucide-react';
+import ForgotPasswordModal from '../components/ForgotPasswordModal';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+  const [forgotOpen, setForgotOpen] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -309,11 +311,14 @@ export default function LoginPage() {
 
             {/* Forgot password */}
             <div style={{ textAlign: 'right', marginBottom: '24px' }}>
-              <button type="button" style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: '13px', color: 'var(--primary-dark)', fontWeight: 300, fontFamily: 'inherit',
-                transition: 'color 0.3s', padding: 0
-              }}
+              <button 
+                type="button" 
+                onClick={() => setForgotOpen(true)}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: '13px', color: 'var(--primary-dark)', fontWeight: 300, fontFamily: 'inherit',
+                  transition: 'color 0.3s', padding: 0
+                }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--primary-deep)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--primary-dark)'}
               >
@@ -382,6 +387,9 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
+
+      {/* Modal para recuperar contraseña */}
+      <ForgotPasswordModal isOpen={forgotOpen} onClose={() => setForgotOpen(false)} />
 
       {/* Spin keyframe for loading */}
       <style>{`

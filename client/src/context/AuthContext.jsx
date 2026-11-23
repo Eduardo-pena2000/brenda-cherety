@@ -51,11 +51,15 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
+  function updateUser(updatedUser) {
+    setUser(prev => ({ ...prev, ...updatedUser }));
+  }
+
   const isLoggedIn = !!user;
   const isAdmin = user?.role === 'admin';
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, isLoggedIn, isAdmin, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, isLoggedIn, isAdmin, login, register, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
