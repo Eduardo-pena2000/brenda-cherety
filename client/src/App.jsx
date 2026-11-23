@@ -42,10 +42,10 @@ function App() {
 
   return (
     <AuthProvider>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
         <ScrollToTop />
         {!isAuthPage && <Navbar />}
-        <main style={{ flex: 1 }}>
+        <main style={{ flex: 1, width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
           <Routes>
             {/* Públicas */}
             <Route path="/" element={<HomePage />} />

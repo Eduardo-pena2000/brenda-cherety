@@ -51,18 +51,20 @@ export default function HomePage() {
 
   // Decorative Lines Component
   const DecorativeLines = () => (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="var(--primary-dark)" stopOpacity="0" />
-          <stop offset="50%" stopColor="var(--primary-dark)" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#c084fc" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d="M0,100 Q400,50 800,150 T1600,100" fill="none" stroke="url(#lineGradient)" strokeWidth="1" className="animate-draw-line" />
-      <path d="M0,200 Q300,150 600,250 T1200,200" fill="none" stroke="url(#lineGradient)" strokeWidth="1" className="animate-draw-line" style={{ animationDelay: '0.5s' }} />
-      <path d="M0,300 Q500,250 1000,350 T2000,300" fill="none" stroke="url(#lineGradient)" strokeWidth="1" className="animate-draw-line" style={{ animationDelay: '1s' }} />
-    </svg>
+    <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0" style={{ maxWidth: '100vw' }}>
+      <svg className="w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 400" preserveAspectRatio="none" style={{ overflow: 'hidden' }}>
+        <defs>
+          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--primary-dark)" stopOpacity="0" />
+            <stop offset="50%" stopColor="var(--primary-dark)" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#c084fc" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d="M0,100 Q400,50 800,150 T1600,100" fill="none" stroke="url(#lineGradient)" strokeWidth="1" className="animate-draw-line" />
+        <path d="M0,200 Q300,150 600,250 T1200,200" fill="none" stroke="url(#lineGradient)" strokeWidth="1" className="animate-draw-line" style={{ animationDelay: '0.5s' }} />
+        <path d="M0,300 Q500,250 1000,350 T2000,300" fill="none" stroke="url(#lineGradient)" strokeWidth="1" className="animate-draw-line" style={{ animationDelay: '1s' }} />
+      </svg>
+    </div>
   );
 
   return (
@@ -184,7 +186,7 @@ export default function HomePage() {
             Agenda una consulta privada conmigo para tener un plan altamente personalizado a tus necesidades
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', textAlign: 'left' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '2.5rem', textAlign: 'left' }}>
             
             {/* Consulta Presencial */}
             <div style={{ background: '#fff', borderRadius: '1.5rem', padding: '2.5rem', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.08)', border: '1px solid var(--primary-light)' }}>

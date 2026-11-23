@@ -137,7 +137,7 @@ export default function RecetasPage() {
             <p style={{ color: '#9ca3af', fontSize: '1rem' }}>No encontramos recetas con ese filtro.</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%, 280px),1fr))', gap: 24 }}>
             {filtered.map(recipe => (
               <RecipeCard key={recipe.id} recipe={recipe} />
             ))}

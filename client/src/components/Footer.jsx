@@ -7,12 +7,13 @@ export default function Footer() {
   return (
     <footer style={{
       background: '#111827', color: '#fff',
-      padding: 'clamp(3rem,6vw,5rem) 1.5rem 2rem'
+      padding: 'clamp(3rem,6vw,5rem) 1.5rem 2rem',
+      overflow: 'hidden', width: '100%', maxWidth: '100vw'
     }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
           gap: 'clamp(2rem,4vw,4rem)',
           marginBottom: 48
         }} className="footer-cols">

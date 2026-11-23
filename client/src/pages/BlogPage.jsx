@@ -169,7 +169,7 @@ export default function BlogPage() {
             )}
 
             {/* Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(min(100%, 280px),1fr))', gap: '1.5rem' }}>
               {(activeCategory !== 'Todos' || searchTerm ? filtered : filtered.filter(p => !p.featured || filtered.indexOf(p) > 0)).map((post, i) => (
                 <article
                   key={post.id}

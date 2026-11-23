@@ -96,7 +96,7 @@ export default function ProgramaVipPage() {
                         </h2>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: 20 }}>
                         {[
                             { icon: CalendarCheck, title: '12 Sesiones 1 a 1', desc: 'Una sesión semanal de 60 min vía Zoom con plan de acción personalizado.', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.2)' },
                             { icon: Zap, title: 'Plan Nutricional a Medida', desc: 'Menús semanales adaptados a tus gustos, alergias, horarios y presupuesto.', color: 'var(--primary-deep)', bg: 'rgba(236,72,153,0.1)', border: 'rgba(236,72,153,0.2)' },
@@ -136,7 +136,7 @@ export default function ProgramaVipPage() {
                         </h2>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 24 }}>
                         {[
                             { name: 'Daniela M.', result: '-18 kg en 12 semanas', quote: 'El programa VIP cambió todo. Tener a Brenda disponible por WhatsApp fue clave. Nunca me sentí sola en el proceso.', color: '#fbbf24' },
                             { name: 'Fernanda L.', result: 'Sin ansiedad por comer', quote: 'Llevaba años con relación tóxica con la comida. El enfoque de Brenda me devolvió la paz y la libertad de disfrutar comer.', color: 'var(--primary-deep)' },

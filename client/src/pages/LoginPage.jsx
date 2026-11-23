@@ -140,13 +140,15 @@ export default function LoginPage() {
       {/* ====== RIGHT PANEL — Login Form ====== */}
       <div className="auth-panel" style={{
         width: '100%',
+        maxWidth: '100vw',
         flex: 1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '40px 24px',
         background: 'linear-gradient(180deg, #ffffff 0%, var(--primary-50) 100%)',
-        position: 'relative'
+        position: 'relative',
+        overflow: 'hidden'
       }}>
 
         {/* Background decorations */}
