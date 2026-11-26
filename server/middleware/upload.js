@@ -20,21 +20,46 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, unique + ext);
   }
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowed = [
-    'video/mp4', 'video/webm', 'video/quicktime',
-    'application/pdf',
-    'image/jpeg', 'image/png', 'image/webp'
-  ];
-  cb(null, allowed.includes(file.mimetype));
+const ALLOWED_EXTENSIONS = {
+  'video/mp4': ['.mp4'],
+  'video/webm': ['.webm'],
+  'video/quicktime': ['.mov', '.qt'],
+  'application/pdf': ['.pdf'],
+  'image/jpeg': ['.jpg', '.jpeg'],
+  'image/png': ['.png'],
+  'image/webp': ['.webp'],
 };
+
+function createFileFilter(allowedMimes) {
+  return (req, file, cb) => {
+    if (!allowedMimes.includes(file.mimetype)) {
+      return cb(null, false);
+    }
+    const ext = path.extname(file.originalname).toLowerCase();
+    const validExts = ALLOWED_EXTENSIONS[file.mimetype] || [];
+    cb(null, validExts.includes(ext));
+  };
+}
 
 export const upload = multer({
   storage,
-  fileFilter,
-  limits: { fileSize: 2000 * 1024 * 1024 } // 2GB limit
+  fileFilter: createFileFilter(Object.keys(ALLOWED_EXTENSIONS)),
+  limits: { fileSize: 2000 * 1024 * 1024 } // 2GB limit para videos
+});
+
+export const uploadImage = multer({
+  storage,
+  fileFilter: createFileFilter(['image/jpeg', 'image/png', 'image/webp']),
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit para thumbnails
+});
+
+export const uploadMaterial = multer({
+  storage,
+  fileFilter: createFileFilter(['application/pdf']),
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit para PDFs
 });

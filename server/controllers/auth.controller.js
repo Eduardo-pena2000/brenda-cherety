@@ -1,30 +1,46 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import db from '../db/database.js';
 import { sendPasswordResetEmail } from '../lib/mail.js';
+import { signSessionToken } from '../middleware/auth.js';
+import { getSafeClientUrl } from '../lib/urls.js';
+
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
 export function register(req, res) {
   const { email, password, name } = req.body;
 
-  if (!email || !password || !name) {
+  if (!email || !password || !name || !name.trim()) {
     return res.status(400).json({ error: 'Email, password y nombre son requeridos' });
   }
 
-  const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!EMAIL_REGEX.test(normalizedEmail)) {
+    return res.status(400).json({ error: 'El formato del correo electrónico no es válido' });
+  }
+
+  if (String(password).length < 8) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+  }
+
+  const existing = db.prepare('SELECT id FROM users WHERE email = ? COLLATE NOCASE').get(normalizedEmail);
   if (existing) {
     return res.status(400).json({ error: 'El email ya esta registrado' });
   }
 
   const hash = bcrypt.hashSync(password, 10);
+  const cleanName = name.trim();
   const result = db.prepare(
-    'INSERT INTO users (email, password, name) VALUES (?, ?, ?)'
-  ).run(email, hash, name);
+    'INSERT INTO users (email, password, name, token_version) VALUES (?, ?, ?, 0)'
+  ).run(normalizedEmail, hash, cleanName);
 
-  const user = { id: result.lastInsertRowid, email, name, role: 'student' };
-  const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '7d' });
+  const user = { id: result.lastInsertRowid, email: normalizedEmail, name: cleanName, role: 'student', token_version: 0 };
+  const token = signSessionToken(user);
 
-  res.status(201).json({ token, user });
+  res.status(201).json({
+    token,
+    user: { id: user.id, email: user.email, name: user.name, role: user.role }
+  });
 }
 
 export function login(req, res) {
@@ -34,7 +50,8 @@ export function login(req, res) {
     return res.status(400).json({ error: 'Email y password son requeridos' });
   }
 
-  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+  const normalizedEmail = email.trim().toLowerCase();
+  const user = db.prepare('SELECT * FROM users WHERE email = ? COLLATE NOCASE').get(normalizedEmail);
   if (!user) {
     return res.status(401).json({ error: 'Credenciales invalidas' });
   }
@@ -44,8 +61,8 @@ export function login(req, res) {
     return res.status(401).json({ error: 'Credenciales invalidas' });
   }
 
+  const token = signSessionToken(user);
   const payload = { id: user.id, email: user.email, name: user.name, role: user.role };
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
   res.json({ token, user: payload });
 }
@@ -66,11 +83,11 @@ export function changePassword(req, res) {
     return res.status(400).json({ error: 'Debes proporcionar la contraseña actual y la nueva' });
   }
 
-  if (newPassword.length < 6) {
-    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' });
+  if (String(newPassword).length < 8) {
+    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 8 caracteres' });
   }
 
-  const user = db.prepare('SELECT id, password FROM users WHERE id = ?').get(userId);
+  const user = db.prepare('SELECT id, email, name, role, password FROM users WHERE id = ?').get(userId);
   if (!user) {
     return res.status(404).json({ error: 'Usuario no encontrado' });
   }
@@ -81,9 +98,12 @@ export function changePassword(req, res) {
   }
 
   const hash = bcrypt.hashSync(newPassword, 10);
-  db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hash, userId);
+  db.prepare('UPDATE users SET password = ?, token_version = token_version + 1 WHERE id = ?').run(hash, userId);
 
-  res.json({ success: true, message: 'Contraseña actualizada con éxito' });
+  const updatedUser = db.prepare('SELECT id, email, name, role, token_version FROM users WHERE id = ?').get(userId);
+  const token = signSessionToken(updatedUser);
+
+  res.json({ success: true, message: 'Contraseña actualizada con éxito', token });
 }
 
 export function updateProfile(req, res) {
@@ -107,7 +127,7 @@ export async function forgotPassword(req, res) {
     return res.status(400).json({ error: 'El correo electrónico es requerido' });
   }
 
-  const cleanEmail = email.trim();
+  const cleanEmail = email.trim().toLowerCase();
   const user = db.prepare('SELECT id, name, email FROM users WHERE email = ? COLLATE NOCASE').get(cleanEmail);
 
   if (user) {
@@ -115,8 +135,7 @@ export async function forgotPassword(req, res) {
     db.prepare('UPDATE password_resets SET used = 1 WHERE user_id = ? AND used = 0').run(user.id);
     db.prepare("INSERT INTO password_resets (user_id, token, expires_at) VALUES (?, ?, datetime('now', '+1 hour'))").run(user.id, token);
 
-    let clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
-    if (!clientUrl.startsWith('http')) clientUrl = 'https://' + clientUrl;
+    const clientUrl = getSafeClientUrl(req.headers.origin);
     const resetUrl = `${clientUrl}/restablecer-contrasena?token=${token}`;
 
     sendPasswordResetEmail(user.email, user.name, resetUrl).catch(console.error);
@@ -156,8 +175,8 @@ export function resetPassword(req, res) {
     return res.status(400).json({ error: 'Token y nueva contraseña son requeridos' });
   }
 
-  if (newPassword.length < 6) {
-    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' });
+  if (String(newPassword).length < 8) {
+    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 8 caracteres' });
   }
 
   const record = db.prepare(`
@@ -172,11 +191,12 @@ export function resetPassword(req, res) {
   }
 
   const hash = bcrypt.hashSync(newPassword, 10);
-  db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hash, record.user_id);
+  db.prepare('UPDATE users SET password = ?, token_version = token_version + 1 WHERE id = ?').run(hash, record.user_id);
   db.prepare('UPDATE password_resets SET used = 1 WHERE id = ?').run(record.id);
 
-  const payload = { id: record.user_id, email: record.email, name: record.name, role: record.role };
-  const sessionToken = jwt.sign(payload, process.env.JWT_SECRET || 'secret', { expiresIn: '7d' });
+  const updatedUser = db.prepare('SELECT id, email, name, role, token_version FROM users WHERE id = ?').get(record.user_id);
+  const sessionToken = signSessionToken(updatedUser);
+  const payload = { id: updatedUser.id, email: updatedUser.email, name: updatedUser.name, role: updatedUser.role };
 
   res.json({
     success: true,
@@ -206,8 +226,8 @@ export function adminResetPassword(req, res) {
     return res.status(400).json({ error: 'userId y newPassword son requeridos' });
   }
 
-  if (newPassword.length < 6) {
-    return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres' });
+  if (String(newPassword).length < 8) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
   }
 
   const user = db.prepare('SELECT id, email, name FROM users WHERE id = ?').get(userId);
@@ -216,8 +236,7 @@ export function adminResetPassword(req, res) {
   }
 
   const hash = bcrypt.hashSync(newPassword, 10);
-  db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hash, userId);
+  db.prepare('UPDATE users SET password = ?, token_version = token_version + 1 WHERE id = ?').run(hash, userId);
 
   res.json({ success: true, message: `Contraseña actualizada para ${user.email}` });
 }
-

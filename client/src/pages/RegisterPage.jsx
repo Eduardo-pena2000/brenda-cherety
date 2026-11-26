@@ -17,6 +17,10 @@ export default function RegisterPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
+    if (password.length < 8) {
+      setError('La contraseña debe tener al menos 8 caracteres');
+      return;
+    }
     setLoading(true);
     try {
       await register(email, password, name);
@@ -195,6 +199,7 @@ export default function RegisterPage() {
                   onChange={e => setPassword(e.target.value)}
                   onFocus={() => setFocusedField('password')}
                   onBlur={() => setFocusedField(null)}
+                  minLength={8}
                   required
                   style={inputStyle('password')}
                 />

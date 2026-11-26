@@ -10,6 +10,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+export function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 /**
  * Verifica si el servicio de correo está configurado.
  */
@@ -27,18 +36,20 @@ export async function sendCustomerReceipt(email, userName, itemName, amountCents
   }
 
   const amountFormatted = `$${(amountCents / 100).toFixed(2)} MXN`;
+  const safeName = escapeHtml(userName || 'hermosa');
+  const safeItem = escapeHtml(itemName);
   const subject = isConsultation 
     ? 'Confirmación de tu Consulta - Nutrióloga Cherety'
     : '¡Bienvenida a tu nuevo curso! - Nutrióloga Cherety';
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
-      <h2 style="color: #db2777;">¡Hola ${userName || 'hermosa'}!</h2>
+      <h2 style="color: #db2777;">¡Hola ${safeName}!</h2>
       <p>Tu pago por <strong>${amountFormatted}</strong> ha sido procesado con éxito.</p>
       
       <div style="background-color: #fdf2f8; border-left: 4px solid #db2777; padding: 15px; margin: 20px 0;">
         <p style="margin: 0;"><strong>Detalles de tu compra:</strong></p>
-        <p style="margin: 5px 0 0 0;">${itemName}</p>
+        <p style="margin: 5px 0 0 0;">${safeItem}</p>
       </div>
 
       ${isConsultation 
@@ -74,6 +85,9 @@ export async function sendAdminNotification(customerEmail, customerName, itemNam
   }
 
   const amountFormatted = `$${(amountCents / 100).toFixed(2)} MXN`;
+  const safeItem = escapeHtml(itemName);
+  const safeCustomerName = escapeHtml(customerName || 'No especificado');
+  const safeCustomerEmail = escapeHtml(customerEmail);
   const subject = `💰 ¡Nueva venta: ${itemName}!`;
 
   const html = `
@@ -81,10 +95,10 @@ export async function sendAdminNotification(customerEmail, customerName, itemNam
       <h2 style="color: #059669;">¡Felicidades Brenda! Tienes una nueva venta 🎉</h2>
       
       <div style="background-color: #ecfdf5; border-left: 4px solid #059669; padding: 15px; margin: 20px 0;">
-        <p><strong>Artículo:</strong> ${itemName}</p>
+        <p><strong>Artículo:</strong> ${safeItem}</p>
         <p><strong>Monto:</strong> ${amountFormatted}</p>
-        <p><strong>Cliente:</strong> ${customerName || 'No especificado'}</p>
-        <p><strong>Correo del cliente:</strong> ${customerEmail}</p>
+        <p><strong>Cliente:</strong> ${safeCustomerName}</p>
+        <p><strong>Correo del cliente:</strong> ${safeCustomerEmail}</p>
         <p><strong>Tipo:</strong> ${isConsultation ? 'Consulta' : 'Curso'}</p>
       </div>
 
@@ -116,6 +130,7 @@ export async function sendPasswordResetEmail(email, userName, resetUrl) {
     return;
   }
 
+  const safeName = escapeHtml(userName || 'hermosa');
   const subject = 'Restablecer tu contraseña - Nutrióloga Cherety';
   const html = `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 580px; margin: 0 auto; padding: 32px 20px; color: #2d3748; background-color: #ffffff;">
@@ -125,7 +140,7 @@ export async function sendPasswordResetEmail(email, userName, resetUrl) {
       </div>
 
       <div style="background: #fdf2f8; border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid #fbcfe8;">
-        <h2 style="color: #831843; font-size: 18px; margin-top: 0;">¡Hola ${userName || 'hermosa'}!</h2>
+        <h2 style="color: #831843; font-size: 18px; margin-top: 0;">¡Hola ${safeName}!</h2>
         <p style="font-size: 15px; line-height: 1.6; color: #4a5568; margin-bottom: 20px;">
           Recibimos una solicitud para restablecer la contraseña de tu cuenta. Si realizaste esta solicitud, puedes crear una nueva contraseña haciendo clic en el siguiente botón:
         </p>

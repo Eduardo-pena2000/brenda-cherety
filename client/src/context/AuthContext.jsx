@@ -55,11 +55,18 @@ export function AuthProvider({ children }) {
     setUser(prev => ({ ...prev, ...updatedUser }));
   }
 
+  function updateToken(newToken) {
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+      setToken(newToken);
+    }
+  }
+
   const isLoggedIn = !!user;
   const isAdmin = user?.role === 'admin';
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, isLoggedIn, isAdmin, login, register, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, token, loading, isLoggedIn, isAdmin, login, register, logout, updateUser, updateToken }}>
       {children}
     </AuthContext.Provider>
   );

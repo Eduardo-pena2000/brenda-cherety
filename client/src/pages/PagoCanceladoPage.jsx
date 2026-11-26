@@ -1,7 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { XCircle, ArrowLeft, MessageCircle, RefreshCw } from 'lucide-react';
 
 export default function PagoCanceladoPage() {
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get('type');
+  const courseId = searchParams.get('courseId');
+  const retryPath = type === 'consultation'
+    ? '/consulta'
+    : courseId
+      ? `/curso/${courseId}`
+      : '/cursos';
+
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -37,7 +46,7 @@ export default function PagoCanceladoPage() {
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
-          <Link to="/cursos" style={{
+          <Link to={retryPath} style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '15px 32px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
             color: '#fff', borderRadius: 14, fontSize: '0.95rem', fontWeight: 500,

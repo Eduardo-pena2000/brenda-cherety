@@ -3,8 +3,9 @@ CREATE TABLE IF NOT EXISTS users (
   email       TEXT    NOT NULL UNIQUE,
   password    TEXT    NOT NULL,
   name        TEXT    NOT NULL,
-  role        TEXT    NOT NULL DEFAULT 'student' CHECK(role IN ('student','admin')),
-  created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
+  role          TEXT    NOT NULL DEFAULT 'student' CHECK(role IN ('student','admin')),
+  token_version INTEGER NOT NULL DEFAULT 0,
+  created_at    TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE TABLE IF NOT EXISTS courses (
@@ -68,4 +69,17 @@ CREATE TABLE IF NOT EXISTS password_resets (
 
 CREATE INDEX IF NOT EXISTS idx_password_resets_token ON password_resets(token);
 CREATE INDEX IF NOT EXISTS idx_password_resets_user  ON password_resets(user_id);
+
+CREATE TABLE IF NOT EXISTS consultations (
+  id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id               INTEGER REFERENCES users(id),
+  type                  TEXT    NOT NULL,
+  stripe_session_id     TEXT    NOT NULL UNIQUE,
+  stripe_payment_intent TEXT,
+  amount_cents          INTEGER NOT NULL,
+  customer_email        TEXT,
+  customer_name         TEXT,
+  status                TEXT    NOT NULL DEFAULT 'completed',
+  created_at            TEXT    NOT NULL DEFAULT (datetime('now'))
+);
 

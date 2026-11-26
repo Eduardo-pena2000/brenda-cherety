@@ -13,6 +13,12 @@ import paymentsRoutes from './routes/payments.routes.js';
 import filesRoutes from './routes/files.routes.js';
 import db from './db/database.js';
 import { runStreamMigration } from './db/migrateStream.js';
+import { getAllowedOrigins } from './lib/urls.js';
+
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET no está configurado en las variables de entorno.');
+  process.exit(1);
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,7 +33,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://js.stripe.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://js.stripe.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https:", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https:", "data:", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "blob:", "https:", "*.r2.cloudflarestorage.com", "*.cloudflarestream.com", "*.videodelivery.net"],
@@ -57,7 +63,15 @@ app.use('/api', (req, res, next) => {
 // Stripe webhooks necesitan body raw - ANTES de express.json()
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
 
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
+const allowedOrigins = getAllowedOrigins();
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Origen no permitido por CORS'));
+  }
+}));
 app.use(express.json({ limit: '10mb' }));
 
 // Prevent HTTP Parameter Pollution
@@ -91,11 +105,15 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-  db.prepare(
-    "UPDATE courses SET price_cents = 28000, currency = 'mxn', updated_at = datetime('now') WHERE id = 1 AND price_cents = 1000"
-  ).run();
-  runStreamMigration();
-});
+export default app;
+
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    db.prepare(
+      "UPDATE courses SET price_cents = 28000, currency = 'mxn', updated_at = datetime('now') WHERE id = 1 AND price_cents = 1000"
+    ).run();
+    runStreamMigration();
+  });
+}

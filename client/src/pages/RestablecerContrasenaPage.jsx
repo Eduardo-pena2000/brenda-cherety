@@ -8,7 +8,7 @@ export default function RestablecerContrasenaPage() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const navigate = useNavigate();
-  const { updateUser } = useAuth();
+  const { updateUser, updateToken } = useAuth();
 
   const [validating, setValidating] = useState(true);
   const [tokenValid, setTokenValid] = useState(false);
@@ -53,8 +53,8 @@ export default function RestablecerContrasenaPage() {
     e.preventDefault();
     setError('');
 
-    if (newPassword.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres.');
+    if (newPassword.length < 8) {
+      setError('La contraseña debe tener al menos 8 caracteres.');
       return;
     }
 
@@ -72,7 +72,8 @@ export default function RestablecerContrasenaPage() {
       });
 
       if (data.token) {
-        localStorage.setItem('token', data.token);
+        if (updateToken) updateToken(data.token);
+        else localStorage.setItem('token', data.token);
       }
       if (data.user && updateUser) {
         updateUser(data.user);

@@ -21,36 +21,27 @@ export default function LessonPlayerPage() {
   const [lessons, setLessons] = useState([]);
   const [currentLesson, setCurrentLesson] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [accessError, setAccessError] = useState('');
+  const [mediaToken, setMediaToken] = useState('');
   const [completedLessons, setCompletedLessons] = useState([]);
   const [justCompleted, setJustCompleted] = useState(false);
   const { token, user } = useAuth();
   const navigate = useNavigate();
 
-  const fetchProgress = async () => {
-    if (!token) return;
-    try {
-      const data = await apiFetch(`/lessons/course/${courseId}/progress`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (data.completedLessons) {
-        setCompletedLessons(data.completedLessons);
-      }
-    } catch (err) {
-      console.error('Error fetching progress:', err);
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
+      setAccessError('');
       try {
-        const data = await apiFetch(`/courses/public/${courseId}`);
+        const data = await apiFetch(`/courses/${courseId}/learn`);
         setCourse(data.course);
         setLessons(data.lessons || []);
+        setCompletedLessons(data.completedLessons || []);
+        setMediaToken(data.mediaToken || '');
         const lesson = (data.lessons || []).find(l => l.id === parseInt(lessonId));
         setCurrentLesson(lesson || (data.lessons || [])[0]);
-        await fetchProgress();
       } catch (err) {
         console.error(err);
+        setAccessError(err.message || 'No tienes acceso a este curso');
       } finally {
         setLoading(false);
       }
@@ -103,6 +94,28 @@ export default function LessonPlayerPage() {
     </div>
   );
 
+  if (accessError) return (
+    <div style={{
+      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: '#111827', textAlign: 'center', padding: '1.5rem'
+    }}>
+      <div>
+        <Lock size={56} color="var(--primary)" style={{ margin: '0 auto 16px' }} />
+        <h2 style={{ color: '#f3f4f6', fontSize: '1.5rem', fontWeight: 400, marginBottom: 8 }}>{accessError}</h2>
+        <p style={{ color: '#9ca3af', fontSize: '0.95rem', marginBottom: 20 }}>
+          Inscríbete al curso para acceder a las lecciones completas.
+        </p>
+        <Link to={`/curso/${courseId}`} style={{
+          display: 'inline-block', padding: '12px 28px',
+          background: 'linear-gradient(135deg, var(--primary-deep), var(--primary-dark))',
+          color: '#fff', borderRadius: 12, fontWeight: 500, textDecoration: 'none'
+        }}>
+          Ver detalles del curso
+        </Link>
+      </div>
+    </div>
+  );
+
   if (!course || !currentLesson) return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -116,7 +129,7 @@ export default function LessonPlayerPage() {
     </div>
   );
 
-  const videoUrl = `/api/files/video/${currentLesson.id}?token=${token}`;
+  const videoUrl = `/api/files/video/${currentLesson.id}?token=${encodeURIComponent(mediaToken)}`;
   const currentIndex = lessons.findIndex(l => l.id === parseInt(lessonId));
   const currentIsCompleted = isLessonCompleted(parseInt(lessonId));
   const allCompleted = lessons.length > 0 && lessons.every(l => completedLessons.includes(l.id));

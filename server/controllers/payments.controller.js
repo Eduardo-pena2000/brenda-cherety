@@ -1,11 +1,16 @@
 import Stripe from 'stripe';
 import db from '../db/database.js';
 import { sendCustomerReceipt, sendAdminNotification } from '../lib/mail.js';
+import { getSafeClientUrl } from '../lib/urls.js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 // Crear sesion de Stripe Checkout
 export function createCheckout(req, res) {
+  if (!stripe) {
+    return res.status(500).json({ error: 'Stripe no está configurado' });
+  }
+
   const { courseId } = req.body;
   const userId = req.user.id;
 
@@ -29,8 +34,7 @@ export function createCheckout(req, res) {
 
   (async () => {
     try {
-      let clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
-      if (!clientUrl.startsWith('http')) clientUrl = 'https://' + clientUrl;
+      const clientUrl = getSafeClientUrl(req.headers.origin);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -51,7 +55,7 @@ export function createCheckout(req, res) {
           quantity: 1,
         }],
         success_url: `${clientUrl}/pago-exitoso?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${clientUrl}/pago-cancelado`,
+        cancel_url: `${clientUrl}/pago-cancelado?type=course&courseId=${course.id}`,
       });
 
       // Crear registro de compra pendiente
@@ -74,6 +78,10 @@ export function createCheckout(req, res) {
 
 // Crear sesion de Stripe Checkout para Consultas
 export function createConsultationCheckout(req, res) {
+  if (!stripe) {
+    return res.status(500).json({ error: 'Stripe no está configurado' });
+  }
+
   const userId = req.user.id;
   const { type } = req.body;
 
@@ -83,8 +91,7 @@ export function createConsultationCheckout(req, res) {
 
   (async () => {
     try {
-      let clientUrl = process.env.CLIENT_URL || req.headers.origin || 'http://localhost:5173';
-      if (!clientUrl.startsWith('http')) clientUrl = 'https://' + clientUrl;
+      const clientUrl = getSafeClientUrl(req.headers.origin);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -106,7 +113,7 @@ export function createConsultationCheckout(req, res) {
           quantity: 1,
         }],
         success_url: `${clientUrl}/pago-exitoso?type=consultation&session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${clientUrl}/pago-cancelado`,
+        cancel_url: `${clientUrl}/pago-cancelado?type=consultation`,
       });
 
       res.json({ url: session.url });
@@ -119,6 +126,10 @@ export function createConsultationCheckout(req, res) {
 
 // Webhook de Stripe
 export function webhook(req, res) {
+  if (!stripe) {
+    return res.status(500).json({ error: 'Stripe no está configurado' });
+  }
+
   const sig = req.headers['stripe-signature'];
 
   let event;
@@ -138,26 +149,35 @@ export function webhook(req, res) {
     const amountCents = session.amount_total;
 
     if (is_consultation === 'true') {
-      const itemName = type === 'online' ? 'Consulta Online' : 'Consulta Presencial';
-      console.log(`Compra de consulta completada: usuario ${user_id}, tipo ${type}`);
-      
-      // Correos
-      sendCustomerReceipt(customerEmail, customerName, itemName, amountCents, true).catch(console.error);
-      sendAdminNotification(customerEmail, customerName, itemName, amountCents, true).catch(console.error);
+      const normalizedType = type === 'presencial' ? 'presencial' : 'online';
+      const itemName = normalizedType === 'online' ? 'Consulta Online' : 'Consulta Presencial';
+      const parsedUserId = user_id ? Number(user_id) : null;
+
+      const info = db.prepare(`
+        INSERT OR IGNORE INTO consultations
+          (user_id, type, stripe_session_id, stripe_payment_intent, amount_cents, customer_email, customer_name, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'completed')
+      `).run(parsedUserId, normalizedType, session.id, session.payment_intent || null, amountCents || 0, customerEmail, customerName);
+
+      if (info.changes > 0) {
+        console.log(`Compra de consulta completada: usuario ${user_id}, tipo ${normalizedType}`);
+        sendCustomerReceipt(customerEmail, customerName, itemName, amountCents, true).catch(console.error);
+        sendAdminNotification(customerEmail, customerName, itemName, amountCents, true).catch(console.error);
+      }
     } else if (course_id) {
-      db.prepare(`
+      const info = db.prepare(`
         UPDATE purchases SET status = 'completed', stripe_payment_intent = ?
-        WHERE stripe_session_id = ?
+        WHERE stripe_session_id = ? AND status != 'completed'
       `).run(session.payment_intent, session.id);
 
-      const course = db.prepare('SELECT title FROM courses WHERE id = ?').get(course_id);
-      const itemName = course ? course.title : 'Curso en línea';
+      if (info.changes > 0) {
+        const course = db.prepare('SELECT title FROM courses WHERE id = ?').get(course_id);
+        const itemName = course ? course.title : 'Curso en línea';
 
-      console.log(`Compra completada: usuario ${user_id}, curso ${course_id}`);
-      
-      // Correos
-      sendCustomerReceipt(customerEmail, customerName, itemName, amountCents, false).catch(console.error);
-      sendAdminNotification(customerEmail, customerName, itemName, amountCents, false).catch(console.error);
+        console.log(`Compra completada: usuario ${user_id}, curso ${course_id}`);
+        sendCustomerReceipt(customerEmail, customerName, itemName, amountCents, false).catch(console.error);
+        sendAdminNotification(customerEmail, customerName, itemName, amountCents, false).catch(console.error);
+      }
     }
   }
 

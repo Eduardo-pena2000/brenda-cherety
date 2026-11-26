@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { CheckCircle, Play, BookOpen, ArrowRight, Sparkles } from 'lucide-react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { CheckCircle, Play, BookOpen, Calendar, MessageCircle, Sparkles } from 'lucide-react';
 
 export default function PagoExitosoPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isConsultation = searchParams.get('type') === 'consultation';
   const [count, setCount] = useState(8);
 
   useEffect(() => {
+    const target = isConsultation ? '/' : '/mis-cursos';
     const timer = setInterval(() => {
       setCount(c => {
-        if (c <= 1) { clearInterval(timer); navigate('/mis-cursos'); return 0; }
+        if (c <= 1) { clearInterval(timer); navigate(target); return 0; }
         return c - 1;
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [navigate]);
+  }, [navigate, isConsultation]);
 
   return (
     <div style={{
@@ -59,52 +62,104 @@ export default function PagoExitosoPage() {
           <Sparkles size={13} /> Pago exitoso
         </span>
 
-        <h1 style={{ fontSize: 'clamp(1.8rem,5vw,2.8rem)', fontWeight: 300, color: '#1f2937', lineHeight: 1.2, margin: '16px 0 16px' }}>
-          ¡Tu curso está listo!
-          <span style={{ display: 'block', fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)', fontSize: '0.9em' }}>
-            Bienvenida al programa 🎉
-          </span>
-        </h1>
+        {isConsultation ? (
+          <>
+            <h1 style={{ fontSize: 'clamp(1.8rem,5vw,2.8rem)', fontWeight: 300, color: '#1f2937', lineHeight: 1.2, margin: '16px 0 16px' }}>
+              ¡Tu consulta está confirmada!
+              <span style={{ display: 'block', fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)', fontSize: '0.9em' }}>
+                Gracias por tu confianza 💖
+              </span>
+            </h1>
 
-        <p style={{ color: '#6b7280', fontSize: '1.05rem', fontWeight: 300, lineHeight: 1.7, marginBottom: 32, maxWidth: 420, margin: '0 auto 32px' }}>
-          Tu pago fue procesado correctamente. Ya tienes acceso completo a todas las lecciones y materiales del curso.
-        </p>
+            <p style={{ color: '#6b7280', fontSize: '1.05rem', fontWeight: 300, lineHeight: 1.7, marginBottom: 32, maxWidth: 420, margin: '0 auto 32px' }}>
+              Tu pago fue procesado correctamente. En breve recibirás confirmación por correo y nos pondremos en contacto contigo para coordinar el horario de tu sesión.
+            </p>
 
-        {/* Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
-          {[
-            { icon: Play, title: 'Acceso inmediato', desc: 'Comienza a aprender ahora mismo', color: 'var(--primary-deep)' },
-            { icon: BookOpen, title: 'Acceso de por vida', desc: 'Sin fechas límite ni restricciones', color: 'var(--accent)' },
-          ].map((item, i) => (
-            <div key={i} style={{
-              background: '#fff', borderRadius: 16, padding: '18px 16px',
-              boxShadow: '0 4px 15px -4px rgba(0,0,0,0.07)',
-              display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left'
-            }}>
-              <div style={{
-                width: 40, height: 40, borderRadius: 10, flexShrink: 0,
-                background: `${item.color}18`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
-              }}>
-                <item.icon size={20} color={item.color} />
-              </div>
-              <div>
-                <p style={{ fontWeight: 500, color: '#1f2937', fontSize: '0.88rem' }}>{item.title}</p>
-                <p style={{ color: '#9ca3af', fontSize: '0.78rem', fontWeight: 300 }}>{item.desc}</p>
-              </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
+              {[
+                { icon: Calendar, title: 'Sesión confirmada', desc: 'Coordinaremos tu horario ideal', color: 'var(--primary-deep)' },
+                { icon: MessageCircle, title: 'Contacto directo', desc: 'Atención personalizada por WhatsApp', color: 'var(--accent)' },
+              ].map((item, i) => (
+                <div key={i} style={{
+                  background: '#fff', borderRadius: 16, padding: '18px 16px',
+                  boxShadow: '0 4px 15px -4px rgba(0,0,0,0.07)',
+                  display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left'
+                }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+                    background: `${item.color}18`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    <item.icon size={20} color={item.color} />
+                  </div>
+                  <div>
+                    <p style={{ fontWeight: 500, color: '#1f2937', fontSize: '0.88rem' }}>{item.title}</p>
+                    <p style={{ color: '#9ca3af', fontSize: '0.78rem', fontWeight: 300 }}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <Link to="/mis-cursos" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 10,
-          padding: '16px 36px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
-          color: '#fff', borderRadius: 14, fontSize: '1rem', fontWeight: 500,
-          textDecoration: 'none', boxShadow: '0 10px 30px -8px rgba(236,72,153,0.45)',
-          transition: 'all 0.3s'
-        }}>
-          <Play size={18} fill="currentColor" /> Ir a Mis Cursos
-        </Link>
+            <Link to="/" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              padding: '16px 36px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
+              color: '#fff', borderRadius: 14, fontSize: '1rem', fontWeight: 500,
+              textDecoration: 'none', boxShadow: '0 10px 30px -8px rgba(236,72,153,0.45)',
+              transition: 'all 0.3s'
+            }}>
+              Volver al Inicio
+            </Link>
+          </>
+        ) : (
+          <>
+            <h1 style={{ fontSize: 'clamp(1.8rem,5vw,2.8rem)', fontWeight: 300, color: '#1f2937', lineHeight: 1.2, margin: '16px 0 16px' }}>
+              ¡Tu curso está listo!
+              <span style={{ display: 'block', fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary-deep)', fontSize: '0.9em' }}>
+                Bienvenida al programa 🎉
+              </span>
+            </h1>
+
+            <p style={{ color: '#6b7280', fontSize: '1.05rem', fontWeight: 300, lineHeight: 1.7, marginBottom: 32, maxWidth: 420, margin: '0 auto 32px' }}>
+              Tu pago fue procesado correctamente. Ya tienes acceso completo a todas las lecciones y materiales del curso.
+            </p>
+
+            {/* Cards */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
+              {[
+                { icon: Play, title: 'Acceso inmediato', desc: 'Comienza a aprender ahora mismo', color: 'var(--primary-deep)' },
+                { icon: BookOpen, title: 'Acceso de por vida', desc: 'Sin fechas límite ni restricciones', color: 'var(--accent)' },
+              ].map((item, i) => (
+                <div key={i} style={{
+                  background: '#fff', borderRadius: 16, padding: '18px 16px',
+                  boxShadow: '0 4px 15px -4px rgba(0,0,0,0.07)',
+                  display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left'
+                }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+                    background: `${item.color}18`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    <item.icon size={20} color={item.color} />
+                  </div>
+                  <div>
+                    <p style={{ fontWeight: 500, color: '#1f2937', fontSize: '0.88rem' }}>{item.title}</p>
+                    <p style={{ color: '#9ca3af', fontSize: '0.78rem', fontWeight: 300 }}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <Link to="/mis-cursos" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              padding: '16px 36px', background: 'linear-gradient(135deg,var(--primary-deep),var(--primary-deep))',
+              color: '#fff', borderRadius: 14, fontSize: '1rem', fontWeight: 500,
+              textDecoration: 'none', boxShadow: '0 10px 30px -8px rgba(236,72,153,0.45)',
+              transition: 'all 0.3s'
+            }}>
+              <Play size={18} fill="currentColor" /> Ir a Mis Cursos
+            </Link>
+          </>
+        )}
 
         <p style={{ color: '#9ca3af', fontSize: '0.85rem', fontWeight: 300, marginTop: 20 }}>
           Redirigiendo en <strong style={{ color: 'var(--primary-deep)' }}>{count}</strong> segundos...

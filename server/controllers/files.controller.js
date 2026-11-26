@@ -5,7 +5,16 @@ import { fileURLToPath } from 'url';
 import { getSignedS3Url, getS3ObjectStream, isS3Configured } from '../lib/s3.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsBase = path.join(__dirname, '..', 'uploads');
+const uploadsBase = path.resolve(path.join(__dirname, '..', 'uploads'));
+const thumbnailsDir = path.resolve(path.join(uploadsBase, 'thumbnails'));
+const SAFE_FILENAME_RE = /^[a-zA-Z0-9._-]+$/;
+
+function resolveSafeUploadPath(relPath) {
+  if (!relPath) return null;
+  const resolved = path.resolve(uploadsBase, relPath);
+  if (!resolved.startsWith(uploadsBase + path.sep)) return null;
+  return resolved;
+}
 
 function verifyPurchase(userId, lessonId) {
   const lesson = db.prepare('SELECT * FROM lessons WHERE id = ?').get(lessonId);
@@ -22,7 +31,6 @@ function verifyPurchase(userId, lessonId) {
 
   // Verificacion de progreso lineal (solo estudiantes)
   if (user?.role !== 'admin') {
-    // Buscar si hay una leccion anterior en este curso
     const prevLesson = db.prepare(`
       SELECT id FROM lessons 
       WHERE course_id = ? AND sort_order < ? 
@@ -30,7 +38,6 @@ function verifyPurchase(userId, lessonId) {
     `).get(lesson.course_id, lesson.sort_order);
 
     if (prevLesson) {
-      // Verificar si la completo
       const isCompleted = db.prepare(
         'SELECT id FROM lesson_progress WHERE user_id = ? AND lesson_id = ?'
       ).get(userId, prevLesson.id);
@@ -67,15 +74,14 @@ export async function streamVideo(req, res) {
   }
 
   if (isS3Configured() && lesson.video_path.includes('/')) {
-    // Redirigir a URL firmada de S3 que soporta rangos nativamente
-    const url = await getSignedS3Url(lesson.video_path, 3600 * 4); // 4 horas
+    const url = await getSignedS3Url(lesson.video_path, 3600 * 4);
     if (!url) return res.status(500).json({ error: 'Error generando URL de video' });
     return res.redirect(302, url);
   }
 
   // Fallback a archivos locales
-  const videoPath = path.join(uploadsBase, lesson.video_path);
-  if (!fs.existsSync(videoPath)) {
+  const videoPath = resolveSafeUploadPath(lesson.video_path);
+  if (!videoPath || !fs.existsSync(videoPath)) {
     return res.status(404).json({ error: 'Archivo de video no encontrado' });
   }
 
@@ -86,8 +92,13 @@ export async function streamVideo(req, res) {
     const parts = range.replace(/bytes=/, '').split('-');
     const start = parseInt(parts[0], 10);
     const end = parts[1] ? parseInt(parts[1], 10) : stat.size - 1;
-    const chunkSize = end - start + 1;
 
+    if (Number.isNaN(start) || Number.isNaN(end) || start < 0 || end < start || end >= stat.size) {
+      res.setHeader('Content-Range', `bytes */${stat.size}`);
+      return res.status(416).end();
+    }
+
+    const chunkSize = end - start + 1;
     res.writeHead(206, {
       'Content-Range': `bytes ${start}-${end}/${stat.size}`,
       'Accept-Ranges': 'bytes',
@@ -122,8 +133,8 @@ export async function downloadFile(req, res) {
     return res.redirect(302, url);
   }
 
-  const filePath = path.join(uploadsBase, lesson.file_path);
-  if (!fs.existsSync(filePath)) {
+  const filePath = resolveSafeUploadPath(lesson.file_path);
+  if (!filePath || !fs.existsSync(filePath)) {
     return res.status(404).json({ error: 'Archivo no encontrado' });
   }
 
@@ -132,10 +143,23 @@ export async function downloadFile(req, res) {
 
 // Servir thumbnails (publico)
 export async function serveThumbnail(req, res) {
-  const filename = req.params.filename;
+  const filename = req.params.filename || '';
+
+  if (
+    !filename ||
+    filename.includes('..') ||
+    filename.includes('/') ||
+    filename.includes('\\') ||
+    filename.includes('\0') ||
+    path.basename(filename) !== filename ||
+    !SAFE_FILENAME_RE.test(filename)
+  ) {
+    return res.status(400).json({ error: 'Nombre de archivo inválido' });
+  }
+
   const s3Key = `thumbnails/${filename}`;
 
-  // 1. Intentar servir desde R2/S3 directamente mediante stream (evita redirects y problemas de CSP)
+  // 1. Intentar servir desde R2/S3 directamente mediante stream
   if (isS3Configured()) {
     try {
       const obj = await getS3ObjectStream(s3Key);
@@ -151,8 +175,12 @@ export async function serveThumbnail(req, res) {
     }
   }
 
-  // 2. Fallback local si existe
-  const filePath = path.join(uploadsBase, 'thumbnails', filename);
+  // 2. Fallback local si existe (con validación estricta de ruta)
+  const filePath = path.resolve(thumbnailsDir, filename);
+  if (!filePath.startsWith(thumbnailsDir + path.sep)) {
+    return res.status(400).json({ error: 'Nombre de archivo inválido' });
+  }
+
   if (fs.existsSync(filePath)) {
     res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.sendFile(filePath);

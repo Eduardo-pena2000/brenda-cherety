@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { apiFetch } from '../lib/api';
 
 export default function PerfilPage() {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, updateToken } = useAuth();
   const [tab, setTab] = useState('info');
   const [focused, setFocused] = useState(null);
   const [saved, setSaved] = useState(false);
@@ -39,13 +39,16 @@ export default function PerfilPage() {
   async function handleChangePwd(e) {
     e.preventDefault();
     if (newPwd !== confirmPwd) { setError('Las contraseñas no coinciden'); return; }
-    if (newPwd.length < 6) { setError('La nueva contraseña debe tener al menos 6 caracteres'); return; }
+    if (newPwd.length < 8) { setError('La nueva contraseña debe tener al menos 8 caracteres'); return; }
     setSaving(true); setError(''); setSaved(false);
     try {
-      await apiFetch('/auth/change-password', {
+      const data = await apiFetch('/auth/change-password', {
         method: 'PUT',
         body: JSON.stringify({ currentPassword: currentPwd, newPassword: newPwd })
       });
+      if (data.token && updateToken) {
+        updateToken(data.token);
+      }
       setSaved(true);
       setCurrentPwd(''); setNewPwd(''); setConfirmPwd('');
       setTimeout(() => setSaved(false), 3000);
