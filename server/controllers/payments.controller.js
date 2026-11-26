@@ -41,7 +41,7 @@ export function createCheckout(req, res) {
         },
         line_items: [{
           price_data: {
-            currency: course.currency,
+            currency: (course.currency || 'mxn').toLowerCase(),
             product_data: {
               name: course.title,
               description: (course.description || '').substring(0, 500) || 'Curso en linea',
@@ -77,8 +77,9 @@ export function createConsultationCheckout(req, res) {
   const userId = req.user.id;
   const { type } = req.body;
 
-  const amount_cents = type === 'online' ? 70000 : 80000;
-  const title = type === 'online' ? 'Consulta Online' : 'Consulta Presencial';
+  const normalizedType = type === 'presencial' ? 'presencial' : 'online';
+  const amount_cents = normalizedType === 'online' ? 70000 : 80000;
+  const title = normalizedType === 'online' ? 'Consulta Online' : 'Consulta Presencial';
 
   (async () => {
     try {
@@ -90,7 +91,7 @@ export function createConsultationCheckout(req, res) {
         customer_email: req.user.email,
         metadata: {
           user_id: String(userId),
-          type: type,
+          type: normalizedType,
           is_consultation: 'true'
         },
         line_items: [{

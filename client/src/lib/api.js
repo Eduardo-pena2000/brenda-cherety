@@ -23,7 +23,7 @@ export async function apiFetch(path, options = {}) {
   return data;
 }
 
-export function formatPrice(cents, currency = 'usd') {
+export function formatPrice(cents, currency = 'mxn') {
   const value = cents / 100;
   return new Intl.NumberFormat('es-MX', {
     style: 'currency',

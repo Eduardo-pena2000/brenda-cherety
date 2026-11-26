@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CreditCard, MessageCircle, Clock, ArrowLeft, Video, ClipboardList } from 'lucide-react';
+import { CreditCard, MessageCircle, Clock, ArrowLeft, ClipboardList } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { apiFetch } from '../lib/api';
@@ -7,25 +7,26 @@ import { apiFetch } from '../lib/api';
 export default function ConsultaPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [buying, setBuying] = useState(false);
+  const [buyingType, setBuyingType] = useState(null);
 
   const whatsappNumber = "528281056153"; 
   const videoMsg = encodeURIComponent("¡Hola! Quisiera más información sobre la video consulta");
+  const presencialMsg = encodeURIComponent("¡Hola! Quisiera más información sobre la consulta presencial");
 
-  const handleBuy = async () => {
+  const handleBuy = async (type) => {
     if (!user) return navigate('/login');
-    setBuying(true);
+    setBuyingType(type);
     try {
       const data = await apiFetch('/payments/create-consultation-checkout', {
         method: 'POST',
-        body: JSON.stringify({ type: 'online' })
+        body: JSON.stringify({ type })
       });
       if (data.url) window.location.href = data.url;
     } catch (err) {
       console.error(err);
       alert('Error: ' + err.message);
     } finally {
-      setBuying(false);
+      setBuyingType(null);
     }
   };
 
@@ -79,27 +80,27 @@ export default function ConsultaPage() {
             {/* Info */}
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(236,72,153,0.15)', color: '#f9a8d4', padding: '6px 12px', borderRadius: 9999, fontSize: '0.85rem', fontWeight: 500, marginBottom: 16 }}>
-                <Video size={16} /> Consulta Online
+                <ClipboardList size={16} /> Consulta Online y Presencial
               </div>
 
               <h1 style={{
                 fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 300, color: '#fff',
                 lineHeight: 1.2, marginBottom: 16
               }}>
-                Consulta por <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary)' }}>Video Llamada</span>
+                Consulta <span style={{ fontFamily: "'Playfair Display',Georgia,serif", fontStyle: 'italic', color: 'var(--primary)' }}>personalizada</span>
               </h1>
 
               <p style={{
                 color: 'rgba(255,255,255,0.7)', fontSize: '1.1rem', fontWeight: 300,
                 lineHeight: 1.7, marginBottom: 24, maxWidth: 600
               }}>
-                Agenda una sesión privada conmigo. Tendrás una evaluación completa y un plan de alimentación altamente personalizado adaptado a tu estilo de vida y objetivos.
+                En la consulta trabajaremos tus objetivos físicos o de salud de manera personalizada.
               </p>
 
               {/* Stats */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginBottom: 28 }}>
                 {[
-                  { icon: Clock, label: '45 minutos' },
+                  { icon: Clock, label: '60 minutos' },
                   { icon: ClipboardList, label: 'Plan Personalizado' },
                   { icon: MessageCircle, label: 'Seguimiento por WhatsApp' },
                 ].map((item, i) => (
@@ -113,56 +114,82 @@ export default function ConsultaPage() {
               </div>
 
               {/* Price + CTA */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-                  <div style={{
-                    fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 300, color: 'var(--primary)'
-                  }}>
-                    $700.00 MXN
-                  </div>
-                  
-                  {user?.role === 'admin' ? (
-                    <div style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 10,
-                      padding: '16px 36px',
-                      background: '#f3f4f6', color: '#4b5563', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
-                    }}>
-                      Eres el administrador
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))',
+                gap: 28,
+                width: '100%',
+                borderTop: '1px solid rgba(255,255,255,0.1)',
+                paddingTop: 20
+              }}>
+                {[
+                  {
+                    type: 'online',
+                    title: 'Consulta por video llamada',
+                    price: '$700.00 MXN',
+                    whatsappHref: `https://wa.me/${whatsappNumber}?text=${videoMsg}`,
+                  },
+                  {
+                    type: 'presencial',
+                    title: 'Consulta presencial',
+                    price: '$800.00 MXN',
+                    whatsappHref: `https://wa.me/${whatsappNumber}?text=${presencialMsg}`,
+                  },
+                ].map((option) => (
+                  <div key={option.type} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 16 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      <h2 style={{ fontSize: 'clamp(1.2rem, 2.5vw, 1.45rem)', fontWeight: 400, color: '#fff', margin: 0 }}>
+                        {option.title}
+                      </h2>
+                      <div style={{
+                        fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 300, color: 'var(--primary)'
+                      }}>
+                        {option.price}
+                      </div>
                     </div>
-                  ) : (
-                    <button onClick={handleBuy} disabled={buying} style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 10,
-                      padding: '16px 36px',
-                      background: buying
-                        ? '#9ca3af'
-                        : 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
-                      color: '#fff', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
-                      border: 'none', cursor: buying ? 'not-allowed' : 'pointer',
-                      boxShadow: '0 10px 30px -8px rgba(236,72,153,0.4)',
-                      transition: 'all 0.3s', fontFamily: "'Outfit', sans-serif"
-                    }}>
-                      <CreditCard size={20} />
-                      {buying ? 'Procesando...' : 'Pagar Consulta'}
-                    </button>
-                  )}
-                </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem' }}>o si prefieres:</span>
-                  <a 
-                    href={`https://wa.me/${whatsappNumber}?text=${videoMsg}`}
-                    target="_blank" rel="noreferrer"
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 8,
-                      padding: '10px 20px', background: '#25D366',
-                      color: '#fff', borderRadius: 10, fontSize: '0.95rem', fontWeight: 500,
-                      textDecoration: 'none', transition: 'transform 0.3s',
-                      boxShadow: '0 4px 14px rgba(37, 211, 102, 0.3)'
-                    }}
-                  >
-                    <MessageCircle size={18} /> Agendar en WhatsApp
-                  </a>
-                </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12, width: '100%' }}>
+                      <a
+                        href={option.whatsappHref}
+                        target="_blank" rel="noreferrer"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                          padding: '14px 28px', width: '100%', maxWidth: 260, background: '#25D366',
+                          color: '#fff', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
+                          textDecoration: 'none', transition: 'transform 0.3s',
+                          boxShadow: '0 4px 14px rgba(37, 211, 102, 0.3)'
+                        }}
+                      >
+                        <MessageCircle size={20} /> Agendar en WhatsApp
+                      </a>
+
+                      {user?.role === 'admin' ? (
+                        <div style={{
+                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                          padding: '14px 28px', width: '100%', maxWidth: 260,
+                          background: '#f3f4f6', color: '#4b5563', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
+                        }}>
+                          Eres el administrador
+                        </div>
+                      ) : (
+                        <button onClick={() => handleBuy(option.type)} disabled={buyingType !== null} style={{
+                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                          padding: '14px 28px', width: '100%', maxWidth: 260,
+                          background: buyingType !== null
+                            ? '#9ca3af'
+                            : 'linear-gradient(135deg, var(--primary-deep), var(--primary-deep))',
+                          color: '#fff', borderRadius: 14, fontSize: '1.05rem', fontWeight: 500,
+                          border: 'none', cursor: buyingType !== null ? 'not-allowed' : 'pointer',
+                          boxShadow: '0 10px 30px -8px rgba(236,72,153,0.4)',
+                          transition: 'all 0.3s', fontFamily: "'Outfit', sans-serif"
+                        }}>
+                          <CreditCard size={20} />
+                          {buyingType === option.type ? 'Procesando...' : 'Pagar Consulta'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -88,7 +88,7 @@ export function create(req, res) {
 
   const result = db.prepare(
     'INSERT INTO courses (title, slug, description, price_cents, currency) VALUES (?, ?, ?, ?, ?)'
-  ).run(title, slug, description || '', Number(price_cents), currency || 'usd');
+  ).run(title, slug, description || '', Number(price_cents), currency || 'mxn');
 
   const course = db.prepare('SELECT * FROM courses WHERE id = ?').get(result.lastInsertRowid);
   res.status(201).json({ course });

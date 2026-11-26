@@ -11,6 +11,7 @@ import coursesRoutes from './routes/courses.routes.js';
 import lessonsRoutes from './routes/lessons.routes.js';
 import paymentsRoutes from './routes/payments.routes.js';
 import filesRoutes from './routes/files.routes.js';
+import db from './db/database.js';
 import { runStreamMigration } from './db/migrateStream.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -78,5 +79,8 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  db.prepare(
+    "UPDATE courses SET price_cents = 28000, currency = 'mxn', updated_at = datetime('now') WHERE id = 1 AND price_cents = 1000"
+  ).run();
   runStreamMigration();
 });

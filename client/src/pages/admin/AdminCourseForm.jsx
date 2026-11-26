@@ -13,7 +13,7 @@ export default function AdminCourseForm() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [currency, setCurrency] = useState('usd');
+  const [currency, setCurrency] = useState('mxn');
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -210,8 +210,8 @@ export default function AdminCourseForm() {
                     outline: 'none', cursor: 'pointer', appearance: 'auto'
                   }}
                 >
-                  <option value="usd">USD</option>
                   <option value="mxn">MXN</option>
+                  <option value="usd">USD</option>
                   <option value="eur">EUR</option>
                 </select>
               </div>
