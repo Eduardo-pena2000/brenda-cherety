@@ -70,7 +70,7 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    return callback(new Error('Origen no permitido por CORS'));
+    return callback(null, false);
   }
 }));
 app.use(express.json({ limit: '10mb' }));
